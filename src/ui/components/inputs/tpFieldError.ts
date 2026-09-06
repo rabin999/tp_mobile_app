@@ -14,5 +14,6 @@ export function tpFieldError(
   if (errorText == null || errorText.length === 0) {
     return null;
   }
+
   return { text: errorText, offsetX: -tpSpacing.md };
 }

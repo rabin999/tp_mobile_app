@@ -1,10 +1,11 @@
-import { useWindowDimensions, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { overlayInsert } from '../../overlay/overlayHost';
+import { overlayInsert, overlayRemove } from '../../overlay/overlayHost';
 import { tpSpacing } from '../../theme/tpSpacing';
-import { TpAlert, type TpAlertSeverity } from '../overlays/TpAlert';
+import { useTpKeyboardMetrics } from '../content/useTpKeyboardMetrics';
 import { type TpStatusTone } from '../content/TpStatusBadge';
+import { TpAlert, type TpAlertSeverity } from '../overlays/TpAlert';
 
 export type TpSnackbarOptions = {
   message: string;
@@ -13,8 +14,29 @@ export type TpSnackbarOptions = {
   closeTooltip?: string;
 };
 
+let activeId: number | undefined;
+
 /**
- * Shows a top-right snackbar matching CustomSnackbar.
+ * Bottom inset for a floating snackbar: above the IME when it is open,
+ * otherwise above the home indicator. Material 3 snackbars sit at the
+ * bottom and lift for the keyboard rather than hiding behind it.
+ * When a bottom nav exists, add its height on the closed-keyboard path.
+ */
+export function tpSnackbarBottomInset(
+  keyboardHeight: number,
+  safeBottom: number,
+): number {
+  if (keyboardHeight > 0) {
+    return keyboardHeight + tpSpacing.sm;
+  }
+
+  return safeBottom + tpSpacing.md;
+}
+
+/**
+ * Transient action feedback. Phone enterprise pattern (Material 3,
+ * Gmail/Drive, Microsoft mobile): one snackbar at the bottom, inset,
+ * above the keyboard. Not the web `CustomSnackbar` top-right toast.
  */
 export const TpSnackbar = {
   show({
@@ -23,8 +45,13 @@ export const TpSnackbar = {
     duration = 3000,
     closeTooltip = 'Close',
   }: TpSnackbarOptions): void {
+    if (activeId != null) {
+      overlayRemove(activeId);
+      activeId = undefined;
+    }
+
     let removed = false;
-    overlayInsert(dismiss => (
+    const id = overlayInsert(dismiss => (
       <SnackbarHost
         message={message}
         tone={tone}
@@ -34,11 +61,18 @@ export const TpSnackbar = {
           if (removed) {
             return;
           }
+
           removed = true;
+          if (activeId === id) {
+            activeId = undefined;
+          }
+
           dismiss();
         }}
       />
     ));
+
+    activeId = id;
   },
 };
 
@@ -56,18 +90,15 @@ function SnackbarHost({
   onClosed: () => void;
 }) {
   const insets = useSafeAreaInsets();
-  const { width: screenWidth } = useWindowDimensions();
-  const width = Math.min(320, Math.max(0, screenWidth - tpSpacing.md));
+  const keyboard = useTpKeyboardMetrics();
+  const bottom = tpSnackbarBottomInset(keyboard.height, insets.bottom);
+
   return (
     <View
+      testID="tp-snackbar"
       pointerEvents="box-none"
-      style={{
-        position: 'absolute',
-        top: insets.top + tpSpacing.xs,
-        right: tpSpacing.xs,
-        width,
-        zIndex: 200,
-      }}
+      accessibilityLiveRegion="polite"
+      style={[styles.host, { bottom }]}
     >
       <TpAlert
         message={message}
@@ -96,3 +127,12 @@ function severityFor(tone: TpStatusTone): TpAlertSeverity {
       return 'info';
   }
 }
+
+const styles = StyleSheet.create({
+  host: {
+    position: 'absolute',
+    left: tpSpacing.md,
+    right: tpSpacing.md,
+    zIndex: 200,
+  },
+});

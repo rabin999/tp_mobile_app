@@ -12,6 +12,7 @@ import { GallerySection } from './GallerySection';
  */
 export function GalleryTokens() {
   const { colors, text } = useTpTheme();
+
   return (
     <View>
       <GallerySection title="Colors">
@@ -78,6 +79,7 @@ export function GalleryTokens() {
 
 function Swatch({ name, color }: { name: string; color: string }) {
   const { colors, text } = useTpTheme();
+
   return (
     <View style={styles.swatch}>
       <View
@@ -99,6 +101,7 @@ function Swatch({ name, color }: { name: string; color: string }) {
 
 function SpaceBox({ size }: { size: number }) {
   const { colors, text } = useTpTheme();
+
   return (
     <View style={styles.spaceCol}>
       <View
@@ -115,6 +118,7 @@ function SpaceBox({ size }: { size: number }) {
 
 function CornerBox({ label, radius }: { label: string; radius: number }) {
   const { colors, text } = useTpTheme();
+
   return (
     <View style={styles.flex}>
       <View

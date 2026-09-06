@@ -12,6 +12,7 @@ export type TpTimeoutBarProps = {
  */
 export function TpTimeoutBar({ value, color, trackColor }: TpTimeoutBarProps) {
   const clamped = Math.min(1, Math.max(0, value));
+
   return (
     <View
       style={[styles.track, { backgroundColor: trackColor ?? `${color}3D` }]}

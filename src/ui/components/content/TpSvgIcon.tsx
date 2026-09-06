@@ -24,6 +24,7 @@ export function TpSvgIcon({
   semanticLabel,
 }: TpSvgIconProps) {
   const labeled = semanticLabel != null;
+
   return (
     <View
       accessible={labeled}

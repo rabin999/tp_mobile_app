@@ -33,6 +33,7 @@ export function TpPasswordField({
 }: TpPasswordFieldProps) {
   const { colors } = useTpTheme();
   const [obscure, setObscure] = useState(true);
+
   return (
     <TpTextField
       value={value}

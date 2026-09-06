@@ -1,10 +1,11 @@
 /**
- * Recurring control dimensions.
+ * Recurring control dimensions. Field values use `inputFont` (16).
  */
 export const tpSizes = {
-  control: 40,
-  controlCompact: 36,
+  control: 44,
+  controlCompact: 40,
   controlSmall: 32,
+  inputFont: 16,
   appBar: 56,
   bottomNav: 64,
   icon: 24,

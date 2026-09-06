@@ -14,6 +14,7 @@ export type GallerySectionProps = {
  */
 export function GallerySection({ title, children }: GallerySectionProps) {
   const { text } = useTpTheme();
+
   return (
     <View style={styles.section}>
       <Text style={text.headlineSmall}>{title}</Text>

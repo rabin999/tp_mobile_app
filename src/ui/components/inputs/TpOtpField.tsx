@@ -31,9 +31,11 @@ export function TpOtpField({
 
   const handleChange = (next: string) => {
     const digits = next.replace(/\D/g, '').slice(0, length);
+
     if (value == null) {
       setInner(digits);
     }
+
     onChangeText?.(digits);
     if (digits.length === length) {
       onCompleted?.(digits);

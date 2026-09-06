@@ -30,6 +30,7 @@ export function TpLogo({
   const xml = logoXml
     .replaceAll('#3c424f', colors.onSurfaceVariant)
     .replaceAll('#3C424F', colors.onSurfaceVariant);
+
   return (
     <View
       accessible

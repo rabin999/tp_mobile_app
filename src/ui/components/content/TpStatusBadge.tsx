@@ -70,6 +70,7 @@ function toneColors(
 export function TpStatusBadge({ label, tone = 'neutral' }: TpStatusBadgeProps) {
   const { brightness, text } = useTpTheme();
   const colors = toneColors(tone, brightness === 'dark');
+
   return (
     <View style={[styles.pill, { backgroundColor: colors.background }]}>
       <Text

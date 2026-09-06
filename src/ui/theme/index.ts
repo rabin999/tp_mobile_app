@@ -1,7 +1,11 @@
 export { tpAssets } from './tpAssets';
+
 export { tpColors } from './tpColors';
+
 export { tpCorners } from './tpCorners';
+
 export { tpElevation } from './tpElevation';
+
 export {
   tpFonts,
   tpHalant,
@@ -9,9 +13,18 @@ export {
   tpNunito,
   tpNunitoFamily,
 } from './tpFonts';
-export { tpImageCache } from './tpImageCache';
+
+export {
+  tpImageCache,
+  type TpImageMeasure,
+  type TpImagePrepareInput,
+  type TpImagePrepared,
+} from './tpImageCache';
+
 export { tpSizes } from './tpSizes';
+
 export { tpSpacing } from './tpSpacing';
+
 export {
   AppThemeProvider,
   useAppThemeController,
@@ -21,4 +34,5 @@ export {
   type TpTheme,
   type TpThemeMode,
 } from './tpTheme';
+
 export { tpTextTheme } from './tpTypography';

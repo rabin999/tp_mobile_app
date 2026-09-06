@@ -13,13 +13,17 @@ import { tpSpacing } from '../../theme/tpSpacing';
 import { useTpTheme } from '../../theme/tpTheme';
 
 export type TpButtonVariant = 'filled' | 'outlined' | 'text';
+
 export type TpButtonSize = 'standard' | 'compact';
+
+export type TpButtonTone = 'primary' | 'danger' | 'neutral';
 
 export type TpButtonProps = {
   label: string;
   onPress?: () => void;
   variant?: TpButtonVariant;
   size?: TpButtonSize;
+  tone?: TpButtonTone;
   loading?: boolean;
   expanded?: boolean;
   icon?: React.ReactNode;
@@ -36,6 +40,7 @@ export function TpButton({
   onPress,
   variant = 'filled',
   size = 'standard',
+  tone = 'primary',
   loading = false,
   expanded = false,
   icon,
@@ -44,19 +49,29 @@ export function TpButton({
   const { colors, text } = useTpTheme();
   const enabled = onPress != null && !loading;
   const height = size === 'standard' ? tpSizes.control : tpSizes.controlCompact;
-  const spinnerColor = variant === 'filled' ? colors.onPrimary : colors.primary;
+  const fill =
+    tone === 'danger'
+      ? colors.error
+      : tone === 'neutral'
+      ? colors.onSurfaceVariant
+      : colors.primary;
+  const fillHover = tone === 'primary' ? colors.primaryHover : fill;
 
-  let background = colors.primary;
+  let background = fill;
   let foreground = colors.onPrimary;
   let borderColor = 'transparent';
+
   if (variant === 'outlined') {
     background = 'transparent';
-    foreground = colors.primary;
-    borderColor = enabled ? colors.primary : colors.outline;
+    foreground = fill;
+    borderColor = enabled ? fill : colors.outline;
   } else if (variant === 'text') {
     background = 'transparent';
-    foreground = colors.primary;
+    foreground = fill;
   }
+
+  const spinnerColor = variant === 'filled' ? colors.onPrimary : foreground;
+
   if (!enabled && variant === 'filled') {
     background = colors.outlineVariant;
     foreground = colors.textHint;
@@ -76,7 +91,7 @@ export function TpButton({
           height,
           width: expanded ? '100%' : undefined,
           backgroundColor:
-            pressed && variant === 'filled' ? colors.primaryHover : background,
+            pressed && variant === 'filled' && enabled ? fillHover : background,
           borderColor,
           borderWidth: variant === 'outlined' ? 1 : 0,
           opacity: pressed && variant !== 'filled' ? 0.72 : 1,

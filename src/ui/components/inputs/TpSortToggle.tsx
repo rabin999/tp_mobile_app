@@ -62,6 +62,7 @@ function SortChip({
 }) {
   const { colors, text } = useTpTheme();
   const color = selected ? colors.primary : colors.onSurface;
+
   return (
     <Pressable
       accessibilityRole="button"

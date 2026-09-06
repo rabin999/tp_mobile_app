@@ -14,6 +14,7 @@ import { tpCorners } from '../../theme/tpCorners';
 import { tpSizes } from '../../theme/tpSizes';
 import { tpSpacing } from '../../theme/tpSpacing';
 import { useTpTheme } from '../../theme/tpTheme';
+import { useAliveRef } from '../../useAliveRef';
 import { TpButton } from '../actions/TpButton';
 import { TpGlyph } from '../content/TpGlyph';
 
@@ -50,6 +51,7 @@ export function TpDateField({
   cancelLabel = 'Cancel',
 }: TpDateFieldProps) {
   const { colors, text } = useTpTheme();
+  const alive = useAliveRef();
   const display =
     value == null
       ? ''
@@ -63,6 +65,7 @@ export function TpDateField({
 
   const open = () => {
     const now = new Date();
+
     showTpDatePicker({
       initialDate: value ?? now,
       firstDate: firstDate ?? new Date(now.getFullYear() - 5, 0, 1),
@@ -70,9 +73,11 @@ export function TpDateField({
       todayLabel,
       cancelLabel,
     }).then(picked => {
-      if (picked != null) {
-        onChanged?.(picked);
+      if (!alive.current || picked == null) {
+        return;
       }
+
+      onChanged?.(picked);
     });
   };
 
@@ -108,7 +113,15 @@ export function TpDateField({
         ) : null}
         <Text
           numberOfLines={1}
-          style={[text.bodyLarge, styles.value, { color: colors.textMuted }]}
+          style={[
+            text.bodyLarge,
+            styles.value,
+            {
+              color: colors.textMuted,
+              fontSize: tpSizes.inputFont,
+              lineHeight: Math.round(tpSizes.inputFont * 1.4),
+            },
+          ]}
         >
           {display.length === 0 ? label : display}
         </Text>
@@ -130,22 +143,27 @@ export function showTpDatePicker({
   cancelLabel = 'Cancel',
 }: ShowTpDatePickerOptions): Promise<Date | undefined> {
   let initial = initialDate;
+
   if (initial < firstDate) {
     initial = firstDate;
   } else if (initial > lastDate) {
     initial = lastDate;
   }
+
   return new Promise(resolve => {
     let settled = false;
+
     overlayInsert(dismiss => {
       const finish = (date?: Date) => {
         if (settled) {
           return;
         }
+
         settled = true;
         dismiss();
         resolve(date);
       };
+
       return (
         <TpDatePickerHost
           initialDate={initial}
@@ -162,6 +180,7 @@ export function showTpDatePicker({
 
 function startOfToday(): Date {
   const now = new Date();
+
   return new Date(now.getFullYear(), now.getMonth(), now.getDate());
 }
 
@@ -169,9 +188,11 @@ function clampDate(value: Date, first: Date, last: Date): Date {
   if (value < first) {
     return first;
   }
+
   if (value > last) {
     return last;
   }
+
   return value;
 }
 
@@ -209,6 +230,7 @@ function TpDatePickerHost({
             onDone(undefined);
             return;
           }
+
           onDone(date);
         }}
       />
@@ -239,6 +261,7 @@ function TpDatePickerHost({
               if (date == null) {
                 return;
               }
+
               setDraft(date);
               if (date.getTime() !== initialDate.getTime()) {
                 onDone(date);

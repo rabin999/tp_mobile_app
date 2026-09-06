@@ -16,6 +16,7 @@ export type TpSpinnerProps = {
  */
 export function TpSpinner({ size = tpSizes.icon, color }: TpSpinnerProps) {
   const { colors } = useTpTheme();
+
   return (
     <ActivityIndicator
       color={color ?? colors.iconMuted}

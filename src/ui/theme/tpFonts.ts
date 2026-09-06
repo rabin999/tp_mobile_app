@@ -51,6 +51,7 @@ export function tpNunitoFamily(weight?: TextStyle['fontWeight']): string {
   if (Platform.OS === 'ios') {
     return 'NunitoSans';
   }
+
   return nunitoAndroid[numericWeight(weight)];
 }
 
@@ -61,17 +62,28 @@ export function tpHalantFamily(weight?: TextStyle['fontWeight']): string {
   if (Platform.OS === 'ios') {
     return 'Halant';
   }
+
   return halantAndroid[numericWeight(weight)];
 }
 
 /**
  * Pair `fontFamily` + `fontWeight` so a later weight override still
  * loads the matching file on Android.
+ *
+ * Android already selects the instanced file by name. Sending a numeric
+ * `fontWeight` on that file makes the platform look for a *further*
+ * bold of Halant-Bold / NunitoSans-Bold and fall back to the system
+ * sans.
  */
 export function tpNunito(
   weight: TextStyle['fontWeight'] = '400',
 ): Pick<TextStyle, 'fontFamily' | 'fontWeight'> {
   const numeric = numericWeight(weight);
+
+  if (Platform.OS === 'android') {
+    return { fontFamily: tpNunitoFamily(numeric) };
+  }
+
   return {
     fontFamily: tpNunitoFamily(numeric),
     fontWeight: numeric,
@@ -82,6 +94,11 @@ export function tpHalant(
   weight: TextStyle['fontWeight'] = '700',
 ): Pick<TextStyle, 'fontFamily' | 'fontWeight'> {
   const numeric = numericWeight(weight);
+
+  if (Platform.OS === 'android') {
+    return { fontFamily: tpHalantFamily(numeric) };
+  }
+
   return {
     fontFamily: tpHalantFamily(numeric),
     fontWeight: numeric,

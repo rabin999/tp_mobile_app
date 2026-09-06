@@ -38,6 +38,7 @@ export function TpOverflowMenu({ tooltip, items }: TpOverflowMenuProps) {
         if (selected == null) {
           return;
         }
+
         items[selected]?.onPress?.();
       });
     });

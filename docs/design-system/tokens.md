@@ -38,14 +38,15 @@ this table drifts.
 `secondary.main`.
 
 **Normalized:** Color roles use real meaning (`error` is danger, not a text
-color). Cyan is never body text.
+color). Cyan is not running paragraph text. Section chrome labels may use `primary`.
 
 ## Type
 
 Nunito Sans for UI. Halant for `displayLarge` / `displayMedium` only.
 
-Sizes: display 34/30, headlines 24/20/18, title 16, body 14, labels 14/12/11.
-Heading line height 1.25, body 1.4.
+Sizes: display 34/26, headlines 24/20/18, title 16, body 14, labels 14/12/11.
+Heading line height 1.25, body 1.4. Field **values** are 16 (`tpSizes.inputFont`),
+not `bodyLarge` — 14 stays for paragraphs and chrome.
 
 ## Spacing, corners, size
 
@@ -54,7 +55,8 @@ Spacing scale: 4, 8, 12, 16, 20, 24, 32.
 Corner rounding (`tpCorners`): 8 inputs, 12 surfaces, 16 sheet top,
 fully round pills.
 
-Control height **40** default, **36** compact. App bar 56. Min tap 48.
+Control height **44** default, **40** compact. Field value type 16. App bar 56.
+Min tap 48.
 
 ## Elevation
 

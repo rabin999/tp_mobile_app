@@ -25,8 +25,10 @@ export function TpRating({
   const { colors } = useTpTheme();
   const rounded = Math.round(value);
   const stars = [];
+
   for (let i = 1; i <= max; i += 1) {
     const filled = i <= rounded;
+
     stars.push(
       <Pressable
         key={i}
@@ -44,6 +46,7 @@ export function TpRating({
       </Pressable>,
     );
   }
+
   return (
     <View
       accessibilityLabel={semanticLabel ?? `Rating ${rounded} of ${max}`}

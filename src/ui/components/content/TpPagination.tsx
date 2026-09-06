@@ -28,9 +28,11 @@ export function TpPagination({
   onNext,
 }: TpPaginationProps) {
   const { colors, text } = useTpTheme();
+
   if (totalPages <= 1) {
     return null;
   }
+
   const canPrev = currentPage > 1;
   const canNext = currentPage < totalPages;
   const disabledColor = `${colors.onSurface}80`;

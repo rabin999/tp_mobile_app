@@ -15,9 +15,11 @@ export function TpNotificationBadge({
   children,
 }: TpNotificationBadgeProps) {
   const { colors, text } = useTpTheme();
+
   if (count <= 0) {
     return <>{children}</>;
   }
+
   return (
     <View style={styles.wrap}>
       {children}

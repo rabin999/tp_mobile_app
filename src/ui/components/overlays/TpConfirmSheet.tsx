@@ -1,11 +1,9 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { tpCorners } from '../../theme/tpCorners';
-import { tpNunito } from '../../theme/tpFonts';
-import { tpSizes } from '../../theme/tpSizes';
 import { tpSpacing } from '../../theme/tpSpacing';
 import { useTpTheme } from '../../theme/tpTheme';
 import { TpButton } from '../actions/TpButton';
+import { TpFormActions } from '../actions/TpFormActions';
 import { showTpBottomSheet } from './TpBottomSheet';
 
 export type TpConfirmSheetProps = {
@@ -14,12 +12,15 @@ export type TpConfirmSheetProps = {
   confirmLabel: string;
   cancelLabel: string;
   destructive?: boolean;
+  loading?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
 };
 
 /**
- * Confirmation copy shown in a bottom sheet.
+ * Confirm dialog body: title, message, Cancel + confirm in a bottom sheet.
+ *
+ * Matches web mobile delete/confirm sheets (header, body, footer).
  */
 export function TpConfirmSheet({
   title,
@@ -27,60 +28,44 @@ export function TpConfirmSheet({
   confirmLabel,
   cancelLabel,
   destructive = false,
+  loading = false,
   onConfirm,
   onCancel,
 }: TpConfirmSheetProps) {
   const { colors, text } = useTpTheme();
+  const rule = { borderColor: colors.outlineVariant };
+
   return (
-    <View style={styles.body}>
-      <Text
-        numberOfLines={2}
-        style={[
-          text.headlineMedium,
-          { ...tpNunito('600'), textAlign: 'center' },
-        ]}
-      >
-        {title}
-      </Text>
-      <View style={styles.messageGap} />
-      <Text
-        style={[
-          text.bodyLarge,
-          { color: colors.textSecondary, textAlign: 'center' },
-        ]}
-      >
-        {message}
-      </Text>
-      <View style={styles.actionsGap} />
-      <View style={styles.actions}>
-        <TpButton label={cancelLabel} variant="outlined" onPress={onCancel} />
-        <View style={styles.actionGap} />
-        {destructive ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={confirmLabel}
-            disabled={onConfirm == null}
-            onPress={onConfirm}
-            style={({ pressed }) => [
-              styles.destructive,
-              {
-                backgroundColor: colors.error,
-                opacity: pressed ? 0.72 : onConfirm == null ? 0.4 : 1,
-              },
-            ]}
-          >
-            <Text
-              style={[
-                text.labelLarge,
-                { color: colors.onPrimary, ...tpNunito('600') },
-              ]}
-            >
-              {confirmLabel}
-            </Text>
-          </Pressable>
-        ) : (
-          <TpButton label={confirmLabel} onPress={onConfirm} />
-        )}
+    <View>
+      <View style={[styles.header, rule]}>
+        <Text numberOfLines={2} style={text.headlineMedium}>
+          {title}
+        </Text>
+      </View>
+      <View style={styles.body}>
+        <Text style={[text.bodyLarge, { color: colors.textSecondary }]}>
+          {message}
+        </Text>
+      </View>
+      <View style={[styles.footer, rule]}>
+        <TpFormActions
+          cancel={
+            <TpButton
+              label={cancelLabel}
+              variant="text"
+              tone="neutral"
+              onPress={loading ? undefined : onCancel}
+            />
+          }
+          primary={
+            <TpButton
+              label={confirmLabel}
+              tone={destructive ? 'danger' : 'primary'}
+              loading={loading}
+              onPress={onConfirm}
+            />
+          }
+        />
       </View>
     </View>
   );
@@ -114,30 +99,20 @@ export namespace TpConfirmSheet {
 }
 
 const styles = StyleSheet.create({
-  body: {
-    paddingHorizontal: tpSpacing.lg,
-    paddingTop: tpSpacing.md,
-    paddingBottom: tpSpacing.lg,
-  },
-  messageGap: {
-    height: tpSpacing.xs,
-  },
-  actionsGap: {
-    height: tpSpacing.xxl,
-  },
-  actions: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  actionGap: {
-    width: tpSpacing.xs,
-  },
-  destructive: {
-    height: tpSizes.control,
+  header: {
     paddingHorizontal: tpSpacing.md,
-    borderRadius: tpCorners.xs,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: tpSpacing.md,
+    paddingBottom: tpSpacing.sm,
+    borderBottomWidth: 1,
+  },
+  body: {
+    paddingHorizontal: tpSpacing.md,
+    paddingVertical: tpSpacing.md,
+  },
+  footer: {
+    paddingHorizontal: tpSpacing.md,
+    paddingTop: tpSpacing.sm,
+    paddingBottom: tpSpacing.md,
+    borderTopWidth: 1,
   },
 });

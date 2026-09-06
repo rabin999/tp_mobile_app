@@ -6,7 +6,7 @@ Folder tree: `README.md` § Architecture. Do not invent a parallel tree.
 
 ## Naming
 
-**Why:** TypeScript and React Native use the language conventions of the runtime, not Dart. Flutter used Effective Dart file names (`tp_button.dart`). Here the file name matches the main export.
+**Why:** TypeScript and React Native use the language conventions of the runtime. The file name matches the main export.
 
 ```ts
 // good
@@ -48,12 +48,12 @@ Acronyms: `Http`, `Uri` in types; two-letter caps stay caps (`ID`, `UI`) in name
 - `index.js` — `AppRegistry` registration only.
 - `src/main.tsx` — re-exports the root; keep it small.
 - `src/app/` — providers, theme facade, routes. Not a feature.
-- `src/core/` — cross-feature technical boundaries, not a junk drawer.
+- `src/core/` — cross-feature technical boundaries, not a junk drawer. File-level jobs: [modularity.md](modularity.md).
 - `src/ui/overlay/` — `OverlayHost` (snackbars / sheets). Not a feature; not a public kit export.
 - Public kit: `src/ui/components/index.ts` and `src/ui/theme/index.ts`.
 - Navigation chrome lives in `navigation/` (exported). **Do not add `chrome/`.** If both exist, the barrel is the API — delete the duplicate.
 - Product screens: `src/features/<name>/`, never `ui/gallery/` (temporary approval UI).
-- Feature code must not import unpublished helpers (`tpFieldError.ts`, `TpTimeoutBar.tsx`, `TpGlyph.tsx`).
+- Feature code must not import unpublished helpers (`tpFieldError.ts`, `TpTimeoutBar.tsx`, `TpGlyph.tsx`, `tpKeyboardInset.ts`, `useTpKeyboardMetrics.ts`, `useAliveRef.ts`).
 
 ## Imports
 
@@ -95,6 +95,8 @@ import { tpFieldError } from './tpFieldError';
 **Why:** Prettier + ESLint (`@react-native`) + `tsc --noEmit` are the machine source of truth (80 columns, 2-space indent, single quotes).
 
 `react-native/no-inline-styles` is **off**: theme colors are resolved at render, so `StyleSheet` cannot hold them. Do not disable any other lint to hide a design problem.
+
+Blank lines: one empty line between functions, classes, exports, and logical groups inside a function (after `if` / `try` / a `const` group). Prettier keeps those lines; ESLint `padding-line-between-statements` inserts them. Do not stack more than one blank line.
 
 ```ts
 // good — infer obvious locals; annotate public APIs

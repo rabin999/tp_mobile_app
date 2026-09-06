@@ -31,6 +31,7 @@ export function TpPageHeader({
   sticky = true,
 }: TpPageHeaderProps) {
   const { colors, text } = useTpTheme();
+
   return (
     <View
       style={[

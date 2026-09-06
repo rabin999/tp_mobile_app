@@ -32,6 +32,7 @@ export function TpSocialButton({
   onPress,
 }: TpSocialButtonProps) {
   const { width } = useWindowDimensions();
+
   return (
     <View style={[styles.wrap, { width: width * 0.9 }]}>
       {provider === 'google' ? (
@@ -51,6 +52,7 @@ function GoogleButton({
   onPress?: () => void;
 }) {
   const { colors, text } = useTpTheme();
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -93,6 +95,7 @@ function FacebookButton({
   onPress?: () => void;
 }) {
   const { colors, text } = useTpTheme();
+
   return (
     <Pressable
       accessibilityRole="button"

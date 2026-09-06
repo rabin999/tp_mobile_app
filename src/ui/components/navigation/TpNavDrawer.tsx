@@ -36,7 +36,8 @@ export function tpCopyrightNotice({
 } = {}): string {
   const year = (now ?? new Date()).getFullYear();
   const range =
-    year > foundedYear ? `${foundedYear}–${year}` : `${foundedYear}`;
+    year > foundedYear ? `${foundedYear}-${year}` : `${foundedYear}`;
+
   return `© ${range} ${companyName}. All rights reserved.`;
 }
 
@@ -70,6 +71,7 @@ export function tpGuestNavDrawerSections({
   activeLabel?: string;
 } = {}): TpNavDrawerSection[] {
   const active = (label: string) => label === activeLabel;
+
   return [
     {
       title: 'Discover',
@@ -108,9 +110,21 @@ export function tpGuestNavDrawerSections({
     {
       title: 'Legal',
       items: [
-        { label: 'Privacy Policy', icon: 'privacy' },
-        { label: 'Terms & Conditions', icon: 'gavel' },
-        { label: 'Community Guidelines', icon: 'groups' },
+        {
+          label: 'Privacy Policy',
+          icon: 'privacy',
+          active: active('Privacy Policy'),
+        },
+        {
+          label: 'Terms & Conditions',
+          icon: 'gavel',
+          active: active('Terms & Conditions'),
+        },
+        {
+          label: 'Community Guidelines',
+          icon: 'groups',
+          active: active('Community Guidelines'),
+        },
       ],
     },
   ];
@@ -133,7 +147,7 @@ export type TpNavDrawerProps = {
 };
 
 /**
- * Static public navigation drawer. Slides in from the right.
+ * Static public navigation drawer. Opens from the right with no window fade.
  */
 export function TpNavDrawer({
   visible,
@@ -159,7 +173,7 @@ export function TpNavDrawer({
     <Modal
       visible={visible}
       transparent
-      animationType="fade"
+      animationType="none"
       onRequestClose={onClose}
     >
       <View style={styles.modalRoot}>
@@ -264,6 +278,7 @@ function DrawerHeader({
   onClose?: () => void;
 }) {
   const { colors } = useTpTheme();
+
   return (
     <View style={[styles.header, { borderBottomColor: colors.outlineVariant }]}>
       <Pressable
@@ -312,6 +327,7 @@ function GuestAuth({
 
 function AuthedHeader({ profile }: { profile: TpNavDrawerProfile }) {
   const { colors, text } = useTpTheme();
+
   return (
     <View>
       <View
@@ -397,6 +413,7 @@ function DrawerRow({
 }) {
   const { colors, text } = useTpTheme();
   const color = item.active ? colors.primary : colors.onSurfaceVariant;
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -433,6 +450,7 @@ function DrawerRow({
 function DrawerFooter({ copyright }: { copyright: string }) {
   const { colors, text } = useTpTheme();
   const iconColor = colors.onSurfaceVariant;
+
   return (
     <View style={[styles.footer, { borderTopColor: colors.outlineVariant }]}>
       <View style={styles.social}>

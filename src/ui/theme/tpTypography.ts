@@ -53,7 +53,7 @@ function halant(size: number, color: string): TextStyle {
 export function tpTextTheme(tokens: TpColorTokens): TpTextTheme {
   return {
     displayLarge: halant(34, tokens.onSurface),
-    displayMedium: halant(30, tokens.onSurface),
+    displayMedium: halant(26, tokens.onSurfaceVariant),
     displaySmall: nunito({
       size: 24,
       weight: '700',

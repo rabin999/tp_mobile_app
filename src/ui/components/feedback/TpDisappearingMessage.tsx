@@ -16,11 +16,13 @@ export function TpDisappearingMessage({
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(false), duration);
+
     return () => clearTimeout(timer);
   }, [duration]);
 
   if (!visible) {
     return null;
   }
+
   return <>{children}</>;
 }

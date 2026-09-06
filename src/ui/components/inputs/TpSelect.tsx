@@ -11,9 +11,11 @@ import { tpCorners } from '../../theme/tpCorners';
 import { tpSizes } from '../../theme/tpSizes';
 import { tpSpacing } from '../../theme/tpSpacing';
 import { useTpTheme } from '../../theme/tpTheme';
+import { useAliveRef } from '../../useAliveRef';
 import { showTpMenu } from '../content/TpMenu';
 import { TpGlyph } from '../content/TpGlyph';
 import { tpFieldError } from './tpFieldError';
+import type { TpFieldSize } from './TpTextField';
 
 export type TpSelectProps<T> = {
   items: T[];
@@ -21,9 +23,11 @@ export type TpSelectProps<T> = {
   value?: T;
   label?: string;
   hint?: string;
+  accessibilityLabel?: string;
   onChanged?: (value: T) => void;
   enabled?: boolean;
   errorText?: string;
+  size?: TpFieldSize;
 };
 
 /**
@@ -35,11 +39,14 @@ export function TpSelect<T>({
   value,
   label,
   hint,
+  accessibilityLabel,
   onChanged,
   enabled = true,
   errorText,
+  size = 'standard',
 }: TpSelectProps<T>) {
   const { colors, text } = useTpTheme();
+  const alive = useAliveRef();
   const ref = useRef<HostInstance>(null);
   const selected = items.includes(value as T) ? value : undefined;
   const display = selected == null ? '' : labelBuilder(selected);
@@ -47,11 +54,16 @@ export function TpSelect<T>({
   const floated = display.length > 0;
   const error = tpFieldError(errorText);
   const canOpen = enabled && onChanged != null;
+  const height = size === 'standard' ? tpSizes.control : tpSizes.controlCompact;
 
   const open = () => {
-    ref.current?.measureInWindow((x, y, width, height) => {
+    ref.current?.measureInWindow((x, y, width, anchorHeight) => {
+      if (!alive.current) {
+        return;
+      }
+
       showTpMenu({
-        anchor: { x, y, width, height },
+        anchor: { x, y, width, height: anchorHeight },
         align: 'start',
         minWidth: width,
         maxWidth: width,
@@ -61,9 +73,11 @@ export function TpSelect<T>({
           selected: item === value,
         })),
       }).then(next => {
-        if (next != null) {
-          onChanged?.(next);
+        if (!alive.current || next == null) {
+          return;
         }
+
+        onChanged?.(next);
       });
     });
   };
@@ -72,7 +86,7 @@ export function TpSelect<T>({
     <View>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={label}
+        accessibilityLabel={accessibilityLabel ?? label}
         disabled={!canOpen}
         onPress={canOpen ? open : undefined}
       >
@@ -82,6 +96,7 @@ export function TpSelect<T>({
           style={[
             styles.box,
             {
+              minHeight: height,
               borderColor: hasError
                 ? colors.error
                 : enabled
@@ -113,7 +128,15 @@ export function TpSelect<T>({
           ) : null}
           <Text
             numberOfLines={1}
-            style={[text.bodyLarge, styles.value, { color: colors.textMuted }]}
+            style={[
+              text.bodyLarge,
+              styles.value,
+              {
+                color: colors.textMuted,
+                fontSize: tpSizes.inputFont,
+                lineHeight: Math.round(tpSizes.inputFont * 1.4),
+              },
+            ]}
           >
             {display.length === 0 ? label ?? hint ?? ' ' : display}
           </Text>

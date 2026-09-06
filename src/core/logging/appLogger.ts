@@ -1,8 +1,5 @@
 /**
- * Application logging boundary.
- *
- * Uses `console.debug` so no logging package is required yet. Call sites can
- * stay stable when a production logging policy is chosen later.
+ * Debug logger used instead of console at call sites.
  */
 export const appLogger = {
   debug(message: string): void {

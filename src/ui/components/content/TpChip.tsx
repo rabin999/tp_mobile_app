@@ -29,6 +29,7 @@ export function TpChip({
   enabled = true,
 }: TpChipProps) {
   const { colors, text } = useTpTheme();
+
   if (variant === 'assist' && onSelected == null) {
     return (
       <View style={[styles.assist, { backgroundColor: colors.surface }]}>
@@ -61,6 +62,7 @@ export function TpChip({
   }
 
   const canPress = enabled && onSelected != null;
+
   return (
     <Pressable
       accessibilityRole="button"

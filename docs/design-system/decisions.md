@@ -16,22 +16,28 @@ Each item is tagged **observed** (in the web mobile source), **inferred**
   Components resolve color from theme, not from light-only statics.
   `appTheme.dark` is a real dark palette.
 - **Normalized:** Button `textTransform` is none. Elevation on buttons is 0.
-- **Inferred:** Default control height 40dp (source fields are often 40px)
-  with an explicit compact 36 variant.
+- **Inferred (web):** MUI `size="small"` fields were ~40px with 14px type.
+- **Normalized:** Default control height **44** (between web ~40 and Android’s
+  48dp min tap). Compact is **40** (true MUI small). Field values use
+  `tpSizes.inputFont` **16** (Material body / common mobile floor). `bodyLarge`
+  stays 14 for paragraphs. Compact remains an explicit variant, not the
+  form default.
 - **Normalized:** Corner rounding 8 / 12 / 16 / fully round. Dropped the
   14px surface outlier.
-- **Normalized:** Snackbar is a top-end overlay using `TpAlert` chrome (same
-  job as the Flutter custom snackbar). The web `left: 60px` offset is treated
-  as a leftover.
+- **Normalized:** Transient snackbars (`TpSnackbar`) float at the **bottom**,
+  inset, above the home indicator and keyboard — Material 3 / Android
+  enterprise. They reuse `TpAlert` chrome. Web `CustomSnackbar` is
+  top-right (desktop toast); the `left: 60px` offset is a leftover. Do
+  not overlay the app bar. Inline `TpAlert` stays in the page for
+  persistent / in-context messages.
 - **Proposed:** Tab selected pill border `#D1E7FB` kept as
   `tpColors.tabIndicatorBorder`.
 
 ## Contrast
 
-- **Observed:** Cyan-on-white body text would fail WCAG. Source uses cyan
-  for fills, not running text.
+- **Observed:** Cyan-on-white *paragraph* text would fail WCAG. Source uses cyan for fills. Marketing section labels next to the cyan bar are 16px/700 primary (Contact / About / Client Stories).
 - **Normalized:** `onPrimary` is white on cyan fills. Body text is black /
-  `#3C424F`. Link blue `#3988D8` is for text links.
+  `#3C424F`. Link blue `#3988D8` is for text links. Section chrome labels may use `primary`.
 
 ## Scope (this delivery)
 
@@ -41,10 +47,21 @@ Each item is tagged **observed** (in the web mobile source), **inferred**
 - **Normalized:** Search fields merge into `TpSearchField`. Status pills
   merge into `TpStatusBadge`. Empty / 404 merge into `TpStatusPage`
   (`TpEmptyState` / `TpErrorState` wrap it). Image fallbacks merge into
-  `TpImage`. Delete /
-  terminate / confirm dialogs merge into `TpConfirmSheet`. Inline and
-  page loaders merge into `TpSpinner` (pass `size` and `color`; center
-  it for a blocking page).
+  `TpImage`. Delete / terminate / confirm dialogs merge into
+  `TpConfirmSheet`. Inline and page loaders merge into `TpSpinner`
+  (pass `size` and `color`; center it for a blocking page).
+- **Normalized:** Confirm is a bottom sheet with left-aligned title, body,
+  and a footer via `TpFormActions`: text Cancel (`tone="neutral"`) plus
+  filled confirm. Destructive confirm uses `TpButton` `tone="danger"`.
+  Do not paint a one-off red `Pressable`. A lone form submit uses the
+  same primitive and stays centered (web contact is 90% width; we keep
+  content width).
+- **Normalized:** Filter count badge sits on the 44 control's top-right
+  corner, matching web `serviceFilterHomeAdvanceFilterNumberStyles`
+  (offset from the outlined box, not overlapping the glyph).
+- **Normalized:** Edge-to-edge Android does not resize the window for the
+  keyboard. Form pages use `TpKeyboardScrollView` (extra bottom inset +
+  scroll the focused field above the keyboard).
 
 ## Platform (React Native)
 
@@ -96,7 +113,7 @@ Those can be assembled later from `TpButton`, `TpTextField`, `TpRating`,
 
 - Exact Facebook glyph (source uses a custom icon; a simple “f” mark in
   `TpGlyph` is the stand-in).
-- Whether compact 36dp fields should ever become the default on booking
+- Whether compact 40dp fields should ever become the default on booking
   screens (currently an explicit variant).
 - Variable Nunito Sans is instanced into Regular / Medium / SemiBold /
   Bold files; Android vs iOS family-name mapping is handled by

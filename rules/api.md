@@ -1,10 +1,18 @@
 # API, async, and failure
 
-Load when talking to backends, handling async work, or designing loading/error UX. There is **no** HTTP client yet — introduce one at a data boundary, not inside a component.
+Load when talking to backends, handling async work, or designing loading/error UX.
+
+Every API call goes through `requestJson` in `src/core/http/`. That module sends JSON with `fetch`, reads the API error body (`message` as string or string[], plus `error`, `statusCode`, `code`), and maps timeout / offline / 5xx. Features do not parse API error payloads themselves.
+
+Do not add Axios, interceptors, or a query library until those needs exist.
 
 ## Read the contract first
 
-**Why:** The web client’s TypeScript types are not the server. Know auth, nullability, validation-error shape (field vs global), pagination, idempotency, and what empty vs 404 vs 403 means before writing a call.
+**Why:** The web client’s TypeScript types are not the server.
+
+**Swagger is the API contract.** Use the published OpenAPI/Swagger docs for paths, request/response shapes, auth, and error bodies. Do not inspect API implementation, packages, or validators. If a type is missing from Swagger, then and only then look at API source types — not libraries.
+
+Know auth, nullability, validation-error shape (field vs global), pagination, idempotency, and what empty vs 404 vs 403 means before writing a call.
 
 ## Boundary
 
@@ -57,18 +65,11 @@ try {
 }
 ```
 
-User copy is accurate and useful: no paths, status integers, or type names. Log **why** through `appLogger` (`src/core/logging/appLogger.ts`). Never log tokens, OTP, or PII ([security.md](security.md)). Catch to map, retry, or present — never swallow.
+User-facing text is accurate and useful: no paths, status integers, or type names. Shared HTTP strings live in `src/core/http/httpMessages.ts`. Feature files keep only that feature’s screen text. Log **why** through `appLogger` (`src/core/logging/appLogger.ts`). Never log tokens, OTP, or PII ([security.md](security.md)). Catch to map, retry, or present — never swallow.
 
 ## Async and mobile network
 
-**Why:** Mobile requests die with the screen, get superseded by newer searches, and run on flaky networks. Treat timeout, cancel, and stale responses as expected.
-
-- `async`/`await`. Canceled work is not a server error — no toast.
-- Cancel on unmount. Ignore stale responses when a newer request wins (`AbortController`, request ids).
-- Duplicate taps must not double-create (`TpButton` `loading` or disable submit).
-- Automatic retry only if **idempotent** (or the user taps retry). Do not auto-retry creating POSTs. Back off if you retry in code.
-- No disk cache, offline-first, or optimistic UI unless the product must work offline. The image pipeline + `TpImage` are enough for images.
-- Refresh must not append duplicate list pages.
+Client transport (timeouts, connection reuse, which calls may retry, cancel, WiFi→cellular, streams, background) is [network.md](network.md). Cancelled work is not a server error — no toast. Duplicate taps must not double-create (`TpButton` `loading` or disable submit). No disk cache or optimistic UI unless the product must work offline. Refresh must not append duplicate list pages.
 
 ## States are product behavior
 

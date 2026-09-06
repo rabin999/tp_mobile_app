@@ -13,6 +13,7 @@ export type TpBackButtonProps = {
  */
 export function TpBackButton({ tooltip, onPress }: TpBackButtonProps) {
   const { colors } = useTpTheme();
+
   return (
     <Pressable
       accessibilityRole="button"

@@ -1,6 +1,13 @@
+import { overlayClear } from './src/ui/overlay/overlayHost';
+
+afterEach(() => {
+  overlayClear();
+});
+
 jest.mock('@react-native-community/datetimepicker', () => {
   const React = require('react');
   const { View } = require('react-native');
+
   return {
     __esModule: true,
     default: () => React.createElement(View, { testID: 'date-picker' }),

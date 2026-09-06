@@ -23,7 +23,9 @@ export type TpAlertProps = {
 };
 
 /**
- * Dismissible collapsing alert banner. Matches AlertButton.mobile.
+ * Dismissible collapsing alert banner in the page. Matches AlertButton.mobile.
+ *
+ * Use this inline (form/page errors). Transient confirmations use TpSnackbar.
  */
 export function TpAlert({
   message,
@@ -47,6 +49,7 @@ export function TpAlert({
     if (closed.current) {
       return;
     }
+
     closed.current = true;
     progress.stopAnimation();
     setOpen(false);
@@ -57,18 +60,27 @@ export function TpAlert({
     if (duration == null || duration <= 0) {
       return;
     }
-    const listener = progress.addListener(({ value }) => setRemaining(value));
+
+    let alive = true;
+    const listener = progress.addListener(({ value }) => {
+      if (alive) {
+        setRemaining(value);
+      }
+    });
+
     Animated.timing(progress, {
       toValue: 0,
       duration,
       useNativeDriver: false,
     }).start(({ finished }) => {
-      if (finished) {
+      if (alive && finished) {
         dismiss();
       }
     });
     return () => {
+      alive = false;
       progress.removeListener(listener);
+      progress.stopAnimation();
     };
     // Mount-only timeout, matching Flutter's initState controller.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,6 +92,8 @@ export function TpAlert({
 
   return (
     <View
+      accessibilityRole="alert"
+      accessibilityLiveRegion={severity === 'error' ? 'assertive' : 'polite'}
       style={[
         styles.wrap,
         { marginBottom },

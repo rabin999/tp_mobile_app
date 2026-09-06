@@ -75,11 +75,14 @@ export function TpTextField({
     : colors.outlineVariant;
   const error = tpFieldError(errorText);
   const multiline = !obscureText && maxLines > 1;
+  const lineHeight = Math.round(tpSizes.inputFont * 1.4);
+  const boxHeight = multiline ? height + (maxLines - 1) * lineHeight : height;
 
   const handleChange = (next: string) => {
     if (value == null) {
       setInner(next);
     }
+
     onChangeText?.(next);
   };
 
@@ -89,8 +92,10 @@ export function TpTextField({
         style={[
           styles.box,
           {
-            height: multiline ? undefined : height,
-            minHeight: multiline ? height : undefined,
+            height: multiline ? undefined : boxHeight,
+            minHeight: multiline ? boxHeight : undefined,
+            paddingVertical: multiline ? tpSpacing.xs : 0,
+            alignItems: multiline ? 'flex-start' : 'center',
             backgroundColor: colors.surface,
             borderColor,
             opacity: enabled ? 1 : 0.7,
@@ -137,11 +142,16 @@ export function TpTextField({
           onBlur={() => setFocused(false)}
           onChangeText={handleChange}
           onSubmitEditing={event => onSubmitEditing?.(event.nativeEvent.text)}
-          textAlignVertical="center"
+          textAlignVertical={multiline ? 'top' : 'center'}
           style={[
             text.bodyLarge,
             styles.input,
-            { color: colors.textMuted, includeFontPadding: false },
+            {
+              color: colors.textMuted,
+              fontSize: tpSizes.inputFont,
+              lineHeight,
+              includeFontPadding: false,
+            },
           ]}
         />
         {suffix != null ? <View style={styles.suffix}>{suffix}</View> : null}

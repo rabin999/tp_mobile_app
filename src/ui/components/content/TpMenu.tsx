@@ -64,6 +64,7 @@ export function TpMenuRow<T>({
     : item.selected
     ? colors.primary
     : colors.onSurface;
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -108,15 +109,18 @@ export function showTpMenu<T>({
 }: ShowTpMenuOptions<T>): Promise<T | undefined> {
   return new Promise(resolve => {
     let settled = false;
+
     overlayInsert(dismiss => {
       const finish = (value?: T) => {
         if (settled) {
           return;
         }
+
         settled = true;
         dismiss();
         resolve(value);
       };
+
       return (
         <TpMenuOverlay
           anchor={anchor}
@@ -153,12 +157,15 @@ function TpMenuOverlay<T>({
     const gap = 4;
     const margin = tpSpacing.xs;
     let left = align === 'end' ? anchor.x + anchor.width - width : anchor.x;
+
     left = Math.min(Math.max(margin, left), screenWidth - width - margin);
     let top = anchor.y + anchor.height + gap;
     const estimatedHeight = items.length * 40 + 8;
+
     if (top + estimatedHeight > screenHeight - margin) {
       top = Math.max(margin, anchor.y - estimatedHeight - gap);
     }
+
     return { left, top, width };
   }, [
     align,

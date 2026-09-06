@@ -22,9 +22,11 @@ export function TpSwitch({ value, onChanged }: TpSwitchProps) {
       duration: 150,
       useNativeDriver: true,
     }).start();
+    return () => shift.stopAnimation();
   }, [shift, value]);
 
   const enabled = onChanged != null;
+
   return (
     <Pressable
       accessibilityRole="switch"

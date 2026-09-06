@@ -20,6 +20,7 @@ export function TpBackButtonOnMedia({
   onPress,
 }: TpBackButtonOnMediaProps) {
   const { colors } = useTpTheme();
+
   return (
     <Pressable
       accessibilityRole="button"

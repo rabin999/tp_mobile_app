@@ -7,13 +7,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { TpAppBar } from '../components/navigation/TpAppBar';
-import {
-  tpGuestNavDrawerSections,
-  TpNavDrawer,
-} from '../components/navigation/TpNavDrawer';
+import { TpKeyboardScrollView } from '../components/content/TpKeyboardScrollView';
 import { TpPageHeader } from '../components/navigation/TpPageHeader';
 import { TpGlyph } from '../components/content/TpGlyph';
 import { tpSpacing } from '../theme/tpSpacing';
@@ -46,32 +41,11 @@ const items: { id: string; label: string }[] = [
  */
 export function DesignSystemGalleryPage() {
   const { colors, text } = useTpTheme();
-  const insets = useSafeAreaInsets();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [drawerReady, setDrawerReady] = useState(false);
   const selected = items.find(item => item.id === selectedId);
 
   return (
     <View style={[styles.root, { backgroundColor: colors.surface }]}>
-      <View style={{ height: insets.top, backgroundColor: colors.surface }} />
-      <TpAppBar
-        menuTooltip="Open navigation menu"
-        onMenuPress={() => {
-          setDrawerReady(true);
-          setDrawerOpen(true);
-        }}
-      />
-      {drawerReady ? (
-        <TpNavDrawer
-          visible={drawerOpen}
-          sections={tpGuestNavDrawerSections({ activeLabel: 'Home' })}
-          onItemTap={() => setDrawerOpen(false)}
-          onClose={() => setDrawerOpen(false)}
-          onLogin={() => setDrawerOpen(false)}
-          onSignup={() => setDrawerOpen(false)}
-        />
-      ) : null}
       {selected == null ? (
         <ScrollView>
           <Text style={[text.headlineSmall, styles.indexTitle]}>
@@ -101,7 +75,7 @@ export function DesignSystemGalleryPage() {
             backTooltip="Back"
             onBack={() => setSelectedId(null)}
           />
-          <ScrollView contentContainerStyle={styles.detailPad}>
+          <TpKeyboardScrollView contentContainerStyle={styles.detailPad}>
             <Suspense
               fallback={
                 <View style={styles.demoFallback}>
@@ -111,7 +85,7 @@ export function DesignSystemGalleryPage() {
             >
               <GalleryDemo id={selected.id} />
             </Suspense>
-          </ScrollView>
+          </TpKeyboardScrollView>
         </View>
       )}
     </View>
@@ -121,9 +95,11 @@ export function DesignSystemGalleryPage() {
 function AppearanceTile() {
   const controller = useOptionalAppThemeController();
   const { text, colors } = useTpTheme();
+
   if (controller == null) {
     return null;
   }
+
   const label =
     controller.mode === 'system'
       ? 'System'
@@ -136,6 +112,7 @@ function AppearanceTile() {
       : controller.mode === 'light'
       ? 'lightMode'
       : 'darkMode';
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -156,9 +133,11 @@ function nextThemeMode(mode: TpThemeMode): TpThemeMode {
   if (mode === 'system') {
     return 'light';
   }
+
   if (mode === 'light') {
     return 'dark';
   }
+
   return 'system';
 }
 

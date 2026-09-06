@@ -14,6 +14,7 @@ import {
   TpDateField,
   TpDivider,
   TpFilterIconButton,
+  TpFormActions,
   TpHeaderTabs,
   TpIconButton,
   TpImage,
@@ -103,6 +104,22 @@ function ButtonsDemo() {
           variant="outlined"
           onPress={() => undefined}
         />
+        <View style={styles.mdGap} />
+        <TpFormActions
+          primary={<TpButton label="Send" onPress={() => undefined} />}
+        />
+        <View style={styles.mdGap} />
+        <TpFormActions
+          cancel={
+            <TpButton
+              label="Cancel"
+              variant="text"
+              tone="neutral"
+              onPress={() => undefined}
+            />
+          }
+          primary={<TpButton label="Apply" onPress={() => undefined} />}
+        />
       </GallerySection>
       <GallerySection title="Social">
         <TpSocialButton
@@ -191,6 +208,7 @@ function InputsDemo() {
 
 function SearchDemo() {
   const [loading, setLoading] = useState(false);
+
   return (
     <View style={styles.searchRow}>
       <View style={styles.flex}>
@@ -207,6 +225,7 @@ function SearchDemo() {
 
 function SelectDemo() {
   const [value, setValue] = useState<string | undefined>('Kathmandu');
+
   return (
     <TpSelect
       label="City"
@@ -220,6 +239,7 @@ function SelectDemo() {
 
 function CheckboxDemo() {
   const [checked, setChecked] = useState(true);
+
   return (
     <TpCheckbox
       value={checked}
@@ -231,6 +251,7 @@ function CheckboxDemo() {
 
 function RadioDemo() {
   const [radio, setRadio] = useState('provider');
+
   return (
     <View>
       <TpRadioPill
@@ -251,6 +272,7 @@ function RadioDemo() {
 function SwitchDemo() {
   const { text } = useTpTheme();
   const [on, setOn] = useState(true);
+
   return (
     <View style={styles.row}>
       <Text style={text.bodyLarge}>Notifications</Text>
@@ -262,16 +284,19 @@ function SwitchDemo() {
 
 function OtpDemo() {
   const [otp, setOtp] = useState('');
+
   return <TpOtpField value={otp} onChangeText={setOtp} />;
 }
 
 function DateDemo() {
   const [date, setDate] = useState<Date | undefined>();
+
   return <TpDateField label="Date" value={date} onChanged={setDate} />;
 }
 
 function SortDemo() {
   const [sort, setSort] = useState<TpSortDirection | null>('desc');
+
   return (
     <TpSortToggle
       value={sort}
@@ -284,6 +309,7 @@ function SortDemo() {
 
 function NavigationDemo() {
   const { colors } = useTpTheme();
+
   return (
     <View>
       <GallerySection title="Page header">
@@ -315,6 +341,7 @@ function NavigationDemo() {
 function TabsDemo() {
   const [tab, setTab] = useState('a');
   const [listing, setListing] = useState('a');
+
   return (
     <View>
       <TpHeaderTabs
@@ -417,6 +444,7 @@ function AlertDemo() {
 
 function OverlayDemo() {
   const { text } = useTpTheme();
+
   return (
     <View style={styles.wrap}>
       <TpButton
@@ -553,6 +581,7 @@ function StatusDemo() {
 
 function PaginationDemo() {
   const [page, setPage] = useState(2);
+
   return (
     <TpPagination
       currentPage={page}

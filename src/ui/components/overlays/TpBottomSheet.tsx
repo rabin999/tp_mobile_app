@@ -41,16 +41,19 @@ export function showTpBottomSheet<T = void>({
 }: ShowTpBottomSheetOptions<T>): Promise<T | undefined> {
   return new Promise(resolve => {
     let settled = false;
+
     overlayInsert(dismissOverlay => {
       const finish = (value?: T) => {
         if (settled) {
           return;
         }
+
         settled = true;
         dismissOverlay();
         resolve(value);
       };
       const body = typeof children === 'function' ? children(finish) : children;
+
       return (
         <SheetModal
           fullscreen={fullscreen}
@@ -78,6 +81,7 @@ export function TpBottomSheet({
   const { height } = useWindowDimensions();
   const maxHeight = height * (fullscreen ? 1 : tpSizes.sheetMaxHeightFactor);
   let body: ReactNode = children;
+
   if (title != null) {
     body = (
       <View style={styles.titled}>
@@ -98,6 +102,7 @@ export function TpBottomSheet({
       </View>
     );
   }
+
   return (
     <View style={[styles.sheetBody, { maxHeight, minWidth: '100%' }]}>
       {body}
@@ -118,6 +123,7 @@ function SheetModal({
 }) {
   const { colors } = useTpTheme();
   const insets = useSafeAreaInsets();
+
   return (
     <Modal
       transparent

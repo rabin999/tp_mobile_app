@@ -1,8 +1,5 @@
 /**
- * Application-owned failure type.
- *
- * Features and infrastructure should map unexpected errors here instead of
- * leaking implementation exceptions across layer boundaries.
+ * Failure the UI can show. Map HTTP and unexpected errors here.
  */
 export class AppException extends Error {
   constructor(message: string) {

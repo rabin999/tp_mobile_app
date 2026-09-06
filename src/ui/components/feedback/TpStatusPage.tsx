@@ -72,6 +72,7 @@ export function TpStatusPage({
 }: TpStatusPageProps) {
   const { colors, text } = useTpTheme();
   const error = variant === 'error';
+
   return (
     <View style={[styles.body, error ? styles.errorPad : styles.emptyPad]}>
       <TpIllustration

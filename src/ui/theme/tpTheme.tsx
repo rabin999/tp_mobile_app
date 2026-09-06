@@ -11,6 +11,7 @@ import { tpColors, type TpColorTokens } from './tpColors';
 import { tpTextTheme, type TpTextTheme } from './tpTypography';
 
 export type TpThemeMode = 'system' | 'light' | 'dark';
+
 export type TpBrightness = 'light' | 'dark';
 
 export type TpTheme = {
@@ -34,11 +35,13 @@ export function resolveBrightness(
   if (mode === 'light' || mode === 'dark') {
     return mode;
   }
+
   return system === 'dark' ? 'dark' : 'light';
 }
 
 export function tpThemeFor(brightness: TpBrightness): TpTheme {
   const colors = brightness === 'dark' ? tpColors.dark : tpColors.light;
+
   return {
     brightness,
     colors,
@@ -60,6 +63,7 @@ export function AppThemeProvider({
   const system = useColorScheme();
   const value = useMemo<AppThemeControllerValue>(() => {
     const brightness = resolveBrightness(mode, system);
+
     return {
       mode,
       setMode,
@@ -76,9 +80,11 @@ export function AppThemeProvider({
 
 export function useAppThemeController(): AppThemeControllerValue {
   const value = useContext(AppThemeContext);
+
   if (value == null) {
     throw new Error('useAppThemeController requires AppThemeProvider');
   }
+
   return value;
 }
 

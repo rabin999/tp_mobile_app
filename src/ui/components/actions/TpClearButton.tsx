@@ -12,6 +12,7 @@ export type TpClearButtonProps = {
  */
 export function TpClearButton({ label, onPress }: TpClearButtonProps) {
   const { colors, text } = useTpTheme();
+
   return (
     <Pressable
       accessibilityRole="button"

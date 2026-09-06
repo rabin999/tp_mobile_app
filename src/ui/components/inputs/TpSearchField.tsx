@@ -27,6 +27,7 @@ export function TpSearchField({
   enabled = true,
 }: TpSearchFieldProps) {
   const { colors } = useTpTheme();
+
   return (
     <TpTextField
       value={value}

@@ -1,23 +1,29 @@
 import type { ComponentType } from 'react';
 import type { SvgProps } from 'react-native-svg';
 
+import iconEnvelope from '../../../assets/icons/envelope.svg';
 import iconFilter from '../../../assets/icons/filter.svg';
 import iconGps from '../../../assets/icons/gps.svg';
 import iconHome from '../../../assets/icons/home-run.svg';
 import iconGoogle from '../../../assets/icons/icons8-google.svg';
 import iconMember from '../../../assets/icons/member.svg';
 import iconOverflow from '../../../assets/icons/nounDots.svg';
+import iconPhoneAlt from '../../../assets/icons/phone-alt.svg';
 import iconPost from '../../../assets/icons/plus_rounded.svg';
 import iconProfile from '../../../assets/icons/profile.svg';
 import iconRegister from '../../../assets/icons/register.svg';
 import iconReport from '../../../assets/icons/report_flag.svg';
 import iconTasks from '../../../assets/icons/service-list.svg';
+import iconWhatsapp from '../../../assets/icons/whatsapp.svg';
+import communicate from '../../../assets/images/communicate.png';
 import empty from '../../../assets/images/empty.png';
+import howItStarted from '../../../assets/images/howItStarted.png';
 import error from '../../../assets/images/error.png';
 import mail from '../../../assets/images/mail.png';
 import notFound from '../../../assets/images/not_found.png';
 import otp from '../../../assets/images/otp.png';
 import posts from '../../../assets/images/posts.png';
+import telecommuting from '../../../assets/images/telecommuting.png';
 
 export type TpSvgAsset = ComponentType<SvgProps>;
 
@@ -36,10 +42,16 @@ export const tpAssets = {
   iconGps,
   iconReport,
   iconGoogle,
+  iconPhoneAlt,
+  iconWhatsapp,
+  iconEnvelope,
   empty,
   notFound,
   error,
   mail,
+  communicate,
+  howItStarted,
   otp,
   posts,
+  telecommuting,
 } as const;

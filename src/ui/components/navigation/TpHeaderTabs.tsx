@@ -40,6 +40,7 @@ export function TpHeaderTabs({
   showBack = true,
 }: TpHeaderTabsProps) {
   const { colors } = useTpTheme();
+
   if (mode === 'listing') {
     return (
       <ListingTabs
@@ -93,10 +94,12 @@ function ListingTabs({
   onSelected?: (id: string) => void;
 }) {
   const { colors, text } = useTpTheme();
+
   return (
     <View style={[styles.listing, { borderBottomColor: colors.outline }]}>
       {tabs.map(tab => {
         const selected = tab.id === selectedId;
+
         return (
           <Pressable
             key={tab.id}
@@ -152,6 +155,7 @@ function TextTab({
     : selected
     ? colors.primary
     : colors.onSurfaceVariant;
+
   return (
     <Pressable accessibilityRole="tab" onPress={onPress} style={styles.textTab}>
       <Text

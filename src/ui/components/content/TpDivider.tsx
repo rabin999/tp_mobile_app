@@ -13,9 +13,11 @@ export type TpDividerProps = {
  */
 export function TpDivider({ variant = 'line' }: TpDividerProps) {
   const { colors } = useTpTheme();
+
   if (variant === 'band') {
     return <View style={[styles.band, { backgroundColor: colors.band }]} />;
   }
+
   return <View style={[styles.line, { backgroundColor: colors.outline }]} />;
 }
 

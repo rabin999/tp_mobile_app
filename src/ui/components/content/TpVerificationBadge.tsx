@@ -21,15 +21,19 @@ export function TpVerificationBadge({
   bannerMessage,
 }: TpVerificationBadgeProps) {
   const { colors, text } = useTpTheme();
+
   if (variant === 'compact') {
     if (!verified) {
       return null;
     }
+
     return <TpGlyph name="verified" size={18} color={colors.primary} />;
   }
+
   if (verified) {
     return <TpGlyph name="verified" size={24} color={colors.primary} />;
   }
+
   return (
     <View style={[styles.banner, { backgroundColor: colors.warningContainer }]}>
       <TpGlyph name="info" size={24} color={colors.verificationForeground} />

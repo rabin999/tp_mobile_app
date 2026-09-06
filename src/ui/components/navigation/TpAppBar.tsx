@@ -9,14 +9,22 @@ import { TpLogo } from './TpLogo';
 
 export type TpAppBarProps = {
   menuTooltip: string;
+  homeLabel?: string;
+  onHomePress?: () => void;
   onMenuPress?: () => void;
 };
 
 /**
  * Sticky top bar: logo left, menu right. Matches MobileTopAppBar.
  */
-export function TpAppBar({ menuTooltip, onMenuPress }: TpAppBarProps) {
+export function TpAppBar({
+  menuTooltip,
+  homeLabel = 'True Professional Home',
+  onHomePress,
+  onMenuPress,
+}: TpAppBarProps) {
   const { colors } = useTpTheme();
+
   return (
     <View
       style={[
@@ -26,9 +34,17 @@ export function TpAppBar({ menuTooltip, onMenuPress }: TpAppBarProps) {
       ]}
     >
       <View style={[styles.bar, { backgroundColor: colors.surface }]}>
-        <View style={styles.logo}>
-          <TpLogo />
-        </View>
+        <Pressable
+          accessibilityRole="link"
+          accessibilityLabel={homeLabel}
+          disabled={onHomePress == null}
+          onPress={onHomePress}
+          style={styles.logo}
+        >
+          <View importantForAccessibility="no-hide-descendants">
+            <TpLogo />
+          </View>
+        </Pressable>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={menuTooltip}

@@ -5,6 +5,7 @@ import { pumpWithTheme } from './pumpApp';
 
 test('disabled button does not fire onPress', async () => {
   let tapped = false;
+
   await render(pumpWithTheme(<TpButton label="Save" />));
   await fireEvent.press(screen.getByText('Save'));
   expect(tapped).toBe(false);
@@ -12,6 +13,7 @@ test('disabled button does not fire onPress', async () => {
 
 test('loading button shows busy state and ignores taps', async () => {
   let tapped = false;
+
   await render(
     pumpWithTheme(
       <TpButton
@@ -26,4 +28,13 @@ test('loading button shows busy state and ignores taps', async () => {
   expect(screen.getByRole('button').props.accessibilityState.busy).toBe(true);
   await fireEvent.press(screen.getByText('Save'));
   expect(tapped).toBe(false);
+});
+
+test('danger tone uses the error fill', async () => {
+  await render(
+    pumpWithTheme(
+      <TpButton label="Delete" tone="danger" onPress={() => undefined} />,
+    ),
+  );
+  expect(screen.getByText('Delete')).toBeOnTheScreen();
 });

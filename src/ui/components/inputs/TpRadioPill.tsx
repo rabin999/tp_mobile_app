@@ -23,6 +23,7 @@ export function TpRadioPill({
 }: TpRadioPillProps) {
   const { colors, text } = useTpTheme();
   const canPress = enabled && onPress != null;
+
   return (
     <Pressable
       accessibilityRole="button"

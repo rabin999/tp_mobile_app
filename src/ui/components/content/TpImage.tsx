@@ -7,7 +7,6 @@ import {
   View,
   type ImageResizeMode,
   type ImageSourcePropType,
-  type ImageStyle,
 } from 'react-native';
 
 import { tpImageCache } from '../../theme/tpImageCache';
@@ -87,6 +86,7 @@ export function TpImageNetwork({
   fallback = 'letter',
 }: TpImageNetworkProps) {
   const usable = tpImageCache.isUsableUrl(uri);
+
   return (
     <TpImageFrame
       source={usable ? { uri } : null}
@@ -106,25 +106,6 @@ export const TpImage = {
   Network: TpImageNetwork,
 };
 
-function intrinsicSize(
-  source: ImageSourcePropType,
-): { width: number; height: number } | undefined {
-  if (typeof source !== 'number') {
-    return undefined;
-  }
-  const resolved = Image.resolveAssetSource(source);
-  if (
-    resolved == null ||
-    typeof resolved.width !== 'number' ||
-    typeof resolved.height !== 'number' ||
-    resolved.width < 1 ||
-    resolved.height < 1
-  ) {
-    return undefined;
-  }
-  return { width: resolved.width, height: resolved.height };
-}
-
 function TpImageFrame({
   source,
   width,
@@ -137,53 +118,30 @@ function TpImageFrame({
 }: SharedProps) {
   const [failed, setFailed] = useState(false);
   const [loading, setLoading] = useState(waitForLoad && source != null);
-  const intrinsic = source != null ? intrinsicSize(source) : undefined;
-  const ratio =
-    intrinsic != null ? intrinsic.width / intrinsic.height : undefined;
-  const drawnWidth = width ?? height ?? intrinsic?.width;
-  const drawnHeight =
-    height ??
-    (drawnWidth != null && ratio != null
-      ? drawnWidth / ratio
-      : intrinsic?.height);
-  const dpr = PixelRatio.get();
-  const cacheWidth = tpImageCache.cachePixels(drawnWidth, dpr);
-  const cacheHeight = tpImageCache.cachePixels(drawnHeight, dpr);
-  const showFallback = source == null || failed || loading;
-  const imageSource =
-    source != null &&
-    typeof source === 'object' &&
-    !Array.isArray(source) &&
-    'uri' in source &&
-    typeof source.uri === 'string' &&
-    cacheWidth != null &&
-    cacheHeight != null
-      ? { uri: source.uri, width: cacheWidth, height: cacheHeight }
-      : source;
-
-  const imageStyle: ImageStyle = {
-    width: drawnWidth,
-    height: drawnHeight,
+  const layout = tpImageCache.prepare({
+    source,
+    width,
+    height,
+    devicePixelRatio: PixelRatio.get(),
+  });
+  const showFallback = layout.source == null || failed || loading;
+  const box = {
+    width: layout.width,
+    height: layout.height,
     borderRadius,
+    overflow: 'hidden' as const,
   };
 
   return (
-    <View
-      style={{
-        width: drawnWidth,
-        height: drawnHeight,
-        borderRadius,
-        overflow: 'hidden',
-      }}
-    >
-      {imageSource != null && !failed ? (
+    <View style={box}>
+      {layout.source != null && !failed ? (
         <Image
-          source={imageSource}
+          source={layout.source}
           accessibilityLabel={semanticLabel}
           resizeMode={fit}
           resizeMethod="resize"
           fadeDuration={0}
-          style={imageStyle}
+          style={box}
           onLoad={() => setLoading(false)}
           onError={() => {
             setFailed(true);
@@ -194,8 +152,8 @@ function TpImageFrame({
       {showFallback ? (
         <View style={StyleSheet.absoluteFill} pointerEvents="none">
           <TpImageFallbackView
-            width={drawnWidth}
-            height={drawnHeight}
+            width={layout.width}
+            height={layout.height}
             label={semanticLabel}
             fallback={fallback}
             borderRadius={borderRadius}
@@ -222,6 +180,7 @@ function TpImageFallbackView({
   const { colors, text } = useTpTheme();
   const letter = (label ?? '').trim();
   const size = Math.min(Math.max((width ?? height ?? 40) * 0.7, 16), 48);
+
   return (
     <View
       accessibilityLabel={label}
