@@ -73,7 +73,6 @@ export function TpTextField({
     : enabled
     ? colors.outline
     : colors.outlineVariant;
-  const borderWidth = focused || hasError ? 1.5 : 1;
   const error = tpFieldError(errorText);
   const multiline = !obscureText && maxLines > 1;
 
@@ -94,7 +93,6 @@ export function TpTextField({
             minHeight: multiline ? height : undefined,
             backgroundColor: colors.surface,
             borderColor,
-            borderWidth,
             opacity: enabled ? 1 : 0.7,
           },
         ]}
@@ -160,12 +158,15 @@ export function TpTextField({
 const styles = StyleSheet.create({
   box: {
     borderRadius: tpCorners.xs,
-    paddingHorizontal: tpSpacing.sm,
+    paddingHorizontal: tpSpacing.md,
     flexDirection: 'row',
     alignItems: 'center',
+    borderWidth: 1,
+    overflow: 'hidden',
   },
   input: {
     flex: 1,
+    alignSelf: 'stretch',
     paddingVertical: 0,
     paddingHorizontal: 0,
     margin: 0,
