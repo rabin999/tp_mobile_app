@@ -6,7 +6,7 @@ muted text) live on `TpColorTokens` / `useTpTheme().colors` because React
 Native has no Material `ColorScheme` type.
 
 `tpColors.light` is the observed web mobile palette. `tpColors.dark` is
-**proposed** (web had no night UI). Brand cyan stays a fill in both.
+**proposed** (web had no night UI). Brand cyan is `primary` in both palettes.
 
 ## Color (light)
 
@@ -37,8 +37,9 @@ this table drifts.
 **Observed:** MobileProvider assigned black text to `warning.main` and white to
 `secondary.main`.
 
-**Normalized:** Color roles use real meaning (`error` is danger, not a text
-color). Cyan is not running paragraph text. Section chrome labels may use `primary`.
+**Kit:** Color roles use real meaning (`error` is danger, not a text
+color). Use `primary` where the web mobile page uses it (fills, headings,
+brand spans). Section chrome labels may use `primary`.
 
 ## Type
 

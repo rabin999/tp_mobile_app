@@ -105,7 +105,7 @@ export function tpGuestNavDrawerSections({
     },
     {
       title: 'Help',
-      items: [{ label: 'FAQ', icon: 'help' }],
+      items: [{ label: 'FAQ', icon: 'help', active: active('FAQ') }],
     },
     {
       title: 'Legal',

@@ -2,7 +2,7 @@
 
 ## Project
 
-True Professional is a React Native mobile application targeting Android and iOS. The app boots into the `Tp*` kit gallery. The guest drawer opens Contact Us (`src/features/contact/`) and the public pages in `src/features/public/` (About Us, Privacy Policy, Terms & Conditions, Community Guidelines). Contact talks to the local API at port `4500` through `src/core/http/`.
+True Professional is a React Native mobile application targeting Android and iOS. The app boots into the `Tp*` kit gallery. The guest drawer opens Contact Us (`src/features/contact/`), Log in (`src/features/login/`), and the public pages in `src/features/public/` (About Us, FAQ, Privacy Policy, Terms & Conditions, Community Guidelines). Contact and login talk to the local API at port `4500` through `src/core/http/`. Login does not persist a session.
 
 Web **mobile** UI at `localhost:3001` (`?viewport=mb`) plus that source tree is the spec for product behavior. Convert features per [`rules/web.md`](rules/web.md). Do not use desktop web.
 
@@ -73,7 +73,8 @@ src/
   ui/overlay/                       OverlayHost (snackbars / sheets)
   ui/gallery/                       Design-system gallery (launch surface)
   features/contact/                 Contact Us form, topics, channels
-  features/public/                  About Us, terms, privacy, community guidelines
+  features/login/                   Sign-in form (no session)
+  features/public/                  About Us, FAQ, terms, privacy, community guidelines
   core/http/                        Shared fetch + API error mapping
   core/errors/                      Application error boundary
   core/logging/                     Application logging boundary

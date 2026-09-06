@@ -3,6 +3,7 @@ import type { SvgProps } from 'react-native-svg';
 
 import iconEnvelope from '../../../assets/icons/envelope.svg';
 import iconFilter from '../../../assets/icons/filter.svg';
+import iconHelpCenter from '../../../assets/icons/helpCenter.svg';
 import iconGps from '../../../assets/icons/gps.svg';
 import iconHome from '../../../assets/icons/home-run.svg';
 import iconGoogle from '../../../assets/icons/icons8-google.svg';
@@ -15,6 +16,7 @@ import iconRegister from '../../../assets/icons/register.svg';
 import iconReport from '../../../assets/icons/report_flag.svg';
 import iconTasks from '../../../assets/icons/service-list.svg';
 import iconWhatsapp from '../../../assets/icons/whatsapp.svg';
+import activeSupport from '../../../assets/images/activeSupport.png';
 import communicate from '../../../assets/images/communicate.png';
 import empty from '../../../assets/images/empty.png';
 import howItStarted from '../../../assets/images/howItStarted.png';
@@ -45,7 +47,9 @@ export const tpAssets = {
   iconPhoneAlt,
   iconWhatsapp,
   iconEnvelope,
+  iconHelpCenter,
   empty,
+  activeSupport,
   notFound,
   error,
   mail,

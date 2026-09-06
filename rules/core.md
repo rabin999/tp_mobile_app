@@ -11,7 +11,7 @@ Understand the intended behavior, dependents, edge cases, and failure modes befo
 | Question | Authority |
 | --- | --- |
 | What should it do? | Product requirements, then **web mobile** business behavior (states, validation, permissions, calculations, workflows). Do not invent or drop rules. Do not take desktop web. |
-| How should mobile look? | `Tp*` components + `src/ui/theme/`. App-like chrome is allowed; stay consistent across screens ([ui.md](ui.md)). |
+| How should mobile look? | **Web mobile** layout (alignment, grouping, hierarchy, type, color as they appear), painted with `Tp*` + `src/ui/theme/`. Do not restyle a page into different chrome ([ui.md](ui.md)). |
 | How should TypeScript be written? | Prettier + `tsconfig.json` + ESLint (`@react-native`) + [structure.md](structure.md). |
 | How did web implement it? | **Web mobile only.** Protocol: [web.md](web.md). Do not port React DOM/MUI/debt. |
 | What does the API accept and return? | **Swagger.** Do not inspect API packages or validators. Use API source types only when Swagger does not document them. |

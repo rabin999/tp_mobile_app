@@ -24,6 +24,7 @@ Automatic retry only for calls that are safe to repeat. Back off in code if you 
 | --- | --- | --- |
 | `GET /general-feedbacks/topics/get-all` | Yes (idempotent read) | No auto-retry. User taps Try again (`useContactTopics.retry`). |
 | `POST /general-feedbacks` | No | No auto-retry. Disable double-submit (`sendingRef` / button loading). |
+| `POST /auth/login` | No | No auto-retry. Disable double-submit (`sendingRef` / button loading). |
 
 A later typeahead GET may retry with backoff. A later checkout POST must not. User-initiated retry is always allowed.
 
@@ -41,4 +42,4 @@ There is no WebSocket, SSE, or background poll. When a persistent connection is 
 
 ## Verify
 
-Timeouts: `__tests__/core/http/http.test.ts`. Cancel: Contact leave-while-sending. User retry: `__tests__/features/contact/useContact.test.ts`.
+Timeouts: `__tests__/core/http/http.test.ts`. Cancel: Contact and login leave-while-sending. User retry: `__tests__/features/contact/useContact.test.ts`. Login offline / timeout / API down: `__tests__/features/login/submitLogin.test.ts` and `useLogin.test.ts`.

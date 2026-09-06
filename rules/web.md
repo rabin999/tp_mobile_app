@@ -18,10 +18,11 @@ follow the **mobile** branch (mobile props, `mb` tree), not the desktop one.
 
 | From web mobile (keep) | Not from web (do not port) |
 | --- | --- |
-| Business rules, validation, permissions, calculations, workflows | React DOM, MUI slot names, CSS, page-sized widgets |
+| Business rules, validation, permissions, calculations, workflows | React DOM, MUI slot names, CSS files, page-sized web widgets |
+| Layout: alignment, grouping, hierarchy, spacing, type and color as they appear on the **mobile** page | Desktop chrome, desktop toasts, another page’s layout as a template |
 | Features: what the user can do, in what order, with what outcomes | Web file trees, hook names, class names |
-| States: empty, loading, error, disabled, success, partial, retry | Desktop chrome, desktop toasts, marketing-page layout as a template |
-| Copy, fields, endpoints implied by the page, shared state with other **mobile** pages | Workarounds and debt — extract the rule, not the hack |
+| States: empty, loading, error, disabled, success, partial, retry | Workarounds and debt — extract the rule, not the hack |
+| Copy, fields, endpoints implied by the page, shared state with other **mobile** pages | |
 
 Product requirements win if they conflict with web mobile. Otherwise **do not
 invent** behavior, fields, branches, or copy web mobile does not have, and
@@ -29,8 +30,9 @@ invent** behavior, fields, branches, or copy web mobile does not have, and
 phone.”
 
 A different native approach is allowed — native pickers, kit composition,
-feature modules, density — **only if** every listed web-mobile rule still
-holds. Simplest correct implementation wins ([core.md](core.md)).
+feature modules — **only if** the web-mobile look and every listed rule still
+hold. Do not change titles, grouping, or density to “feel more native.”
+Simplest correct implementation wins ([core.md](core.md)).
 
 ## Where to look
 
@@ -58,11 +60,12 @@ Do not write mobile code, and do not lock a folder layout, until 1–4 are done.
    and do not look at desktop to guess.
 5. **Plan.** Where each listed rule lives on native (view vs helper vs core),
    which `Tp*` pieces, which feature modules, which API contract (Swagger).
-   Record kit-level look divergences in [ui.md](ui.md) /
+   Do not invent a different layout. Platform-only constraints (keyboard
+   inset, OverlayHost, dark palette) live in [ui.md](ui.md) /
    `docs/design-system/decisions.md` — not as comments in the screen.
 6. **Implement** that plan. Verify the listed behaviors, including empty /
    loading / error / disabled ([core.md](core.md) § Verify).
 
-Layout and chrome (titles, grouping, Contact as an app screen): [ui.md](ui.md).
+Layout: [ui.md](ui.md) (kit paint, not a restyle license).
 Layers and kit composition: [architecture.md](architecture.md).
 Which other rule files to open: [index.md](index.md).

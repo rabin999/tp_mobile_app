@@ -14,7 +14,7 @@ Unpublished helpers (do not import from features): `tpFieldError.ts`,
 | Component | Variants / states |
 | --- | --- |
 | `TpButton` | filled / outlined / text × standard / compact × primary / danger / neutral × loading / disabled |
-| `TpIconButton` | 48dp target, tooltip + semantics |
+| `TpIconButton` | 44 layout, 48dp tap via hitSlop, tooltip + semantics |
 | `TpSocialButton` | Google outlined, Facebook filled. Visual only, no OAuth |
 | `TpOverflowMenu` | noun-dots trigger |
 | `TpFilterIconButton` | optional count badge on the control's top-right corner |
@@ -26,7 +26,7 @@ Unpublished helpers (do not import from features): `tpFieldError.ts`,
 | Component | Notes |
 | --- | --- |
 | `TpTextField` | default / focused / disabled / error, 44 / compact 40, value 16 |
-| `TpPasswordField` | visibility toggle |
+| `TpPasswordField` | visibility toggle on the trailing edge |
 | `TpSearchField` | idle / loading |
 | `TpSelect` | controlled dropdown |
 | `TpCheckbox` | optional label, 48dp |

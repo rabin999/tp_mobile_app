@@ -4,7 +4,9 @@
 export const appRouter = {
   gallery: '/',
   contact: '/contact',
+  login: '/login',
   about: '/about',
+  faq: '/support',
   privacy: '/privacy-policy',
   terms: '/terms-and-conditions',
   communityGuidelines: '/community-guidelines',
@@ -15,7 +17,9 @@ export type AppRoute = keyof typeof appRouter;
 const drawerLabelByRoute: Record<AppRoute, string> = {
   gallery: 'Home',
   contact: 'Contact',
+  login: 'Log in',
   about: 'About Us',
+  faq: 'FAQ',
   privacy: 'Privacy Policy',
   terms: 'Terms & Conditions',
   communityGuidelines: 'Community Guidelines',
@@ -25,6 +29,7 @@ const routeByDrawerLabel: Partial<Record<string, AppRoute>> = {
   Home: 'gallery',
   Contact: 'contact',
   'About Us': 'about',
+  FAQ: 'faq',
   'Privacy Policy': 'privacy',
   'Terms & Conditions': 'terms',
   'Community Guidelines': 'communityGuidelines',

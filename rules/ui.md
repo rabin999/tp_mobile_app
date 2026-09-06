@@ -2,7 +2,7 @@
 
 Load when changing components, screens, theme, tokens, copy, or accessibility.
 
-Values live in code. This file records **why** we diverged from **web mobile** (not desktop). Conversion sequence: [web.md](web.md). Which files to open: [index.md](index.md).
+Values live in code. This file is kit composition and platform constraints (keyboard, OverlayHost, dark palette). It is **not** a license to restyle a web-mobile page. Conversion sequence: [web.md](web.md). Which files to open: [index.md](index.md).
 
 | Kind | Where |
 | --- | --- |
@@ -40,15 +40,14 @@ A `Tp*` file **renders**. Size, decode, URL, and validation policy live in a nam
 
 ## Decisions vs web (keep these)
 
-- **Light and dark.** Web mobile had no dark UI; we still ship both palettes so the app can follow system appearance or a later user setting. Components read `useTpTheme()`, not light-only statics. Cyan stays a **fill**, not running paragraph text (`src/app/theme.ts`, `src/app/App.tsx`, `src/ui/theme/tpTheme.tsx`). Marketing section labels next to the 40×3 cyan bar use `colors.primary` at 16px/700 (observed on Contact / About / Client Stories).
+- **Light and dark.** Web mobile had no dark UI; we still ship both palettes so the app can follow system appearance or a later user setting. Components read `useTpTheme()`, not light-only statics (`src/app/theme.ts`, `src/app/App.tsx`, `src/ui/theme/tpTheme.tsx`). Use color roles as they appear on the web mobile page: if the page uses primary on a heading or brand span, use `colors.primary`. Marketing section labels next to the 40×3 cyan bar use `colors.primary` at 16px/700 (observed on Contact / About / Client Stories).
 - **Semantic color roles.** Web MUI slots were misnamed (`warning.main` was black text, `secondary.main` was white). Roles here mean what they say. Extra tones (success, warning, info, link, cream, muted) live on `TpColorTokens`, not jammed into `secondary`.
 - **Halant only for display.** Web mixed heading fonts. `tpTypography` reserves Halant for `displayLarge` / `displayMedium`. `displayMedium` is the observed 26px Halant section subhead (`#3C424F`).
 - **Dropped the 14px corner outlier.** Web had a one-off 14px surface radius. Use `tpCorners` — do not reintroduce 14.
 - **Buttons: elevation 0, no `textTransform`.** Web theme zeroed button shadows; we kept that. Heights come from `tpSizes`, not a second scale.
 - **Controls are 44 / compact 40, field type is 16.** Web MUI small was ~40px / 14px. Material and Android want 16sp input type and a 48dp min tap. Default `tpSizes.control` is 44; compact is 40. Field values use `tpSizes.inputFont`, not `bodyLarge` (14). Do not pass `size="compact"` on public forms unless the screen is dense on purpose.
-- **Form actions.** Lone submit is centered at content width (`TpFormActions`). Web contact uses `CustomLoadingButton` at 90% width; we keep intrinsic width (product request) but still center it. Cancel + primary is Cancel left, filled primary right — same as web confirm / filter footers. Do not left-align a single submit (`TpButton` `alignSelf: 'flex-start'` will do that inside a column).
+- **Form actions.** Lone submit is centered (`TpFormActions`). Width matches web mobile (`CustomLoadingButton` at 90% → `expanded`). Cancel + primary is Cancel left, filled primary right — same as web confirm / filter footers. Do not left-align a single submit (`TpButton` `alignSelf: 'flex-start'` will do that inside a column).
 - **Filter count badge.** Web pins a 22px count at `top/right: -22` of the icon so it sits on the outlined box corner (`serviceFilterHomeAdvanceFilterNumberStyles`). Pin the badge to the 44 control's top-right corner, not the 24px glyph — otherwise it overlaps the icon.
-- **Contact is an app screen.** Web mobile Contact Us is a marketing section (40×3 cyan bar, Halant 26 subhead, stacked webpage blocks, labels above fields). The app keeps the same copy, illustration, channels, and form, but uses a Nunito screen title, body subhead, compact art, a grouped 48dp contact list, and floating field labels. Message uses `maxLines={4}` (web mobile `rows={2}`). Do not take desktop `rows`.
 - **Keyboard on edge-to-edge Android.** `adjustResize` does not shrink the window when `edgeToEdgeEnabled` is on, so the keyboard covers the form and a short page cannot scroll. Form screens use `TpKeyboardScrollView`. Do not add a one-off `KeyboardAvoidingView` in a feature.
 - **Snackbar vs inline alert.** Ignore web desktop toasts. On a phone a top-right snackbar overlaps the app bar. Enterprise mobile (Material 3, Gmail/Drive, Microsoft, Firefox Acorn): **transient snackbars float at the bottom**, inset from the edges, above the home indicator and the keyboard; **one at a time**. **Inline `TpAlert`** stays in the page below the app bar (form/page errors, states that must remain). **`TpConfirmSheet`** is for a blocking choice. Do not use a snackbar for field validation — keep `errorText` on the field.
 - **Merged duplicates on purpose:** search → `TpSearchField`; status → `TpStatusBadge`; empty/404 → `TpStatusPage` (`TpEmptyState` / `TpErrorState` are thin wrappers); images → `TpImage` (not a second fallback widget); confirms → `TpConfirmSheet`; loading → `TpSpinner` (size / color; no separate page loader). Do not add siblings.
@@ -98,10 +97,10 @@ Gate URLs with `tpImageCache.isUsableUrl`. Pass layout width/height so decode si
 
 ## Accessibility
 
-Icon-only controls: `accessibilityLabel` + `tpSizes.minTap` (`TpIconButton`). Cyan-on-white body text is not allowed. Text must wrap at ~360dp. Honor font scaling (`allowFontScaling` stays on). Overlays need a close action. Field errors stay on the field — do not replace them with a generic toast.
+Icon-only controls: `accessibilityLabel` + `tpSizes.minTap` (`TpIconButton`). Follow web-mobile text colors; do not restyle headings or brand spans away from `colors.primary` when the page uses them. Text must wrap at ~360dp. Honor font scaling (`allowFontScaling` stays on). Overlays need a close action. Field errors stay on the field — do not replace them with a generic toast.
 
 ## Screens
 
 A screen composes kit + feature components. If render cannot be scanned, extract. No API/JSON/business math in render. The gallery is not a styling API — do not copy its scaffolding into features.
 
-The product is an app, not a squeezed website. Titles, section labels, grouping, and density may change so a screen feels native — **using the kit**, so every converted page stays consistent. Do not give each feature its own title style, section pattern, or one-off padding. Product rules: [web.md](web.md).
+Match the web-mobile page: alignment, grouping, hierarchy, spacing, type, and color as they appear. Paint with `Tp*` and tokens — do not invent a different title style, grouping, or density. Do not use another screen (for example Contact) as a layout template. Product rules: [web.md](web.md).

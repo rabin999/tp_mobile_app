@@ -28,7 +28,7 @@ export async function submitContact(draft: ContactDraft, signal: AbortSignal) { 
 | --- | --- |
 | `AGENTS.md` | Agent discovery — points at `rules/core.md` then `rules/index.md` |
 | `README.md` | Install, run, verify, folder tree |
-| `docs/design-system/` | Kit contract — update when a primitive, token, or normalized behavior changes |
+| `docs/design-system/` | Kit contract — update when a primitive, token, or platform mapping changes |
 | `rules/index.md` | Map of which rule file to open |
 | `rules/` | Engineering decisions — update when a convention changes, not per feature. New conventions go here (see `modularity.md`), never into `.cursor/rules`. |
 
@@ -36,6 +36,9 @@ If a rule is wrong or cannot be followed, state the problem, proceed under a sta
 
 Do not duplicate token tables into features. Do not fork these rules into `.cursor/rules` or other tool files.
 
-Visual decision vocabulary (reuse it): **observed** / **inferred** / **normalized** / **proposed** — `docs/design-system/decisions.md`.
+Visual decision vocabulary (reuse it): **observed** / **inferred** /
+**kit** / **proposed** — `docs/design-system/decisions.md`. **kit** is
+token and platform mapping only (dark palette, OverlayHost). Do not use it
+to restyle a page away from web mobile.
 
 No ADR spam for trivial choices. If `rules/` already forces the decision, do not write a second essay in the feature file.

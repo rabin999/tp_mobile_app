@@ -10,10 +10,12 @@ test('drawer labels map to the wired guest routes', () => {
   expect(appRouteFromDrawerLabel('Community Guidelines')).toBe(
     'communityGuidelines',
   );
-  expect(appRouteFromDrawerLabel('FAQ')).toBeUndefined();
+  expect(appRouteFromDrawerLabel('FAQ')).toBe('faq');
 });
 
 test('routes map back to the drawer highlight', () => {
   expect(appDrawerLabelForRoute('about')).toBe('About Us');
   expect(appDrawerLabelForRoute('gallery')).toBe('Home');
+  expect(appDrawerLabelForRoute('login')).toBe('Log in');
+  expect(appRouteFromDrawerLabel('Log in')).toBeUndefined();
 });

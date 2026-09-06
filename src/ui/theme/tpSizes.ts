@@ -15,5 +15,5 @@ export const tpSizes = {
   minTap: 48,
   avatar: 40,
   avatarSm: 32,
-  feedbackArt: 280,
+  feedbackArt: 140,
 } as const;

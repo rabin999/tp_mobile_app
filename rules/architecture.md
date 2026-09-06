@@ -2,7 +2,7 @@
 
 Load when adding features, sharing code, choosing layers, or refactoring.
 
-Product behavior from web: [web.md](web.md). App-like chrome: [ui.md](ui.md). Which files: [index.md](index.md).
+Product behavior and layout from web: [web.md](web.md). Kit: [ui.md](ui.md). Which files: [index.md](index.md).
 
 ## Composition root
 

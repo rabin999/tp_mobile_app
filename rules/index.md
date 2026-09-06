@@ -41,7 +41,7 @@ One topic, one file. Other files **link** here; they do not restate the protocol
 | Layers, composition root, OverlayHost, packages, app-wide stores | [architecture.md](architecture.md) |
 | One job per file, reuse, lazy load, global vs local as **code** | [modularity.md](modularity.md) |
 | Names, folders, imports, format, assets | [structure.md](structure.md) |
-| Kit, tokens, a11y, copy, app-like chrome (titles, grouping) | [ui.md](ui.md) |
+| Kit, tokens, a11y, copy | [ui.md](ui.md) |
 | Swagger, DTO mapping, error types, loading/empty UX | [api.md](api.md) |
 | Client timeouts, pooling, retry class, abort | [network.md](network.md) |
 | JS thread, lists, decode size, startup | [performance.md](performance.md) |

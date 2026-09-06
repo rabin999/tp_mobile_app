@@ -96,6 +96,7 @@ export function TpTextField({
             height: multiline ? undefined : boxHeight,
             minHeight: multiline ? boxHeight : undefined,
             paddingVertical: multiline ? tpSpacing.xs : 0,
+            paddingRight: suffix != null ? 0 : tpSpacing.md,
             alignItems: multiline ? 'flex-start' : 'center',
             backgroundColor: colors.surface,
             borderColor,
@@ -164,7 +165,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    overflow: 'hidden',
   },
   input: {
     flex: 1,
@@ -179,7 +179,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   suffix: {
-    marginLeft: tpSpacing.xs,
+    width: tpSizes.control,
+    alignSelf: 'stretch',
     alignItems: 'center',
     justifyContent: 'center',
   },

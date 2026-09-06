@@ -53,8 +53,9 @@ test('keyboard open raises the snackbar', async () => {
     emitKeyboardDidShow(320, 500);
   });
 
-  const after = StyleSheet.flatten(screen.getByTestId('tp-snackbar').props.style)
-    .bottom as number;
+  const after = StyleSheet.flatten(
+    screen.getByTestId('tp-snackbar').props.style,
+  ).bottom as number;
 
   expect(after).toBeGreaterThan(before);
   expect(after).toBe(tpSnackbarBottomInset(320, 0));

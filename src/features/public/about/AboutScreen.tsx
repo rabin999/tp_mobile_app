@@ -1,22 +1,20 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { TpIllustration } from '../../../ui/components/content/TpIllustration';
 import { tpAssets } from '../../../ui/theme/tpAssets';
 import { tpCorners } from '../../../ui/theme/tpCorners';
 import { tpNunito } from '../../../ui/theme/tpFonts';
 import { tpSpacing } from '../../../ui/theme/tpSpacing';
 import { useTpTheme } from '../../../ui/theme/tpTheme';
-import { PublicBulletList } from '../PublicBulletList';
-import { PublicScreen, PublicSection } from '../PublicScreen';
-import { PublicSectionHeader } from '../PublicSectionHeader';
+import { PublicPageArt } from '../PublicPageArt';
+import { PublicScreen } from '../PublicScreen';
+import { AboutSectionHeader } from './AboutSectionHeader';
+import { AboutValueCard } from './AboutValueCard';
 import {
   aboutIntroBody,
   aboutIntroHighlight,
   aboutOurServices,
   aboutValuePropositions,
   aboutValues,
-  type AboutValue,
 } from './aboutContent';
 import { aboutText } from './aboutText';
 
@@ -36,13 +34,17 @@ export function AboutScreen() {
 
 function Hero() {
   return (
-    <PublicSection>
-      <PublicSectionHeader
-        title={aboutText.heroLabel}
-        subtitle={aboutText.heroTitle}
+    <View style={styles.section}>
+      <AboutSectionHeader
+        label={aboutText.heroLabel}
+        title={aboutText.heroTitle}
       />
-      <PageArt source={tpAssets.telecommuting} label={aboutText.heroArtLabel} />
-    </PublicSection>
+      <PublicPageArt
+        source={tpAssets.telecommuting}
+        label={aboutText.heroArtLabel}
+        radius={tpCorners.xs}
+      />
+    </View>
   );
 }
 
@@ -50,166 +52,160 @@ function Introduction() {
   const { colors, text } = useTpTheme();
 
   return (
-    <PublicSection>
-      <PublicSectionHeader
-        title={aboutText.introLabel}
-        subtitle={aboutText.introTitle}
+    <View style={styles.section}>
+      <AboutSectionHeader
+        label={aboutText.introLabel}
+        title={aboutText.introTitle}
       />
-      <PageArt source={tpAssets.howItStarted} label={aboutText.introArtLabel} />
-      <Text style={[text.bodyLarge, { color: colors.onSurfaceVariant }]}>
+      <PublicPageArt
+        source={tpAssets.howItStarted}
+        label={aboutText.introArtLabel}
+        marginBottom={tpSpacing.lg}
+      />
+      <Text
+        style={[
+          text.bodyLarge,
+          styles.body,
+          { color: colors.textMuted, marginBottom: tpSpacing.sm },
+        ]}
+      >
         {aboutIntroBody}
       </Text>
       <Text
         style={[
           text.bodyLarge,
           tpNunito('700'),
+          styles.body,
           styles.highlight,
           {
-            color: colors.onSurfaceVariant,
+            color: colors.textMuted,
             borderLeftColor: colors.primary,
           },
         ]}
       >
         {aboutIntroHighlight}
       </Text>
-    </PublicSection>
+    </View>
   );
 }
 
 function Values() {
   return (
-    <PublicSection>
-      <PublicSectionHeader
-        title={aboutText.valuesLabel}
-        subtitle={aboutText.valuesTitle}
+    <View style={styles.section}>
+      <AboutSectionHeader
+        label={aboutText.valuesLabel}
+        title={aboutText.valuesTitle}
       />
       {aboutValues.map(value => (
-        <ValueRow key={value.number} value={value} />
+        <AboutValueCard key={value.number} value={value} />
       ))}
-    </PublicSection>
+    </View>
   );
 }
 
 function Offerings() {
   return (
-    <PublicSection>
-      <PublicSectionHeader
-        title={aboutText.offeringsLabel}
-        subtitle={aboutText.offeringsTitle}
+    <View style={[styles.section, styles.offerings]}>
+      <AboutSectionHeader
+        label={aboutText.offeringsLabel}
+        title={aboutText.offeringsTitle}
       />
-      <BulletGroup
+      <MissionCard
         title={aboutText.valuePropositionsTitle}
         items={aboutValuePropositions}
       />
-      <BulletGroup title={aboutText.servicesTitle} items={aboutOurServices} />
-    </PublicSection>
-  );
-}
-
-function PageArt({
-  source,
-  label,
-}: {
-  source: ImageSourcePropType;
-  label: string;
-}) {
-  const [artWidth, setArtWidth] = useState(0);
-
-  return (
-    <View
-      accessible
-      accessibilityRole="image"
-      accessibilityLabel={label}
-      style={styles.art}
-      onLayout={event => setArtWidth(event.nativeEvent.layout.width)}
-    >
-      {artWidth > 0 ? (
-        <TpIllustration source={source} width={artWidth} height={220} />
-      ) : null}
+      <MissionCard title={aboutText.servicesTitle} items={aboutOurServices} />
     </View>
   );
 }
 
-function ValueRow({ value }: { value: AboutValue }) {
-  const { colors, text } = useTpTheme();
-
-  return (
-    <View style={styles.valueRow}>
-      <View
-        style={[styles.badge, { backgroundColor: colors.primaryContainer }]}
-      >
-        <Text style={[text.titleLarge, { color: colors.primary }]}>
-          {value.number}
-        </Text>
-      </View>
-      <View style={styles.valueCopy}>
-        <Text style={[text.headlineSmall, { color: colors.onSurfaceVariant }]}>
-          {value.title}
-        </Text>
-        <Text style={[text.bodyLarge, { color: colors.onSurfaceVariant }]}>
-          {value.description}
-        </Text>
-      </View>
-    </View>
-  );
-}
-
-function BulletGroup({
+function MissionCard({
   title,
   items,
 }: {
   title: string;
   items: readonly string[];
 }) {
-  const { colors, text } = useTpTheme();
+  const { colors, text, brightness } = useTpTheme();
+  const bulletColor =
+    brightness === 'dark' ? colors.primary : colors.switchTrackOff;
 
   return (
     <View
       style={[
-        styles.group,
+        styles.mission,
         {
           borderColor: colors.outline,
           backgroundColor: colors.surface,
         },
       ]}
     >
-      <Text style={[text.headlineSmall, { color: colors.onSurfaceVariant }]}>
+      <Text
+        style={[
+          text.headlineSmall,
+          styles.missionTitle,
+          { color: colors.onSurfaceVariant },
+        ]}
+      >
         {title}
       </Text>
-      <PublicBulletList items={items} />
+      {items.map(item => (
+        <View key={item} style={styles.bulletRow}>
+          <Text style={[styles.bullet, { color: bulletColor }]}>•</Text>
+          <Text
+            style={[
+              text.bodyLarge,
+              styles.bulletCopy,
+              { color: colors.textMuted },
+            ]}
+          >
+            {item}
+          </Text>
+        </View>
+      ))}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  art: {
-    width: '100%',
-    height: 220,
+  section: {
+    paddingHorizontal: tpSpacing.md,
+    paddingVertical: tpSpacing.xl,
+  },
+  offerings: {
+    paddingBottom: 40,
+  },
+  body: {
+    lineHeight: 24,
   },
   highlight: {
-    paddingLeft: tpSpacing.sm,
-    borderLeftWidth: tpSpacing.xxs,
+    paddingLeft: 10,
+    borderLeftWidth: 4,
   },
-  valueRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: tpSpacing.sm,
-  },
-  badge: {
-    width: 36,
-    height: 36,
-    borderRadius: tpCorners.full,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  valueCopy: {
-    flex: 1,
-    gap: tpSpacing.xxs,
-  },
-  group: {
+  mission: {
     borderWidth: 1,
     borderRadius: tpCorners.xs,
-    padding: tpSpacing.md,
-    gap: tpSpacing.sm,
+    paddingVertical: 28,
+    paddingHorizontal: tpSpacing.xl,
+    marginBottom: tpSpacing.md,
+  },
+  missionTitle: {
+    marginBottom: tpSpacing.sm,
+  },
+  bulletRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: tpSpacing.xs,
+    paddingLeft: 4,
+  },
+  bullet: {
+    width: 24,
+    fontSize: 29,
+    lineHeight: 24,
+    marginTop: -4,
+  },
+  bulletCopy: {
+    flex: 1,
+    lineHeight: 24,
   },
 });

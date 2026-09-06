@@ -41,6 +41,12 @@ const CommunityGuidelinesScreen = lazy(() =>
     default: module.CommunityGuidelinesScreen,
   })),
 );
+const FaqScreen = lazy(() => import('../features/public/faq/FaqScreen'));
+const LoginScreen = lazy(() =>
+  import('../features/login/LoginScreen').then(module => ({
+    default: module.LoginScreen,
+  })),
+);
 
 /**
  * Mounts theme, overlay, guest chrome, and the active screen.
@@ -92,19 +98,34 @@ function AppShell() {
           }
         }}
         onClose={() => setDrawerOpen(false)}
-        onLogin={() => setDrawerOpen(false)}
+        onLogin={() => {
+          setDrawerOpen(false);
+          setRoute('login');
+        }}
         onSignup={() => setDrawerOpen(false)}
       />
-      <GuestScreen route={route} />
+      <GuestScreen onHome={goHome} route={route} />
       <OverlayHost />
     </View>
   );
 }
 
-function GuestScreen({ route }: { route: AppRoute }) {
+function GuestScreen({
+  onHome,
+  route,
+}: {
+  onHome: () => void;
+  route: AppRoute;
+}) {
   switch (route) {
     case 'contact':
       return <ContactScreen />;
+    case 'login':
+      return (
+        <LazyPage>
+          <LoginScreen onSignedIn={onHome} />
+        </LazyPage>
+      );
     case 'about':
       return (
         <LazyPage>
@@ -127,6 +148,12 @@ function GuestScreen({ route }: { route: AppRoute }) {
       return (
         <LazyPage>
           <CommunityGuidelinesScreen />
+        </LazyPage>
+      );
+    case 'faq':
+      return (
+        <LazyPage>
+          <FaqScreen />
         </LazyPage>
       );
     default:
