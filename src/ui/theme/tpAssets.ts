@@ -2,11 +2,15 @@ import type { ComponentType } from 'react';
 import type { SvgProps } from 'react-native-svg';
 
 import iconEnvelope from '../../../assets/icons/envelope.svg';
+import iconFacebook from '../../../assets/icons/icons8-facebook-logo.svg';
 import iconFilter from '../../../assets/icons/filter.svg';
+import iconGmail from '../../../assets/icons/icons8-gmail.svg';
 import iconHelpCenter from '../../../assets/icons/helpCenter.svg';
 import iconGps from '../../../assets/icons/gps.svg';
 import iconHome from '../../../assets/icons/home-run.svg';
 import iconGoogle from '../../../assets/icons/icons8-google.svg';
+import iconInstagram from '../../../assets/icons/icons8-instagram-logo.svg';
+import iconLinkedin from '../../../assets/icons/icons8-linkedin.svg';
 import iconMember from '../../../assets/icons/member.svg';
 import iconOverflow from '../../../assets/icons/nounDots.svg';
 import iconPhoneAlt from '../../../assets/icons/phone-alt.svg';
@@ -15,6 +19,7 @@ import iconProfile from '../../../assets/icons/profile.svg';
 import iconRegister from '../../../assets/icons/register.svg';
 import iconReport from '../../../assets/icons/report_flag.svg';
 import iconTasks from '../../../assets/icons/service-list.svg';
+import iconTiktok from '../../../assets/icons/tiktok.svg';
 import iconWhatsapp from '../../../assets/icons/whatsapp.svg';
 import activeSupport from '../../../assets/images/activeSupport.png';
 import communicate from '../../../assets/images/communicate.png';
@@ -44,6 +49,11 @@ export const tpAssets = {
   iconGps,
   iconReport,
   iconGoogle,
+  iconFacebook,
+  iconInstagram,
+  iconTiktok,
+  iconLinkedin,
+  iconGmail,
   iconPhoneAlt,
   iconWhatsapp,
   iconEnvelope,

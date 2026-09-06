@@ -74,4 +74,5 @@ family and weight stay paired. Product SVGs under `assets/icons/`
 and `assets/images/`. Kit glyphs (Close, Search, Menu, Star) are small SVG
 paths in unpublished `TpGlyph` — not a vector-icon package, and not a
 public `Tp*` export. Tinted product SVGs use `currentColor` via
-`TpSvgIcon` `color` (Flutter `ColorFilter.srcIn`).
+`TpSvgIcon` `color` (Flutter `ColorFilter.srcIn`). Omit `color` for
+multi-fill brand marks so official paints stay.

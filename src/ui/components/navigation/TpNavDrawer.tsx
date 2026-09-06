@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { tpAssets } from '../../theme/tpAssets';
 import { tpCorners } from '../../theme/tpCorners';
 import { tpNunito } from '../../theme/tpFonts';
 import { tpSizes } from '../../theme/tpSizes';
@@ -19,6 +20,7 @@ import { TpAvatar } from '../content/TpAvatar';
 import { TpChip } from '../content/TpChip';
 import { TpGlyph, type TpGlyphName } from '../content/TpGlyph';
 import { TpRating } from '../content/TpRating';
+import { TpSvgIcon } from '../content/TpSvgIcon';
 import { TpVerificationBadge } from '../content/TpVerificationBadge';
 import { TpLogo } from './TpLogo';
 
@@ -189,27 +191,27 @@ export function TpNavDrawer({
             {
               width: drawerWidth,
               backgroundColor: colors.surface,
-              paddingTop: insets.top,
-              paddingBottom: insets.bottom,
             },
           ]}
         >
-          <DrawerHeader closeTooltip={closeTooltip} onClose={onClose} />
-          <View style={styles.authPad}>
-            {profile == null ? (
-              <GuestAuth
-                loginLabel={loginLabel}
-                signupLabel={signupLabel}
-                onLogin={onLogin}
-                onSignup={onSignup}
-              />
-            ) : (
-              <AuthedHeader profile={profile} />
-            )}
-          </View>
-          <View
-            style={[styles.sectionRule, { backgroundColor: colors.divider }]}
+          <DrawerHeader
+            closeTooltip={closeTooltip}
+            onClose={onClose}
+            paddingTop={insets.top + tpSpacing.sm}
           />
+          {profile != null ? (
+            <>
+              <View style={styles.authPad}>
+                <AuthedHeader profile={profile} />
+              </View>
+              <View
+                style={[
+                  styles.sectionRule,
+                  { backgroundColor: colors.divider },
+                ]}
+              />
+            </>
+          ) : null}
           <ScrollView
             style={styles.flex}
             contentContainerStyle={styles.listPad}
@@ -263,7 +265,28 @@ export function TpNavDrawer({
               </>
             ) : null}
           </ScrollView>
-          <DrawerFooter copyright={copyright ?? tpCopyrightNotice()} />
+          {profile == null ? (
+            <View
+              style={[
+                styles.authPad,
+                {
+                  borderTopWidth: 1,
+                  borderTopColor: colors.outlineVariant,
+                },
+              ]}
+            >
+              <GuestAuth
+                loginLabel={loginLabel}
+                signupLabel={signupLabel}
+                onLogin={onLogin}
+                onSignup={onSignup}
+              />
+            </View>
+          ) : null}
+          <DrawerFooter
+            copyright={copyright ?? tpCopyrightNotice()}
+            paddingBottom={insets.bottom + tpSpacing.sm}
+          />
         </View>
       </View>
     </Modal>
@@ -273,14 +296,21 @@ export function TpNavDrawer({
 function DrawerHeader({
   closeTooltip,
   onClose,
+  paddingTop,
 }: {
   closeTooltip: string;
   onClose?: () => void;
+  paddingTop: number;
 }) {
   const { colors } = useTpTheme();
 
   return (
-    <View style={[styles.header, { borderBottomColor: colors.outlineVariant }]}>
+    <View
+      style={[
+        styles.header,
+        { borderBottomColor: colors.outlineVariant, paddingTop },
+      ]}
+    >
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={closeTooltip}
@@ -447,25 +477,45 @@ function DrawerRow({
   );
 }
 
-function DrawerFooter({ copyright }: { copyright: string }) {
+function DrawerFooter({
+  copyright,
+  paddingBottom,
+}: {
+  copyright: string;
+  paddingBottom: number;
+}) {
   const { colors, text } = useTpTheme();
-  const iconColor = colors.onSurfaceVariant;
+  const mark = tpSizes.icon;
 
   return (
-    <View style={[styles.footer, { borderTopColor: colors.outlineVariant }]}>
+    <View
+      style={[
+        styles.footer,
+        { borderTopColor: colors.outlineVariant, paddingBottom },
+      ]}
+    >
       <View style={styles.social}>
-        <TpGlyph name="facebook" size={tpSizes.iconSm} color={iconColor} />
+        <TpSvgIcon source={tpAssets.iconFacebook} size={mark} />
         <View style={styles.socialGap} />
-        <TpGlyph name="camera" size={tpSizes.iconSm} color={iconColor} />
+        <TpSvgIcon source={tpAssets.iconInstagram} size={mark} />
         <View style={styles.socialGap} />
-        <TpGlyph name="music" size={tpSizes.iconSm} color={iconColor} />
+        <TpSvgIcon source={tpAssets.iconTiktok} size={mark} />
         <View style={styles.socialGap} />
-        <TpGlyph name="work" size={tpSizes.iconSm} color={iconColor} />
+        <TpSvgIcon source={tpAssets.iconLinkedin} size={mark} />
         <View style={styles.socialGap} />
-        <TpGlyph name="mail" size={tpSizes.iconSm} color={iconColor} />
+        <TpSvgIcon source={tpAssets.iconGmail} size={mark} />
       </View>
       <View style={styles.copyGap} />
-      <Text style={[text.bodySmall, { color: colors.textSecondary }]}>
+      <Text
+        style={[
+          text.bodySmall,
+          {
+            fontSize: 14,
+            lineHeight: 20,
+            color: colors.textSecondary,
+          },
+        ]}
+      >
         {copyright}
       </Text>
     </View>
@@ -475,8 +525,6 @@ function DrawerFooter({ copyright }: { copyright: string }) {
 const styles = StyleSheet.create({
   modalRoot: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
   },
   scrim: {
     position: 'absolute',
@@ -487,10 +535,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.4)',
   },
   panel: {
-    height: '100%',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
     borderTopLeftRadius: tpCorners.md,
     borderBottomLeftRadius: tpCorners.md,
     overflow: 'hidden',
+    borderCurve: 'circular',
   },
   header: {
     flexDirection: 'row',
@@ -498,7 +550,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingLeft: tpSpacing.md - 12,
     paddingRight: tpSpacing.md,
-    paddingVertical: tpSpacing.sm,
+    paddingBottom: tpSpacing.sm,
   },
   close: {
     width: tpSizes.control,
@@ -570,10 +622,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   socialGap: {
-    width: tpSpacing.sm,
+    width: tpSpacing.md,
   },
   copyGap: {
-    height: 6,
+    height: tpSpacing.md,
   },
   profileCard: {
     borderRadius: tpCorners.xs,

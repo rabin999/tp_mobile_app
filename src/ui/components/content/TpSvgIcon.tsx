@@ -36,9 +36,8 @@ export function TpSvgIcon({
       <Icon
         width={size}
         height={size}
-        color={color}
-        fill={color}
         preserveAspectRatio="xMidYMid meet"
+        {...(color != null ? { color, fill: color } : {})}
       />
     </View>
   );
