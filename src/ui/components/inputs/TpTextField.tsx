@@ -13,6 +13,7 @@ import { tpCorners } from '../../theme/tpCorners';
 import { tpSizes } from '../../theme/tpSizes';
 import { tpSpacing } from '../../theme/tpSpacing';
 import { useTpTheme } from '../../theme/tpTheme';
+import { TpOutlinedFieldLabel } from './TpOutlinedFieldLabel';
 import { tpFieldError } from './tpFieldError';
 
 export type TpFieldSize = 'standard' | 'compact';
@@ -87,7 +88,7 @@ export function TpTextField({
   };
 
   return (
-    <View>
+    <View style={styles.root}>
       <View
         style={[
           styles.box,
@@ -102,27 +103,6 @@ export function TpTextField({
           },
         ]}
       >
-        {label != null && floated ? (
-          <View style={[styles.labelWrap, { backgroundColor: colors.surface }]}>
-            <Text
-              numberOfLines={1}
-              style={[
-                text.bodyMedium,
-                {
-                  color: hasError
-                    ? colors.error
-                    : focused
-                    ? colors.primary
-                    : colors.textHint,
-                  fontSize: 12,
-                  lineHeight: 16,
-                },
-              ]}
-            >
-              {label}
-            </Text>
-          </View>
-        ) : null}
         {prefix != null ? <View style={styles.prefix}>{prefix}</View> : null}
         <TextInput
           value={value}
@@ -156,6 +136,15 @@ export function TpTextField({
         />
         {suffix != null ? <View style={styles.suffix}>{suffix}</View> : null}
       </View>
+      {label != null && floated ? (
+        <TpOutlinedFieldLabel
+          label={label}
+          backgroundColor={colors.surface}
+          color={
+            hasError ? colors.error : focused ? colors.primary : colors.textHint
+          }
+        />
+      ) : null}
       {error != null ? (
         <Text style={[text.bodySmall, styles.error, { color: colors.error }]}>
           {error.text}
@@ -166,6 +155,9 @@ export function TpTextField({
 }
 
 const styles = StyleSheet.create({
+  root: {
+    overflow: 'visible',
+  },
   box: {
     borderRadius: tpCorners.xs,
     paddingHorizontal: tpSpacing.md,
@@ -190,13 +182,6 @@ const styles = StyleSheet.create({
     marginLeft: tpSpacing.xs,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  labelWrap: {
-    position: 'absolute',
-    top: -8,
-    left: 12,
-    paddingHorizontal: 4,
-    zIndex: 1,
   },
   error: {
     marginTop: 4,

@@ -17,6 +17,7 @@ import { useTpTheme } from '../../theme/tpTheme';
 import { useAliveRef } from '../../useAliveRef';
 import { TpButton } from '../actions/TpButton';
 import { TpGlyph } from '../content/TpGlyph';
+import { TpOutlinedFieldLabel } from './TpOutlinedFieldLabel';
 
 export type TpDateFieldProps = {
   label: string;
@@ -82,52 +83,48 @@ export function TpDateField({
   };
 
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      disabled={!canOpen}
-      onPress={canOpen ? open : undefined}
-    >
-      <View
-        style={[
-          styles.box,
-          {
-            borderColor: enabled ? colors.outline : colors.outlineVariant,
-            backgroundColor: colors.surface,
-            opacity: enabled ? 1 : 0.7,
-          },
-        ]}
+    <View style={styles.root}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        disabled={!canOpen}
+        onPress={canOpen ? open : undefined}
       >
-        {label != null && floated ? (
-          <View style={[styles.labelWrap, { backgroundColor: colors.surface }]}>
-            <Text
-              numberOfLines={1}
-              style={[
-                text.bodyMedium,
-                { color: colors.textHint, fontSize: 12, lineHeight: 16 },
-              ]}
-            >
-              {label}
-            </Text>
-          </View>
-        ) : null}
-        <Text
-          numberOfLines={1}
+        <View
           style={[
-            text.bodyLarge,
-            styles.value,
+            styles.box,
             {
-              color: colors.textMuted,
-              fontSize: tpSizes.inputFont,
-              lineHeight: Math.round(tpSizes.inputFont * 1.4),
+              borderColor: enabled ? colors.outline : colors.outlineVariant,
+              backgroundColor: colors.surface,
+              opacity: enabled ? 1 : 0.7,
             },
           ]}
         >
-          {display.length === 0 ? label : display}
-        </Text>
-        <TpGlyph name="calendar" color={colors.onSurfaceVariant} />
-      </View>
-    </Pressable>
+          <Text
+            numberOfLines={1}
+            style={[
+              text.bodyLarge,
+              styles.value,
+              {
+                color: colors.textMuted,
+                fontSize: tpSizes.inputFont,
+                lineHeight: Math.round(tpSizes.inputFont * 1.4),
+              },
+            ]}
+          >
+            {display.length === 0 ? label : display}
+          </Text>
+          <TpGlyph name="calendar" color={colors.onSurfaceVariant} />
+        </View>
+      </Pressable>
+      {floated ? (
+        <TpOutlinedFieldLabel
+          label={label}
+          backgroundColor={colors.surface}
+          color={colors.textHint}
+        />
+      ) : null}
+    </View>
   );
 }
 
@@ -291,6 +288,9 @@ function TpDatePickerHost({
 }
 
 const styles = StyleSheet.create({
+  root: {
+    overflow: 'visible',
+  },
   box: {
     minHeight: tpSizes.control,
     borderWidth: 1,
@@ -301,13 +301,6 @@ const styles = StyleSheet.create({
   },
   value: {
     flex: 1,
-  },
-  labelWrap: {
-    position: 'absolute',
-    top: -8,
-    left: 12,
-    paddingHorizontal: 4,
-    zIndex: 1,
   },
   modalRoot: {
     flex: 1,

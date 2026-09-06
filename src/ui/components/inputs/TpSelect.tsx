@@ -14,6 +14,7 @@ import { useTpTheme } from '../../theme/tpTheme';
 import { useAliveRef } from '../../useAliveRef';
 import { showTpMenu } from '../content/TpMenu';
 import { TpGlyph } from '../content/TpGlyph';
+import { TpOutlinedFieldLabel } from './TpOutlinedFieldLabel';
 import { tpFieldError } from './tpFieldError';
 import type { TpFieldSize } from './TpTextField';
 
@@ -83,7 +84,7 @@ export function TpSelect<T>({
   };
 
   return (
-    <View>
+    <View style={styles.root}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel ?? label}
@@ -107,25 +108,6 @@ export function TpSelect<T>({
             },
           ]}
         >
-          {label != null && floated ? (
-            <View
-              style={[styles.labelWrap, { backgroundColor: colors.surface }]}
-            >
-              <Text
-                numberOfLines={1}
-                style={[
-                  text.bodyMedium,
-                  {
-                    color: hasError ? colors.error : colors.textHint,
-                    fontSize: 12,
-                    lineHeight: 16,
-                  },
-                ]}
-              >
-                {label}
-              </Text>
-            </View>
-          ) : null}
           <Text
             numberOfLines={1}
             style={[
@@ -143,6 +125,13 @@ export function TpSelect<T>({
           <TpGlyph name="arrowDropDown" color={colors.textMuted} />
         </View>
       </Pressable>
+      {label != null && floated ? (
+        <TpOutlinedFieldLabel
+          label={label}
+          backgroundColor={colors.surface}
+          color={hasError ? colors.error : colors.textHint}
+        />
+      ) : null}
       {error != null ? (
         <Text style={[text.bodySmall, styles.error, { color: colors.error }]}>
           {error.text}
@@ -153,6 +142,9 @@ export function TpSelect<T>({
 }
 
 const styles = StyleSheet.create({
+  root: {
+    overflow: 'visible',
+  },
   box: {
     minHeight: tpSizes.control,
     borderWidth: 1,
@@ -163,13 +155,6 @@ const styles = StyleSheet.create({
   },
   value: {
     flex: 1,
-  },
-  labelWrap: {
-    position: 'absolute',
-    top: -8,
-    left: 12,
-    paddingHorizontal: 4,
-    zIndex: 1,
   },
   error: {
     marginTop: 4,

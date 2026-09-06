@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import { TpTextField } from '../../src/ui/components/inputs/TpTextField';
 import { pumpWithTheme } from './pumpApp';
@@ -10,4 +10,11 @@ test('shows validation error text', async () => {
     ),
   );
   expect(screen.getByText('Enter a valid email')).toBeOnTheScreen();
+});
+
+test('floats the outline label when focused', async () => {
+  await render(pumpWithTheme(<TpTextField label="Name" hint="Your name" />));
+  await fireEvent(screen.getByPlaceholderText('Name'), 'focus');
+  expect(screen.getByText('Name')).toBeOnTheScreen();
+  expect(screen.getByPlaceholderText('Your name')).toBeOnTheScreen();
 });
