@@ -103,4 +103,4 @@ Icon-only controls: `accessibilityLabel` + `tpSizes.minTap` (`TpIconButton`). Fo
 
 A screen composes kit + feature components. If render cannot be scanned, extract. No API/JSON/business math in render. The gallery is not a styling API — do not copy its scaffolding into features.
 
-Match the web-mobile page: alignment, grouping, hierarchy, spacing, type, and color as they appear. Paint with `Tp*` and tokens — do not invent a different title style, grouping, or density. Do not use another screen (for example Contact) as a layout template. Product rules: [web.md](web.md).
+Match the web-mobile page: alignment, grouping, hierarchy, spacing, type, and color as they appear. Paint with `Tp*` and tokens — do not invent a different title style, grouping, or density. Do not use another screen (for example Contact) as a layout template. Product rules: [web.md](web.md). After implement, measure pixel-by-pixel against that page: [audit.md](audit.md).

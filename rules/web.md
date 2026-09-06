@@ -64,7 +64,9 @@ Do not write mobile code, and do not lock a folder layout, until 1–4 are done.
    inset, OverlayHost, dark palette) live in [ui.md](ui.md) /
    `docs/design-system/decisions.md` — not as comments in the screen.
 6. **Implement** that plan. Verify the listed behaviors, including empty /
-   loading / error / disabled ([core.md](core.md) § Verify).
+   loading / error / disabled ([core.md](core.md) § Verify). Then
+   [audit.md](audit.md) — rules audit of the finished code, then pixel
+   match vs this web-mobile page. Fix spacing and look gaps on mobile.
 
 Layout: [ui.md](ui.md) (kit paint, not a restyle license).
 Layers and kit composition: [architecture.md](architecture.md).

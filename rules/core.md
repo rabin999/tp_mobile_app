@@ -59,6 +59,8 @@ Do not impose Clean Architecture, DDD, repositories, or factories as ceremony. D
 npm run verify
 ```
 
-That runs Prettier, ESLint, `tsc --noEmit`, and Jest. UI: exercise the flow (gallery, tests, or a device), including empty / loading / error / disabled. A screenshot is not verification. Leak-prone work also follows [memory.md](memory.md). HTTP client work also follows [network.md](network.md).
+That runs Prettier, ESLint, `tsc --noEmit`, and Jest. UI: exercise the flow (gallery, tests, or a device), including empty / loading / error / disabled. A screenshot of the app alone is not behavior verification. Leak-prone work also follows [memory.md](memory.md). HTTP client work also follows [network.md](network.md).
+
+Then [audit.md](audit.md) — **required**, not optional. Rules audit of the finished code (second agent when possible), then pixel match vs web mobile when the screen exists on web. Fix findings in the same change. Work is not done until both gates pass.
 
 What to load next: [index.md](index.md).

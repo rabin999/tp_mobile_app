@@ -11,11 +11,15 @@ Do not fork these rules into `.cursor/rules` ([documentation.md](documentation.m
 1. [`core.md`](core.md) — every change.
 2. This page — which other files.
 3. Those files — then implement.
+4. [`audit.md`](audit.md) — after implement; **required**. Rules audit
+   (second agent when possible), then pixel match vs web mobile. Fix
+   findings. Do not skip because Verify passed.
 
 ## If you are…
 
 | Doing | Open (in order) |
 | --- | --- |
+| Finishing any implementation | [audit.md](audit.md) — required after implement |
 | Converting a web page or feature | [web.md](web.md), then [architecture.md](architecture.md), [ui.md](ui.md), plus I/O rows below |
 | Adding or changing a product screen | [web.md](web.md) if it exists on web; [architecture.md](architecture.md); [modularity.md](modularity.md); [ui.md](ui.md) |
 | A fetching / form screen | web (if on web) + architecture + modularity + ui + api + network + memory + testing |
@@ -37,6 +41,7 @@ One topic, one file. Other files **link** here; they do not restate the protocol
 | Topic | File |
 | --- | --- |
 | Authority, conflict order, `npm run verify` | [core.md](core.md) |
+| Post-implement rules audit + pixel match vs web mobile | [audit.md](audit.md) |
 | Web **mobile** spec, gather → list → plan → implement, not desktop | [web.md](web.md) |
 | Layers, composition root, OverlayHost, packages, app-wide stores | [architecture.md](architecture.md) |
 | One job per file, reuse, lazy load, global vs local as **code** | [modularity.md](modularity.md) |

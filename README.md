@@ -95,4 +95,4 @@ No Axios, React Query, React Navigation, or persistence packages. HTTP is `fetch
 
 ## Engineering rules
 
-People and coding agents follow [`rules/index.md`](rules/index.md). Always start with [`rules/core.md`](rules/core.md). Discovery for agents: [`AGENTS.md`](AGENTS.md).
+People and coding agents follow [`rules/index.md`](rules/index.md). Always start with [`rules/core.md`](rules/core.md). After implement, [`rules/audit.md`](rules/audit.md) is required. Discovery for agents: [`AGENTS.md`](AGENTS.md).
