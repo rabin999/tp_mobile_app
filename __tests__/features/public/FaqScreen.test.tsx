@@ -35,6 +35,13 @@ async function openFaq(): Promise<void> {
   await render(<TrueProfessionalApp />);
   await fireEvent.press(screen.getByLabelText('Open navigation menu'));
   await fireEvent.press(screen.getByText('FAQ'));
+  expect(screen.getByText(faqText.title)).toBeOnTheScreen();
+  expect(screen.getByText(faqText.subhead)).toBeOnTheScreen();
+  expect(screen.getByLabelText(faqText.artLabel)).toBeOnTheScreen();
+  expect(screen.getByText(faqText.providerTab)).toBeOnTheScreen();
+  expect(
+    screen.getByRole('tab', { name: faqText.customerTab, selected: true }),
+  ).toBeOnTheScreen();
   await waitFor(() => {
     expect(screen.getByText('How to post a task ?')).toBeOnTheScreen();
   }, apiTimeout);
@@ -77,6 +84,8 @@ test('leaving FAQ while it is still loading returns Home', async () => {
   await render(<TrueProfessionalApp />);
   await fireEvent.press(screen.getByLabelText('Open navigation menu'));
   await fireEvent.press(screen.getByText('FAQ'));
+  expect(screen.getByText(faqText.title)).toBeOnTheScreen();
+  expect(screen.getByText(faqText.subhead)).toBeOnTheScreen();
   await fireEvent.press(screen.getByLabelText('True Professional Home'));
   expect(screen.getByText('Shared components')).toBeOnTheScreen();
 });

@@ -42,8 +42,8 @@ export function FaqSectionCard({
       {section.iconUrl != null ? (
         <TpImage.Network
           uri={section.iconUrl}
-          width={tpSizes.controlSmall}
-          height={tpSizes.controlSmall}
+          width={tpSizes.icon}
+          height={tpSizes.icon}
           fit="contain"
           semanticLabel={section.title}
           fallback="blank"
@@ -51,7 +51,7 @@ export function FaqSectionCard({
       ) : (
         <TpSvgIcon
           source={tpAssets.iconHelpCenter}
-          size={tpSizes.controlSmall}
+          size={tpSizes.icon}
           semanticLabel={section.title}
         />
       )}
@@ -107,16 +107,17 @@ const styles = StyleSheet.create({
   },
   cell: {
     width: '50%',
+    maxWidth: 120,
     padding: tpSpacing.xxs,
   },
   card: {
-    minHeight: 88,
     borderWidth: 1,
     borderRadius: tpCorners.xs,
-    padding: tpSpacing.md,
+    paddingVertical: tpSpacing.sm,
+    paddingHorizontal: tpSpacing.sm,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: tpSpacing.xs,
+    gap: tpSpacing.xxs,
   },
   title: {
     textAlign: 'center',

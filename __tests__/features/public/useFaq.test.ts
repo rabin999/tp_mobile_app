@@ -23,7 +23,7 @@ test('stays loading until sections arrive, then loads questions', async () => {
 
   const { result } = await renderHook(() => useFaq(loadSections, loadItems));
 
-  expect(result.current.loading).toBe(true);
+  expect(result.current.sectionsLoading).toBe(true);
   expect(result.current.sections).toEqual([]);
 
   await act(() => {
@@ -31,7 +31,7 @@ test('stays loading until sections arrive, then loads questions', async () => {
   });
 
   await waitFor(() => {
-    expect(result.current.loading).toBe(false);
+    expect(result.current.sectionsLoading).toBe(false);
   });
   expect(result.current.selectedSection).toEqual(tasks);
   await waitFor(() => {
@@ -60,7 +60,7 @@ test('surfaces a failed section load and retry fetches again', async () => {
   const { result } = await renderHook(() => useFaq(loadSections, loadItems));
 
   await waitFor(() => {
-    expect(result.current.loading).toBe(false);
+    expect(result.current.sectionsLoading).toBe(false);
   });
   expect(result.current.error).toBe(httpMessages.unavailable);
   expect(result.current.sections).toEqual([]);
@@ -175,7 +175,7 @@ test('surfaces timeout, offline, and a failed questions load with retry', async 
   await waitFor(() => {
     expect(result.current.faqsError).toBe(httpMessages.timeout);
   });
-  expect(result.current.loading).toBe(false);
+  expect(result.current.sectionsLoading).toBe(false);
   expect(result.current.faqs).toEqual([]);
 
   await act(() => {
@@ -210,7 +210,7 @@ test('leaving while sections are in flight does not keep the error', async () =>
     useFaq(loadSections, loadItems),
   );
 
-  expect(result.current.loading).toBe(true);
+  expect(result.current.sectionsLoading).toBe(true);
   unmount();
   expect(loadItems).not.toHaveBeenCalled();
 });

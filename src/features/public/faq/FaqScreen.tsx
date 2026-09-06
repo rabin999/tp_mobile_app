@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { TpButton } from '../../../ui/components/actions/TpButton';
 import { TpSpinner } from '../../../ui/components/feedback/TpSpinner';
-import { TpErrorState } from '../../../ui/components/feedback/TpStatusPage';
 import { TpKeyboardScrollView } from '../../../ui/components/content/TpKeyboardScrollView';
 import { TpAlert } from '../../../ui/components/overlays/TpAlert';
 import { tpNunito } from '../../../ui/theme/tpFonts';
@@ -19,31 +18,11 @@ import { faqText } from './faqText';
 import { useFaq, type FaqModel } from './useFaq';
 
 /**
- * Guest FAQ / Support page.
+ * Guest FAQ / Support page. Hero and audience tabs are static; sections
+ * and questions fill in after the API responds.
  */
 export function FaqScreen() {
   const model = useFaq(loadFaqSections, loadFaqs);
-
-  if (model.loading) {
-    return <FaqLoading />;
-  }
-
-  if (model.error != null) {
-    return <FaqError message={model.error} onRetry={model.retry} />;
-  }
-
-  if (model.sections.length === 0) {
-    return (
-      <View style={styles.status}>
-        <FaqEmpty />
-      </View>
-    );
-  }
-
-  return <FaqReady model={model} />;
-}
-
-function FaqReady({ model }: { model: FaqModel }) {
   const { colors } = useTpTheme();
 
   return (
@@ -58,48 +37,57 @@ function FaqReady({ model }: { model: FaqModel }) {
             selectedId={model.audienceType}
             onSelected={model.setAudience}
           />
-          <FaqSectionGrid
-            sections={model.sections}
-            selectedSectionId={model.selectedSection?.id}
-            onSelect={model.selectSection}
-          />
-          <Text
-            style={[
-              tpNunito('700'),
-              styles.sectionTitle,
-              { color: colors.onSurface },
-            ]}
-          >
-            {model.selectedSection?.title ?? faqText.title}
-          </Text>
-          <FaqQuestions model={model} />
+          <FaqApiBody model={model} />
         </View>
       </TpKeyboardScrollView>
     </View>
   );
 }
 
+function FaqApiBody({ model }: { model: FaqModel }) {
+  const { colors } = useTpTheme();
+
+  if (model.sectionsLoading) {
+    return <FaqLoading />;
+  }
+
+  if (model.error != null) {
+    return <FaqInlineError message={model.error} onRetry={model.retry} />;
+  }
+
+  if (model.sections.length === 0) {
+    return <FaqEmpty />;
+  }
+
+  return (
+    <>
+      <FaqSectionGrid
+        sections={model.sections}
+        selectedSectionId={model.selectedSection?.id}
+        onSelect={model.selectSection}
+      />
+      <Text
+        style={[
+          tpNunito('700'),
+          styles.sectionTitle,
+          { color: colors.onSurface },
+        ]}
+      >
+        {model.selectedSection?.title ?? faqText.title}
+      </Text>
+      <FaqQuestions model={model} />
+    </>
+  );
+}
+
 function FaqQuestions({ model }: { model: FaqModel }) {
   if (model.faqsLoading) {
-    return <FaqLoading compact />;
+    return <FaqLoading />;
   }
 
   if (model.faqsError != null) {
     return (
-      <View style={styles.inlineError}>
-        <TpAlert
-          message={model.faqsError}
-          severity="error"
-          dismissible={false}
-          marginBottom={0}
-        />
-        <TpButton
-          label={faqText.retry}
-          variant="outlined"
-          size="compact"
-          onPress={model.faqsLoading ? undefined : model.retryFaqs}
-        />
-      </View>
+      <FaqInlineError message={model.faqsError} onRetry={model.retryFaqs} />
     );
   }
 
@@ -118,22 +106,7 @@ function FaqQuestions({ model }: { model: FaqModel }) {
   );
 }
 
-function FaqLoading({ compact = false }: { compact?: boolean }) {
-  const { colors } = useTpTheme();
-
-  return (
-    <View
-      accessibilityRole="progressbar"
-      accessibilityLabel={faqText.loading}
-      accessibilityState={{ busy: true }}
-      style={[compact ? styles.compactStatus : styles.status, styles.center]}
-    >
-      <TpSpinner size={compact ? 24 : 32} color={colors.primary} />
-    </View>
-  );
-}
-
-function FaqError({
+function FaqInlineError({
   message,
   onRetry,
 }: {
@@ -141,14 +114,34 @@ function FaqError({
   onRetry: () => void;
 }) {
   return (
-    <View style={styles.status}>
-      <TpErrorState
-        title={faqText.errorTitle}
+    <View style={styles.inlineError}>
+      <TpAlert
         message={message}
-        illustration="error"
-        actionLabel={faqText.retry}
-        onAction={onRetry}
+        severity="error"
+        dismissible={false}
+        marginBottom={0}
       />
+      <TpButton
+        label={faqText.retry}
+        variant="outlined"
+        size="compact"
+        onPress={onRetry}
+      />
+    </View>
+  );
+}
+
+function FaqLoading() {
+  const { colors } = useTpTheme();
+
+  return (
+    <View
+      accessibilityRole="progressbar"
+      accessibilityLabel={faqText.loading}
+      accessibilityState={{ busy: true }}
+      style={[styles.compactStatus, styles.center]}
+    >
+      <TpSpinner size={24} color={colors.primary} />
     </View>
   );
 }
@@ -169,10 +162,6 @@ const styles = StyleSheet.create({
     marginBottom: tpSpacing.xl,
     fontSize: 34,
     lineHeight: 42,
-  },
-  status: {
-    flex: 1,
-    justifyContent: 'center',
   },
   compactStatus: {
     paddingVertical: tpSpacing.xl,

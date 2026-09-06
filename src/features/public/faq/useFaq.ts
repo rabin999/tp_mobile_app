@@ -25,7 +25,7 @@ export function useFaq(loadSections: LoadFaqSections, loadItems: LoadFaqs) {
   const [faqs, setFaqs] = useState<readonly FaqItem[]>([]);
   const [query, setQuery] = useState('');
   const [openId, setOpenId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [sectionsLoading, setSectionsLoading] = useState(true);
   const [faqsLoading, setFaqsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const [faqsError, setFaqsError] = useState<string | undefined>();
@@ -35,7 +35,7 @@ export function useFaq(loadSections: LoadFaqSections, loadItems: LoadFaqs) {
   useEffect(() => {
     const controller = new AbortController();
 
-    setLoading(true);
+    setSectionsLoading(true);
     setError(undefined);
     setFaqsError(undefined);
     setSections([]);
@@ -52,7 +52,7 @@ export function useFaq(loadSections: LoadFaqSections, loadItems: LoadFaqs) {
 
         setSections(next);
         setSelectedSectionId(next[0]?.id);
-        setLoading(false);
+        setSectionsLoading(false);
       })
       .catch(caught => {
         if (controller.signal.aborted || isAbortError(caught)) {
@@ -66,7 +66,7 @@ export function useFaq(loadSections: LoadFaqSections, loadItems: LoadFaqs) {
               ? caught.message
               : httpMessages.failed,
           );
-          setLoading(false);
+          setSectionsLoading(false);
         }
       });
 
@@ -133,7 +133,7 @@ export function useFaq(loadSections: LoadFaqSections, loadItems: LoadFaqs) {
   );
 
   return {
-    loading,
+    sectionsLoading,
     error,
     sections,
     selectedSection,

@@ -152,10 +152,10 @@ const styles = StyleSheet.create({
     ...tpNunito('400'),
   },
   list: {
-    marginTop: tpSpacing.sm,
+    marginTop: tpSpacing.md,
     borderWidth: 1,
     borderRadius: tpCorners.xs,
-    paddingHorizontal: tpSpacing.md,
+    paddingHorizontal: tpSpacing.xl,
   },
   row: {
     paddingTop: tpSpacing.xl,
@@ -164,20 +164,20 @@ const styles = StyleSheet.create({
   question: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    minHeight: tpSizes.control,
     gap: tpSpacing.md,
   },
   mark: {
     width: 16,
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 22,
     ...tpNunito('700'),
   },
   questionCopy: {
     flex: 1,
+    marginBottom: tpSpacing.xs,
   },
   answer: {
     marginLeft: tpSpacing.xl,
-    marginTop: tpSpacing.xs,
+    marginBottom: tpSpacing.xs,
   },
 });
