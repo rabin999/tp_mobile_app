@@ -47,6 +47,25 @@ const LoginScreen = lazy(() =>
     default: module.LoginScreen,
   })),
 );
+const ProviderListedServiceCardPreviewScreen = lazy(() =>
+  import('../features/services/ProviderListedServiceCardPreviewScreen').then(
+    module => ({
+      default: module.ProviderListedServiceCardPreviewScreen,
+    }),
+  ),
+);
+const TaskCardPreviewScreen = lazy(() =>
+  import('../features/tasks/TaskCardPreviewScreen').then(module => ({
+    default: module.TaskCardPreviewScreen,
+  })),
+);
+const ProfessionalCardPreviewScreen = lazy(() =>
+  import('../features/professionals/ProfessionalCardPreviewScreen').then(
+    module => ({
+      default: module.ProfessionalCardPreviewScreen,
+    }),
+  ),
+);
 
 /**
  * Mounts theme, overlay, guest chrome, and the active screen.
@@ -157,7 +176,30 @@ function GuestScreen({
         </LazyPage>
       );
     default:
-      return <DesignSystemGalleryPage />;
+      return (
+        <DesignSystemGalleryPage
+          extraItems={[
+            {
+              id: 'provider-listed-service-card',
+              label: 'Provider listed service card',
+              Demo: ProviderListedServiceCardPreviewScreen,
+              flush: true,
+            },
+            {
+              id: 'task-card',
+              label: 'Task card',
+              Demo: TaskCardPreviewScreen,
+              flush: true,
+            },
+            {
+              id: 'professional-card',
+              label: 'Professional card',
+              Demo: ProfessionalCardPreviewScreen,
+              flush: true,
+            },
+          ]}
+        />
+      );
   }
 }
 

@@ -1,16 +1,10 @@
-import { lazy, Suspense, useState } from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { lazy, Suspense, useState, type ComponentType } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { TpKeyboardScrollView } from '../components/content/TpKeyboardScrollView';
 import { TpPageHeader } from '../components/navigation/TpPageHeader';
 import { TpGlyph } from '../components/content/TpGlyph';
+import { TpSpinner } from '../components/feedback/TpSpinner';
 import { tpSpacing } from '../theme/tpSpacing';
 import {
   useOptionalAppThemeController,
@@ -22,7 +16,7 @@ const GalleryDemo = lazy(() =>
   import('./galleryDemos').then(module => ({ default: module.GalleryDemo })),
 );
 
-const items: { id: string; label: string }[] = [
+const kitItems: { id: string; label: string }[] = [
   { id: 'buttons', label: 'Buttons' },
   { id: 'inputs', label: 'Inputs' },
   { id: 'search', label: 'Search' },
@@ -34,15 +28,32 @@ const items: { id: string; label: string }[] = [
   { id: 'tokens', label: 'Tokens' },
 ];
 
+export type GalleryExtraItem = {
+  id: string;
+  label: string;
+  Demo: ComponentType;
+  flush?: boolean;
+};
+
+export type DesignSystemGalleryPageProps = {
+  extraItems?: readonly GalleryExtraItem[];
+};
+
 /**
- * Temporary approval surface for the mobile design system.
+ * Temporary approval surface for kit primitives and injected previews.
  *
- * Index chrome stays light. Kit demos load only after a row is opened.
+ * Index chrome stays light. Demos load only after a row is opened.
  */
-export function DesignSystemGalleryPage() {
+export function DesignSystemGalleryPage({
+  extraItems = [],
+}: DesignSystemGalleryPageProps) {
   const { colors, text } = useTpTheme();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const items = [...kitItems, ...extraItems];
   const selected = items.find(item => item.id === selectedId);
+  const extraItem = extraItems.find(item => item.id === selectedId);
+  const ExtraDemo = extraItem?.Demo ?? null;
+  const flushExtra = extraItem?.flush === true;
 
   return (
     <View style={[styles.root, { backgroundColor: colors.surface }]}>
@@ -75,19 +86,35 @@ export function DesignSystemGalleryPage() {
             backTooltip="Back"
             onBack={() => setSelectedId(null)}
           />
-          <TpKeyboardScrollView contentContainerStyle={styles.detailPad}>
-            <Suspense
-              fallback={
-                <View style={styles.demoFallback}>
-                  <ActivityIndicator color={colors.primary} />
-                </View>
-              }
-            >
-              <GalleryDemo id={selected.id} />
-            </Suspense>
-          </TpKeyboardScrollView>
+          {flushExtra ? (
+            <View style={styles.flex}>
+              <Suspense fallback={<DemoFallback />}>
+                {ExtraDemo != null ? <ExtraDemo /> : null}
+              </Suspense>
+            </View>
+          ) : (
+            <TpKeyboardScrollView contentContainerStyle={styles.detailPad}>
+              <Suspense fallback={<DemoFallback />}>
+                {ExtraDemo != null ? (
+                  <ExtraDemo />
+                ) : (
+                  <GalleryDemo id={selected.id} />
+                )}
+              </Suspense>
+            </TpKeyboardScrollView>
+          )}
         </View>
       )}
+    </View>
+  );
+}
+
+function DemoFallback() {
+  const { colors } = useTpTheme();
+
+  return (
+    <View style={styles.demoFallback}>
+      <TpSpinner color={colors.primary} />
     </View>
   );
 }

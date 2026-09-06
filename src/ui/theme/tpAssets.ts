@@ -19,6 +19,7 @@ import iconProfile from '../../../assets/icons/profile.svg';
 import iconRegister from '../../../assets/icons/register.svg';
 import iconReport from '../../../assets/icons/report_flag.svg';
 import iconTasks from '../../../assets/icons/service-list.svg';
+import iconStar from '../../../assets/icons/yellowStar.svg';
 import iconTiktok from '../../../assets/icons/tiktok.svg';
 import iconWhatsapp from '../../../assets/icons/whatsapp.svg';
 import activeSupport from '../../../assets/images/activeSupport.png';
@@ -58,6 +59,7 @@ export const tpAssets = {
   iconWhatsapp,
   iconEnvelope,
   iconHelpCenter,
+  iconStar,
   empty,
   activeSupport,
   notFound,

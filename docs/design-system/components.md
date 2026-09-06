@@ -59,7 +59,7 @@ top-right / `left: 60px` toast), `TpSpinner` (size / color), `TpStatusPage`
 ## Content
 
 `TpAvatar`, `TpImage`, `TpIllustration`, `TpRating`, `TpStatusBadge`,
-`TpVerificationBadge`, `TpNotificationBadge`, `TpChip`, `TpDivider`,
+`TpVerificationBadge` (compact 18 / overlay `size`), `TpNotificationBadge`, `TpChip`, `TpDivider`,
 `TpPagination`, `TpMenu` / `showTpMenu`, `TpSvgIcon`,
 `TpKeyboardScrollView` (keyboard open grows the page and reveals the
 focused field).

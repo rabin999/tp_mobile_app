@@ -10,7 +10,11 @@ export type TpVerificationBadgeProps = {
   verified: boolean;
   variant?: TpVerificationVariant;
   bannerMessage?: string;
+  size?: number;
 };
+
+const compactSize = 18;
+const bannerGlyphSize = 24;
 
 /**
  * Provider verification indicator.
@@ -19,6 +23,7 @@ export function TpVerificationBadge({
   verified,
   variant = 'compact',
   bannerMessage,
+  size,
 }: TpVerificationBadgeProps) {
   const { colors, text } = useTpTheme();
 
@@ -27,11 +32,23 @@ export function TpVerificationBadge({
       return null;
     }
 
-    return <TpGlyph name="verified" size={18} color={colors.primary} />;
+    return (
+      <TpGlyph
+        name="verified"
+        size={size ?? compactSize}
+        color={colors.primary}
+      />
+    );
   }
 
   if (verified) {
-    return <TpGlyph name="verified" size={24} color={colors.primary} />;
+    return (
+      <TpGlyph
+        name="verified"
+        size={size ?? bannerGlyphSize}
+        color={colors.primary}
+      />
+    );
   }
 
   return (

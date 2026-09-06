@@ -62,7 +62,8 @@ Min tap 48.
 ## Elevation
 
 Buttons have none. App bar, bottom nav, and resting surfaces may use the
-named shadow lists on `tpElevation`.
+named shadow lists on `tpElevation`. Listing cards use `listingCard`
+(`0 / 17%` blur 4, observed on web task / professional cards).
 
 ## Fonts and icons
 

@@ -75,6 +75,10 @@ src/
   features/contact/                 Contact Us form, topics, channels
   features/login/                   Sign-in form (no session)
   features/public/                  About Us, FAQ, terms, privacy, community guidelines
+  features/services/                Provider listed service card (static preview)
+  features/tasks/                   Task listing card (static preview)
+  features/professionals/           Professional listing card (static preview)
+  features/listings/                Shared listing preview chrome
   core/http/                        Shared fetch + API error mapping
   core/errors/                      Application error boundary
   core/logging/                     Application logging boundary

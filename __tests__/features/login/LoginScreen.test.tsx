@@ -113,6 +113,7 @@ test('password toggle and keep-me-logged-in work from the app', async () => {
   expect(password.props.value).toBe('secret12');
 
   const keep = screen.getByRole('checkbox');
+
   expect(keep.props.accessibilityState).toEqual(
     expect.objectContaining({ checked: false }),
   );

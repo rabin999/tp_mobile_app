@@ -8,7 +8,6 @@ test('shows validation error text', async () => {
   await render(
     pumpWithTheme(
       <TpTextField label="Email" errorText="Enter a valid email" />,
-      10,
     ),
   );
   expect(screen.getByText('Enter a valid email')).toBeOnTheScreen();
