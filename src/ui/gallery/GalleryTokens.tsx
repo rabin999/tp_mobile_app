@@ -38,9 +38,9 @@ export function GalleryTokens() {
         <Text style={text.displayMedium}>Halant display</Text>
         <Text style={text.headlineLarge}>Headline large</Text>
         <Text style={text.titleLarge}>Title large</Text>
-        <Text style={text.bodyLarge}>Body large — Nunito Sans Regular</Text>
+        <Text style={text.bodyLarge}>Body large - Nunito Sans Regular</Text>
         <Text style={[text.bodyLarge, tpNunito('700')]}>
-          Nunito Sans Bold — weights must read heavier than Regular
+          Nunito Sans Bold - weights must read heavier than Regular
         </Text>
         <Text style={text.bodyMedium}>Muted body / label</Text>
         <Text style={text.bodyLarge}>

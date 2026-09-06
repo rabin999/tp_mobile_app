@@ -13,7 +13,7 @@ appLogger.debug('session: refresh failed'); // good
 appLogger.debug(`token=${accessToken}`); // bad
 ```
 
-Do not log passwords, OTP, Authorization headers, payment details, government IDs, or bodies with PII. `appLogger` (`src/core/logging/appLogger.ts`) is operational copy only. Debug signing in `android/app/build.gradle` is a template default — do not ship release with it, and do not paste production keystore passwords into the repo.
+Do not log passwords, OTP, Authorization headers, payment details, government IDs, or bodies with PII. `appLogger` (`src/core/logging/appLogger.ts`) is operational copy only. Debug signing in `android/app/build.gradle` is a template default - do not ship release with it, and do not paste production keystore passwords into the repo.
 
 Authorization is the API, not a hidden screen. 401/403 are first-class states ([api.md](api.md)).
 
@@ -21,13 +21,13 @@ Authorization is the API, not a hidden screen. 401/403 are first-class states ([
 
 The convenient default (AsyncStorage / plaintext prefs) is **not** encrypted. Tokens and sensitive local data go in the platform store (Android Keystore / iOS Keychain) when a session exists. Persist the minimum; delete it on logout. Cache is not access control.
 
-Use short-lived access tokens plus a refresh flow. Do not leave a long-lived credential in storage indefinitely. Re-authenticate for the most sensitive actions (payment, account delete, password change) when those features exist. There is no session yet — do not add storage “for later.”
+Use short-lived access tokens plus a refresh flow. Do not leave a long-lived credential in storage indefinitely. Re-authenticate for the most sensitive actions (payment, account delete, password change) when those features exist. There is no session yet - do not add storage “for later.”
 
 ## Untrusted input, WebView, deep links
 
 Validate length and type before send and before render. Do not interpolate user or server strings into URLs, SQL, or native commands.
 
-Images: `tpImageCache.isUsableUrl` (`src/ui/theme/tpImageCache.ts`) — http(s) only; `javascript:` and leftovers stay offline.
+Images: `tpImageCache.isUsableUrl` (`src/ui/theme/tpImageCache.ts`) - http(s) only; `javascript:` and leftovers stay offline.
 
 Outbound app links: `isAllowedOutboundUrl` (`src/core/outboundUrl.ts`). `Linking.openURL` only after that check. Contact channels are `tel:`, `mailto:`, and `https://wa.me/…`. Reject `javascript:`, `file:`, `intent:`, `data:`, and arbitrary https.
 
@@ -45,4 +45,4 @@ Do not request location, camera, microphone, or contacts until a feature needs t
 
 ## Certificate pinning
 
-Pinning defends against a trusted-looking but compromised network intercepting TLS. Apply it when the data justifies it (auth, payment, stored PII) — not uniformly by default. This app’s public contact form over the local debug API does not earn a pin. When a production HTTPS session exists, decide then; do not add a pinning package “for security.”
+Pinning defends against a trusted-looking but compromised network intercepting TLS. Apply it when the data justifies it (auth, payment, stored PII) - not uniformly by default. This app’s public contact form over the local debug API does not earn a pin. When a production HTTPS session exists, decide then; do not add a pinning package “for security.”

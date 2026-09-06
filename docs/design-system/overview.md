@@ -36,7 +36,7 @@ Those belong in features later, built from these primitives.
 
 ## Folder map
 
-- `src/ui/theme/` — tokens and theme
-- `src/ui/components/` — `Tp*` components by role
-- `src/ui/gallery/` — approval gallery
-- `docs/design-system/` — this documentation
+- `src/ui/theme/` - tokens and theme
+- `src/ui/components/` - `Tp*` components by role
+- `src/ui/gallery/` - approval gallery
+- `docs/design-system/` - this documentation

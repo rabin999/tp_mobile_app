@@ -1,13 +1,12 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { tpSpacing } from '../../ui/theme/tpSpacing';
-import { ListingPreviewChrome } from '../listings/ListingPreviewChrome';
 import {
   ProviderListedServiceCard,
   type ProviderListedServiceCardProps,
 } from './components/ProviderListedServiceCard';
 
-const previewCards: readonly ProviderListedServiceCardProps[] = [
+const listedServices: readonly ProviderListedServiceCardProps[] = [
   {
     title: 'House Cleaning',
     priceLabel: 'Rs. 1,500/hr',
@@ -25,7 +24,7 @@ const previewCards: readonly ProviderListedServiceCardProps[] = [
     title: 'Math Tutoring',
     priceLabel: 'Rs. 800/hr',
     viewLabel: 'View',
-    description: 'Grade 8–12 mathematics coaching, in person or online.',
+    description: 'Grade 8-12 mathematics coaching, in person or online.',
     categoryLabel: 'Education',
     providerName: 'Anil Karki',
     providerVerified: true,
@@ -39,29 +38,27 @@ const previewCards: readonly ProviderListedServiceCardProps[] = [
 ];
 
 /**
- * Static preview of the public provider-listed service card.
+ * Static provider-listed service cards for the guest services listing.
  */
-export function ProviderListedServiceCardPreviewScreen() {
+export function ServicesScreen() {
   return (
-    <ListingPreviewChrome selectedId="services">
-      <ScrollView
-        style={styles.flex}
-        contentContainerStyle={styles.list}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View style={styles.cards}>
-          {previewCards.map(card => (
-            <ProviderListedServiceCard
-              key={card.title}
-              {...card}
-              onPress={() => undefined}
-              onProviderPress={() => undefined}
-              onViewPress={() => undefined}
-            />
-          ))}
-        </View>
-      </ScrollView>
-    </ListingPreviewChrome>
+    <ScrollView
+      style={styles.flex}
+      contentContainerStyle={styles.list}
+      keyboardShouldPersistTaps="handled"
+    >
+      <View style={styles.cards}>
+        {listedServices.map(card => (
+          <ProviderListedServiceCard
+            key={card.title}
+            {...card}
+            onPress={() => undefined}
+            onProviderPress={() => undefined}
+            onViewPress={() => undefined}
+          />
+        ))}
+      </View>
+    </ScrollView>
   );
 }
 

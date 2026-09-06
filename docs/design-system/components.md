@@ -46,7 +46,7 @@ Unpublished helpers (do not import from features): `tpFieldError.ts`,
 `showTpBottomSheet` / `TpBottomSheet` (slide up, 90% max, radius 16 top),
 `TpConfirmSheet` (header / body / footer; optional destructive confirm),
 `TpAlert` (dismiss / collapse).
-Sheets and snackbars insert through `OverlayHost` (`src/ui/overlay/`) —
+Sheets and snackbars insert through `OverlayHost` (`src/ui/overlay/`) -
 not a public kit export.
 
 ## Feedback

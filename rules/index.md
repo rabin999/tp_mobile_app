@@ -8,10 +8,10 @@ Do not fork these rules into `.cursor/rules` ([documentation.md](documentation.m
 
 ## Start
 
-1. [`core.md`](core.md) — every change.
-2. This page — which other files.
-3. Those files — then implement.
-4. [`audit.md`](audit.md) — after implement; **required**. Rules audit
+1. [`core.md`](core.md) - every change.
+2. This page - which other files.
+3. Those files - then implement.
+4. [`audit.md`](audit.md) - after implement; **required**. Rules audit
    (second agent when possible), then pixel match vs web mobile. Fix
    findings. Do not skip because Verify passed.
 
@@ -19,12 +19,12 @@ Do not fork these rules into `.cursor/rules` ([documentation.md](documentation.m
 
 | Doing | Open (in order) |
 | --- | --- |
-| Finishing any implementation | [audit.md](audit.md) — required after implement |
+| Finishing any implementation | [audit.md](audit.md) - required after implement |
 | Converting a web page or feature | [web.md](web.md), then [architecture.md](architecture.md), [ui.md](ui.md), plus I/O rows below |
 | Adding or changing a product screen | [web.md](web.md) if it exists on web; [architecture.md](architecture.md); [modularity.md](modularity.md); [ui.md](ui.md) |
 | A fetching / form screen | web (if on web) + architecture + modularity + ui + api + network + memory + testing |
 | Growing or splitting a `Tp*` | [modularity.md](modularity.md) + [ui.md](ui.md) |
-| Token, theme, or kit look | [ui.md](ui.md) — and `docs/design-system/` if the kit contract changes |
+| Token, theme, or kit look | [ui.md](ui.md) - and `docs/design-system/` if the kit contract changes |
 | File names, folders, imports, assets | [structure.md](structure.md) |
 | HTTP contract, errors, loading/error UX | [api.md](api.md) |
 | Timeouts, retry class, cancel, connectivity | [network.md](network.md) |

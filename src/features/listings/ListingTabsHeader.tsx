@@ -1,4 +1,3 @@
-import { type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { TpFilterIconButton } from '../../ui/components/actions/TpFilterIconButton';
@@ -8,64 +7,55 @@ import { tpElevation } from '../../ui/theme/tpElevation';
 import { tpSpacing } from '../../ui/theme/tpSpacing';
 import { useTpTheme } from '../../ui/theme/tpTheme';
 
-export const listingPreviewTabs = [
+export type ListingTabId = 'services' | 'tasks' | 'professionals';
+
+const listingTabs: { id: ListingTabId; label: string }[] = [
   { id: 'services', label: 'Services' },
   { id: 'tasks', label: 'Tasks' },
   { id: 'professionals', label: 'Professionals' },
 ];
 
-export type ListingPreviewChromeProps = {
-  selectedId: string;
-  children: ReactNode;
-  onSelected?: (id: string) => void;
+export type ListingTabsHeaderProps = {
+  selectedId: ListingTabId;
+  onSelected?: (id: ListingTabId) => void;
   filterTooltip?: string;
 };
 
 /**
- * Static Services / Tasks / Professionals header used by listing previews.
+ * Services, Tasks, and Professionals tabs plus search and filter.
  */
-export function ListingPreviewChrome({
+export function ListingTabsHeader({
   selectedId,
-  children,
   onSelected,
   filterTooltip = 'Service filter dialog',
-}: ListingPreviewChromeProps) {
+}: ListingTabsHeaderProps) {
   const { colors } = useTpTheme();
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.surface }]}>
-      <View
-        style={[
-          styles.header,
-          tpElevation.pageHeader,
-          { backgroundColor: colors.surface },
-        ]}
-      >
-        <TpHeaderTabs
-          mode="listing"
-          tabs={listingPreviewTabs}
-          selectedId={selectedId}
-          onSelected={onSelected}
-        />
-        <View style={styles.searchRow}>
-          <View style={styles.searchField}>
-            <TpSearchField hint="Search" />
-          </View>
-          <TpFilterIconButton
-            tooltip={filterTooltip}
-            onPress={() => undefined}
-          />
+    <View
+      style={[
+        styles.header,
+        tpElevation.pageHeader,
+        { backgroundColor: colors.surface },
+      ]}
+    >
+      <TpHeaderTabs
+        mode="listing"
+        tabs={listingTabs}
+        selectedId={selectedId}
+        onSelected={id => onSelected?.(id as ListingTabId)}
+      />
+      <View style={styles.searchRow}>
+        <View style={styles.searchField}>
+          <TpSearchField hint="Search" />
         </View>
+        <TpFilterIconButton tooltip={filterTooltip} onPress={() => undefined} />
       </View>
-      {children}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
   header: {
     zIndex: 100,
     paddingBottom: tpSpacing.xl,

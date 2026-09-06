@@ -47,7 +47,7 @@ npm run android
 
 A USB phone uses `127.0.0.1` for the API (with that reverse). The emulator uses `10.0.2.2`. Debug builds allow cleartext HTTP to the local API.
 
-After Metro is connected, **Fast Refresh** applies JavaScript and style changes. Native changes — fonts, linked assets, Gradle, or a new npm native module — need another `npm run android` (or a full app restart) first. If Fast Refresh sticks, restart Metro with `npm start -- --reset-cache`.
+After Metro is connected, **Fast Refresh** applies JavaScript and style changes. Native changes - fonts, linked assets, Gradle, or a new npm native module - need another `npm run android` (or a full app restart) first. If Fast Refresh sticks, restart Metro with `npm start -- --reset-cache`.
 
 `Pixel_8_API_36` is a local AVD, not part of the app architecture. Close the emulator window so the snapshot is saved.
 
@@ -75,10 +75,10 @@ src/
   features/contact/                 Contact Us form, topics, channels
   features/login/                   Sign-in form (no session)
   features/public/                  About Us, FAQ, terms, privacy, community guidelines
-  features/services/                Provider listed service card (static preview)
-  features/tasks/                   Task listing card (static preview)
-  features/professionals/           Professional listing card (static preview)
-  features/listings/                Shared listing preview chrome
+  features/services/                Guest services listing (static cards)
+  features/tasks/                   Guest tasks listing (static cards)
+  features/professionals/           Guest professionals listing (static cards)
+  features/listings/                Listing tabs, category filters, search
   core/http/                        Shared fetch + API error mapping
   core/errors/                      Application error boundary
   core/logging/                     Application logging boundary
@@ -86,14 +86,14 @@ src/
 
 The app follows a layered split: UI is separate from domain and data. Dependencies point inward.
 
-`index.js` registers the app. `src/app/` owns configuration, theme, and routing. Product screens live under `src/features/<name>/`. The API contract is Swagger at the running API (`http://localhost:4500`); the Android emulator reaches that host as `10.0.2.2`. Introduce domain and data folders when those responsibilities exist — not as empty ceremony.
+`index.js` registers the app. `src/app/` owns configuration, theme, and routing. Product screens live under `src/features/<name>/`. The API contract is Swagger at the running API (`http://localhost:4500`); the Android emulator reaches that host as `10.0.2.2`. Introduce domain and data folders when those responsibilities exist - not as empty ceremony.
 
 Third-party packages that earned their keep:
 
-- `react-native-safe-area-context` — RN 0.87 template; notches
-- `react-native-svg` — bundled SVGs
-- `@react-native-community/datetimepicker` — native OS date/time pickers (the ecosystem standard; React Native has none built in)
-- `zod` — form and payload validation
+- `react-native-safe-area-context` - RN 0.87 template; notches
+- `react-native-svg` - bundled SVGs
+- `@react-native-community/datetimepicker` - native OS date/time pickers (the ecosystem standard; React Native has none built in)
+- `zod` - form and payload validation
 
 No Axios, React Query, React Navigation, or persistence packages. HTTP is `fetch` in `core/http/`.
 

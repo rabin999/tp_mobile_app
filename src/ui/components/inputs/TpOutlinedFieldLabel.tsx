@@ -10,7 +10,7 @@ export type TpOutlinedFieldLabelProps = {
 
 /**
  * MUI-style outline label. Must be a sibling of the bordered field, not a
- * child — Android clips overflow inside a bordered / rounded box.
+ * child - Android clips overflow inside a bordered / rounded box.
  */
 export function TpOutlinedFieldLabel({
   label,

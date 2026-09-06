@@ -47,7 +47,7 @@ Nunito Sans for UI. Halant for `displayLarge` / `displayMedium` only.
 
 Sizes: display 34/26, headlines 24/20/18, title 16, body 14, labels 14/12/11.
 Heading line height 1.25, body 1.4. Field **values** are 16 (`tpSizes.inputFont`),
-not `bodyLarge` — 14 stays for paragraphs and chrome.
+not `bodyLarge` - 14 stays for paragraphs and chrome.
 
 ## Spacing, corners, size
 
@@ -73,7 +73,7 @@ variable file defaults to ExtraLight 200; Android will not interpolate
 `fontWeight` on it). Use `tpNunito(weight)` / `tpHalant(weight)` so
 family and weight stay paired. Product SVGs under `assets/icons/`
 and `assets/images/`. Kit glyphs (Close, Search, Menu, Star) are small SVG
-paths in unpublished `TpGlyph` — not a vector-icon package, and not a
+paths in unpublished `TpGlyph` - not a vector-icon package, and not a
 public `Tp*` export. Tinted product SVGs use `currentColor` via
 `TpSvgIcon` `color` (Flutter `ColorFilter.srcIn`). Omit `color` for
 multi-fill brand marks so official paints stay.

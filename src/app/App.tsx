@@ -6,6 +6,8 @@ import {
 } from 'react-native-safe-area-context';
 
 import { ContactScreen } from '../features/contact/ContactScreen';
+import type { ListingTabId } from '../features/listings/ListingTabsHeader';
+import { ListingTabsPage } from '../features/listings/ListingTabsPage';
 import { TpSpinner } from '../ui/components/feedback/TpSpinner';
 import { TpAppBar } from '../ui/components/navigation/TpAppBar';
 import {
@@ -47,24 +49,20 @@ const LoginScreen = lazy(() =>
     default: module.LoginScreen,
   })),
 );
-const ProviderListedServiceCardPreviewScreen = lazy(() =>
-  import('../features/services/ProviderListedServiceCardPreviewScreen').then(
-    module => ({
-      default: module.ProviderListedServiceCardPreviewScreen,
-    }),
-  ),
-);
-const TaskCardPreviewScreen = lazy(() =>
-  import('../features/tasks/TaskCardPreviewScreen').then(module => ({
-    default: module.TaskCardPreviewScreen,
+const ServicesScreen = lazy(() =>
+  import('../features/services/ServicesScreen').then(module => ({
+    default: module.ServicesScreen,
   })),
 );
-const ProfessionalCardPreviewScreen = lazy(() =>
-  import('../features/professionals/ProfessionalCardPreviewScreen').then(
-    module => ({
-      default: module.ProfessionalCardPreviewScreen,
-    }),
-  ),
+const TasksScreen = lazy(() =>
+  import('../features/tasks/TasksScreen').then(module => ({
+    default: module.TasksScreen,
+  })),
+);
+const ProfessionalsScreen = lazy(() =>
+  import('../features/professionals/ProfessionalsScreen').then(module => ({
+    default: module.ProfessionalsScreen,
+  })),
 );
 
 /**
@@ -123,7 +121,11 @@ function AppShell() {
         }}
         onSignup={() => setDrawerOpen(false)}
       />
-      <GuestScreen onHome={goHome} route={route} />
+      <GuestScreen
+        onHome={goHome}
+        onOpenListing={id => setRoute(id)}
+        route={route}
+      />
       <OverlayHost />
     </View>
   );
@@ -131,9 +133,11 @@ function AppShell() {
 
 function GuestScreen({
   onHome,
+  onOpenListing,
   route,
 }: {
   onHome: () => void;
+  onOpenListing: (id: ListingTabId) => void;
   route: AppRoute;
 }) {
   switch (route) {
@@ -175,31 +179,20 @@ function GuestScreen({
           <FaqScreen />
         </LazyPage>
       );
-    default:
+    case 'services':
+    case 'tasks':
+    case 'professionals':
       return (
-        <DesignSystemGalleryPage
-          extraItems={[
-            {
-              id: 'provider-listed-service-card',
-              label: 'Provider listed service card',
-              Demo: ProviderListedServiceCardPreviewScreen,
-              flush: true,
-            },
-            {
-              id: 'task-card',
-              label: 'Task card',
-              Demo: TaskCardPreviewScreen,
-              flush: true,
-            },
-            {
-              id: 'professional-card',
-              label: 'Professional card',
-              Demo: ProfessionalCardPreviewScreen,
-              flush: true,
-            },
-          ]}
-        />
+        <ListingTabsPage selectedId={route} onSelected={onOpenListing}>
+          <Suspense fallback={<ListingListLoading />}>
+            {route === 'services' ? <ServicesScreen /> : null}
+            {route === 'tasks' ? <TasksScreen /> : null}
+            {route === 'professionals' ? <ProfessionalsScreen /> : null}
+          </Suspense>
+        </ListingTabsPage>
       );
+    default:
+      return <DesignSystemGalleryPage />;
   }
 }
 
@@ -215,6 +208,20 @@ function PageLoading() {
       accessibilityRole="progressbar"
       accessibilityLabel="Loading page"
       style={[styles.loading, { backgroundColor: theme.colors.surface }]}
+    >
+      <TpSpinner size={32} color={theme.colors.primary} />
+    </View>
+  );
+}
+
+function ListingListLoading() {
+  const { theme } = useAppThemeController();
+
+  return (
+    <View
+      accessibilityRole="progressbar"
+      accessibilityLabel="Loading listings"
+      style={styles.loading}
     >
       <TpSpinner size={32} color={theme.colors.primary} />
     </View>

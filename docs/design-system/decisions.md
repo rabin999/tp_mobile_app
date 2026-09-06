@@ -26,7 +26,7 @@ mobile and call that a kit decision.
 - **Kit:** Corner rounding 8 / 12 / 16 / fully round. Dropped the
   14px surface outlier.
 - **Kit:** Transient snackbars (`TpSnackbar`) float at the **bottom**,
-  inset, above the home indicator and keyboard — Material 3 / Android
+  inset, above the home indicator and keyboard - Material 3 / Android
   enterprise. They reuse `TpAlert` chrome. Web `CustomSnackbar` is
   top-right (desktop toast); the `left: 60px` offset is a leftover. Do
   not overlay the app bar. Inline `TpAlert` stays in the page for
@@ -74,7 +74,7 @@ mobile and call that a kit decision.
   equivalent so light and dark both work.
 - **Kit:** `react-native-svg` is the bundled-SVG path (same job as
   Flutter `flutter_svg`). Kit glyphs that were Material Icons are SVG
-  paths in unpublished `TpGlyph` — not a vector-icon package.
+  paths in unpublished `TpGlyph` - not a vector-icon package.
 - **Kit:** `@react-native-community/datetimepicker` is the React
   Native date/time picker to use. It is the community-maintained native
   bridge (~1.5M weekly npm downloads, RN 0.87 compatible) to iOS
@@ -82,7 +82,7 @@ mobile and call that a kit decision.
   `react-native-date-picker` (cross-platform iOS lookalike) or
   `react-native-modal-datetime-picker` (a wrapper around this same
   package). A custom calendar matching Flutter’s Today/Cancel chrome
-  can wrap this package later if product needs it — not a second picker
+  can wrap this package later if product needs it - not a second picker
   library.
 - **Kit:** No extra image, theme, or navigation packages.
 - **Kit:** React Native has no Flutter `Overlay`. `OverlayHost`

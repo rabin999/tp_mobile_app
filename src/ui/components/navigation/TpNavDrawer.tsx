@@ -25,7 +25,7 @@ import { TpVerificationBadge } from '../content/TpVerificationBadge';
 import { TpLogo } from './TpLogo';
 
 /**
- * Copyright line matching the web footer (`© 2019–{year} …`).
+ * Copyright line matching the web footer (`© 2019-{year} …`).
  */
 export function tpCopyrightNotice({
   now,

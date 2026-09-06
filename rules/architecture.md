@@ -9,16 +9,16 @@ Product behavior and layout from web: [web.md](web.md). Kit: [ui.md](ui.md). Whi
 **Why:** One place constructs the app so features stay replaceable.
 
 ```ts
-// index.js — registration only
+// index.js - registration only
 AppRegistry.registerComponent(appName, () => TrueProfessionalApp);
 
-// src/main.tsx — keep this small
+// src/main.tsx - keep this small
 export { TrueProfessionalApp } from './app/App';
 ```
 
 `src/app/` owns providers, theme, guest chrome (`TpAppBar` + drawer), and routes (`src/app/App.tsx`). It is not a feature module. Screens do not remount the top app bar.
 
-**Why no React Navigation yet:** the app has no deep links or auth gates. `App.tsx` picks the gallery, Contact, or a public page with local route state. Add a navigation package when those needs appear — not “for later.” See `src/app/router.ts`.
+**Why no React Navigation yet:** the app has no deep links or auth gates. `App.tsx` picks the gallery, Contact, or a public page with local route state. Add a navigation package when those needs appear - not “for later.” See `src/app/router.ts`.
 
 `react-native-safe-area-context` ships with the RN 0.87 template. Keep `SafeAreaProvider` at the root so chrome respects notches; do not wrap every screen again.
 
@@ -35,13 +35,13 @@ export { TrueProfessionalApp } from './app/App';
 | Data | HTTP/storage, DTO mapping; native modules when they exist | Component trees |
 
 ```tsx
-// bad — I/O and parsing inside render
+// bad - I/O and parsing inside render
 function ProfileHeader() {
   const json = JSON.parse(responseBody);
   return <Text>{json.name}</Text>;
 }
 
-// good — component receives already-mapped data
+// good - component receives already-mapped data
 function ProfileHeader({ profile }: { profile: Profile }) { … }
 ```
 
@@ -60,7 +60,7 @@ A screen is a composition. Extract a component when render is no longer one thou
 
 ## What is shared vs local
 
-Where a value belongs is defined in [core.md](core.md) § Put each decision once. How a **file** earns that scope — one job, when to split, reuse vs copy, lazy vs eager — is [modularity.md](modularity.md). Kit never imports `features/`. Features never import another feature’s `data/` or private components. Do not thread API models through views “temporarily.”
+Where a value belongs is defined in [core.md](core.md) § Put each decision once. How a **file** earns that scope - one job, when to split, reuse vs copy, lazy vs eager - is [modularity.md](modularity.md). Kit never imports `features/`. Features never import another feature’s `data/` or private components. Do not thread API models through views “temporarily.”
 
 ## State
 
@@ -72,7 +72,7 @@ Do not add Redux, Zustand, MobX, or Recoil because they are popular.
 
 ## Change existing code
 
-Trace callers. Fix locally unless structure makes a correct fix unsafe — then extract the minimum boundary. Delete proven-dead duplicates (two chrome folders, two sources of truth).
+Trace callers. Fix locally unless structure makes a correct fix unsafe - then extract the minimum boundary. Delete proven-dead duplicates (two chrome folders, two sources of truth).
 
 ## Dependencies
 
@@ -80,9 +80,9 @@ Add an npm package only if (1) the SDK cannot, (2) we do not already have it, (3
 
 Earned their keep today:
 
-- `react-native-safe-area-context` — template; notches
-- `react-native-svg` — bundled SVGs
-- `@react-native-community/datetimepicker` — native OS pickers (the community standard)
-- `zod` — form and payload validation (JS-only; Android and iOS)
+- `react-native-safe-area-context` - template; notches
+- `react-native-svg` - bundled SVGs
+- `@react-native-community/datetimepicker` - native OS pickers (the community standard)
+- `zod` - form and payload validation (JS-only; Android and iOS)
 
-Images use `TpImage` — not another image library. Do not add packages for theming, thin HTTP wrappers, navigation, state, or “cleaner architecture.” Expo is not used: stable Expo SDK has not shipped React Native 0.87.
+Images use `TpImage` - not another image library. Do not add packages for theming, thin HTTP wrappers, navigation, state, or “cleaner architecture.” Expo is not used: stable Expo SDK has not shipped React Native 0.87.

@@ -13,7 +13,7 @@ Folder tree: `README.md` § Architecture. Do not invent a parallel tree.
 export const defaultTimeoutMs = 3000;
 export function TpButton(props: TpButtonProps) { … }
 
-// bad — Hungarian / Java constants / Dart file names
+// bad - Hungarian / Java constants / Dart file names
 export const kDefaultTimeout = 3000;
 export const DEFAULT_TIMEOUT = 3000;
 ```
@@ -37,7 +37,7 @@ export const DEFAULT_TIMEOUT = 3000;
 
 Feature components use the feature name (`BookingScreen`), not `Tp`.
 
-Token holders are `as const` objects with named fields — see `src/ui/theme/tpSpacing.ts`. Filename matches the main export; small related enums may colocate (`TpButtonVariant` in `TpButton.tsx`).
+Token holders are `as const` objects with named fields - see `src/ui/theme/tpSpacing.ts`. Filename matches the main export; small related enums may colocate (`TpButtonVariant` in `TpButton.tsx`).
 
 Acronyms: `Http`, `Uri` in types; two-letter caps stay caps (`ID`, `UI`) in names that are already acronyms (`TpOtpField`).
 
@@ -45,13 +45,13 @@ Acronyms: `Http`, `Uri` in types; two-letter caps stay caps (`ID`, `UI`) in name
 
 **Why:** Keep a thin composition root and a public kit surface so features do not scrape internals.
 
-- `index.js` — `AppRegistry` registration only.
-- `src/main.tsx` — re-exports the root; keep it small.
-- `src/app/` — providers, theme facade, routes. Not a feature.
-- `src/core/` — cross-feature technical boundaries, not a junk drawer. File-level jobs: [modularity.md](modularity.md).
-- `src/ui/overlay/` — `OverlayHost` (snackbars / sheets). Not a feature; not a public kit export.
+- `index.js` - `AppRegistry` registration only.
+- `src/main.tsx` - re-exports the root; keep it small.
+- `src/app/` - providers, theme facade, routes. Not a feature.
+- `src/core/` - cross-feature technical boundaries, not a junk drawer. File-level jobs: [modularity.md](modularity.md).
+- `src/ui/overlay/` - `OverlayHost` (snackbars / sheets). Not a feature; not a public kit export.
 - Public kit: `src/ui/components/index.ts` and `src/ui/theme/index.ts`.
-- Navigation chrome lives in `navigation/` (exported). **Do not add `chrome/`.** If both exist, the barrel is the API — delete the duplicate.
+- Navigation chrome lives in `navigation/` (exported). **Do not add `chrome/`.** If both exist, the barrel is the API - delete the duplicate.
 - Product screens: `src/features/<name>/`, never `ui/gallery/` (temporary approval UI).
 - Feature code must not import unpublished helpers (`tpFieldError.ts`, `TpTimeoutBar.tsx`, `TpGlyph.tsx`, `tpKeyboardInset.ts`, `useTpKeyboardMetrics.ts`, `useAliveRef.ts`).
 
@@ -88,7 +88,7 @@ import { tpFieldError } from './tpFieldError';
 - Visual values → `src/ui/theme/` (code wins if `docs/design-system/` drifts).
 - Paths / `require()` ids / SVG components → `src/ui/theme/tpAssets.ts`.
 - Fonts are bundled Nunito Sans + Halant. Link with `npx react-native-asset` after a clone or a new `.ttf`. Do not add a Google Fonts package.
-- Secrets never belong here — [security.md](security.md).
+- Secrets never belong here - [security.md](security.md).
 
 ## Format and lint
 
@@ -99,7 +99,7 @@ import { tpFieldError } from './tpFieldError';
 Blank lines: one empty line between functions, classes, exports, and logical groups inside a function (after `if` / `try` / a `const` group). Prettier keeps those lines; ESLint `padding-line-between-statements` inserts them. Do not stack more than one blank line.
 
 ```ts
-// good — infer obvious locals; annotate public APIs
+// good - infer obvious locals; annotate public APIs
 const theme = useTpTheme();
 export function mapProfile(dto: ProfileDto): Profile { … }
 
@@ -112,7 +112,7 @@ Prefer named function components, `const` locals, `async`/`await` over nested `.
 
 ```ts
 appLogger.debug('profile: timeout'); // good
-console.log(error); // bad — call sites go through src/core/logging/appLogger.ts
+console.log(error); // bad - call sites go through src/core/logging/appLogger.ts
 ```
 
 `TODO` states remaining work and a tracker id when one exists. Do not TODO the change you are making.

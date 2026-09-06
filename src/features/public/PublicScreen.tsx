@@ -10,7 +10,7 @@ export type PublicScreenProps = {
 };
 
 /**
- * Scrollable guest page shell. No keyboard inset — these screens have
+ * Scrollable guest page shell. No keyboard inset - these screens have
  * no fields.
  */
 export function PublicScreen({ children }: PublicScreenProps) {
@@ -36,7 +36,7 @@ export type PublicSectionProps = {
 };
 
 /**
- * One block on a public page — same gutters as Contact.
+ * One block on a public page - same gutters as Contact.
  */
 export function PublicSection({ children }: PublicSectionProps) {
   return <View style={styles.section}>{children}</View>;

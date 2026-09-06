@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, type ComponentType } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { TpKeyboardScrollView } from '../components/content/TpKeyboardScrollView';
@@ -28,32 +28,15 @@ const kitItems: { id: string; label: string }[] = [
   { id: 'tokens', label: 'Tokens' },
 ];
 
-export type GalleryExtraItem = {
-  id: string;
-  label: string;
-  Demo: ComponentType;
-  flush?: boolean;
-};
-
-export type DesignSystemGalleryPageProps = {
-  extraItems?: readonly GalleryExtraItem[];
-};
-
 /**
- * Temporary approval surface for kit primitives and injected previews.
+ * Temporary approval surface for kit primitives.
  *
  * Index chrome stays light. Demos load only after a row is opened.
  */
-export function DesignSystemGalleryPage({
-  extraItems = [],
-}: DesignSystemGalleryPageProps) {
+export function DesignSystemGalleryPage() {
   const { colors, text } = useTpTheme();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const items = [...kitItems, ...extraItems];
-  const selected = items.find(item => item.id === selectedId);
-  const extraItem = extraItems.find(item => item.id === selectedId);
-  const ExtraDemo = extraItem?.Demo ?? null;
-  const flushExtra = extraItem?.flush === true;
+  const selected = kitItems.find(item => item.id === selectedId);
 
   return (
     <View style={[styles.root, { backgroundColor: colors.surface }]}>
@@ -67,7 +50,7 @@ export function DesignSystemGalleryPage({
             the live web app.
           </Text>
           <AppearanceTile />
-          {items.map(item => (
+          {kitItems.map(item => (
             <Pressable
               key={item.id}
               accessibilityRole="button"
@@ -86,23 +69,11 @@ export function DesignSystemGalleryPage({
             backTooltip="Back"
             onBack={() => setSelectedId(null)}
           />
-          {flushExtra ? (
-            <View style={styles.flex}>
-              <Suspense fallback={<DemoFallback />}>
-                {ExtraDemo != null ? <ExtraDemo /> : null}
-              </Suspense>
-            </View>
-          ) : (
-            <TpKeyboardScrollView contentContainerStyle={styles.detailPad}>
-              <Suspense fallback={<DemoFallback />}>
-                {ExtraDemo != null ? (
-                  <ExtraDemo />
-                ) : (
-                  <GalleryDemo id={selected.id} />
-                )}
-              </Suspense>
-            </TpKeyboardScrollView>
-          )}
+          <TpKeyboardScrollView contentContainerStyle={styles.detailPad}>
+            <Suspense fallback={<DemoFallback />}>
+              <GalleryDemo id={selected.id} />
+            </Suspense>
+          </TpKeyboardScrollView>
         </View>
       )}
     </View>

@@ -60,7 +60,7 @@ const art: Record<TpStatusArt, ImageSourcePropType> = {
 
 /**
  * Shared empty / error page. Pass `illustration` and copy from the
- * calling screen — do not fork a second layout.
+ * calling screen - do not fork a second layout.
  */
 export function TpStatusPage({
   title,
@@ -124,7 +124,7 @@ export function TpStatusPage({
 
 /**
  * Empty listing. Prefer `TpStatusPage` when the screen already branches
- * on empty vs error — pass `illustration` there instead of a new widget.
+ * on empty vs error - pass `illustration` there instead of a new widget.
  */
 export function TpEmptyState({
   illustration = 'noResults',

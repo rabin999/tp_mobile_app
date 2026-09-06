@@ -2,7 +2,7 @@
 
 Load when writing, splitting, or growing a component, helper, or shared module.
 
-**Why:** A production file is one job a reader can hold in their head. Mixing layout math, URL policy, and JSX in one function is how `TpImage` became unreadable — not “clever reuse.”
+**Why:** A production file is one job a reader can hold in their head. Mixing layout math, URL policy, and JSX in one function is how `TpImage` became unreadable - not “clever reuse.”
 
 ## One job per module
 
@@ -16,14 +16,14 @@ Load when writing, splitting, or growing a component, helper, or shared module.
 | `src/features/<name>/` | One product capability | A second feature’s private files; kit internals |
 
 ```tsx
-// bad — component invents decode size, aspect ratio, and URI shaping
+// bad - component invents decode size, aspect ratio, and URI shaping
 function TpImageFrame({ source, width, height }) {
   const ratio = Image.resolveAssetSource(source).width / …;
   const cacheWidth = Math.round(width * PixelRatio.get());
   return <Image source={{ uri, width: cacheWidth, height: cacheHeight }} />;
 }
 
-// good — view asks the policy module, then paints
+// good - view asks the policy module, then paints
 const layout = tpImageCache.prepare({ source, width, height, devicePixelRatio });
 return <Image source={layout.source} style={layout} />;
 ```
@@ -38,7 +38,7 @@ Same table as [core.md](core.md) § Put each decision once, applied to **code**:
 | --- | --- |
 | Do many features need this technical boundary (errors, logging)? | `src/core/` |
 | Do many screens need this look or primitive? | Kit (`Tp*` / `tp*`) |
-| Do two screens in the same product area need it? | That feature’s `components/` — **not** the kit |
+| Do two screens in the same product area need it? | That feature’s `components/` - **not** the kit |
 | Does only this file need it? | Same file, or a sibling helper named for the job |
 
 Do not promote a helper to `core/` or the kit because two UIs look similar. Do not add `utils.ts` / `helpers.ts` junk drawers. The file name is the job (`tpImageCache.ts`, `tpFieldError.ts`).
@@ -50,7 +50,7 @@ Split when **responsibility** changed, not when a line count felt large:
 - A second reader cannot say what the file does in one sentence.
 - Render is mixed with policy, parsing, or I/O.
 - A helper would be tested without mounting a view (`tpImageCache.frameSize`).
-- Two components copied the same block — extract **one** owner, delete the copies.
+- Two components copied the same block - extract **one** owner, delete the copies.
 
 Do **not** split: a 40-line fallback view used once (`TpImageFallbackView` may stay private in `TpImage.tsx`); a types-only alias file; folders that will stay empty.
 

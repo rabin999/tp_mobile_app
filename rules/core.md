@@ -27,7 +27,7 @@ These names say where a value belongs, not which rule file to open.
 | Scope | Belongs in |
 | --- | --- |
 | `global` / `shared` | Theme, tokens, `Tp*`, `src/core`, `src/app` |
-| `partial` | A small shared feature module — not the kit |
+| `partial` | A small shared feature module - not the kit |
 | `local` | The one component/screen that owns it |
 
 Do not duplicate business rules across UI, domain, and API. Do not invent a shared type because two UIs look similar.
@@ -36,7 +36,7 @@ Do not duplicate business rules across UI, domain, and API. Do not invent a shar
 
 Ask: what behavior? who depends? empty / loading / fail? global vs local? **who owns this computation (view vs helper vs core)?** copying debt? what breaks?
 
-If it exists on web, stop until [web.md](web.md) steps 1–4 are done. If the answer is “the JSX file also does pixel math / URL policy / DTO parsing,” stop and split — [modularity.md](modularity.md).
+If it exists on web, stop until [web.md](web.md) steps 1-4 are done. If the answer is “the JSX file also does pixel math / URL policy / DTO parsing,” stop and split - [modularity.md](modularity.md).
 
 Failure is product behavior: loading, empty, validation, authz, business error, timeout, offline, cancel, partial, retryable vs not. Accurate user-facing text; no internals.
 
@@ -61,6 +61,6 @@ npm run verify
 
 That runs Prettier, ESLint, `tsc --noEmit`, and Jest. UI: exercise the flow (gallery, tests, or a device), including empty / loading / error / disabled. A screenshot of the app alone is not behavior verification. Leak-prone work also follows [memory.md](memory.md). HTTP client work also follows [network.md](network.md).
 
-Then [audit.md](audit.md) — **required**, not optional. Rules audit of the finished code (second agent when possible), then pixel match vs web mobile when the screen exists on web. Fix findings in the same change. Work is not done until both gates pass.
+Then [audit.md](audit.md) - **required**, not optional. Rules audit of the finished code (second agent when possible), then pixel match vs web mobile when the screen exists on web. Fix findings in the same change. Work is not done until both gates pass.
 
 What to load next: [index.md](index.md).

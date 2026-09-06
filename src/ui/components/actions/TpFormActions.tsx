@@ -12,7 +12,7 @@ export type TpFormActionsProps = {
  * Form / sheet footer actions.
  *
  * A lone primary stays centered at content width. When Cancel is present it
- * sits on the left and the primary action on the right — same as web confirm
+ * sits on the left and the primary action on the right - same as web confirm
  * and filter footers (`stickyBottomStyles`, `DialogActions`).
  */
 export function TpFormActions({ primary, cancel }: TpFormActionsProps) {

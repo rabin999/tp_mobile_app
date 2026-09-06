@@ -10,6 +10,9 @@ export const appRouter = {
   privacy: '/privacy-policy',
   terms: '/terms-and-conditions',
   communityGuidelines: '/community-guidelines',
+  services: '/services',
+  tasks: '/tasks',
+  professionals: '/professionals',
 } as const;
 
 export type AppRoute = keyof typeof appRouter;
@@ -23,6 +26,9 @@ const drawerLabelByRoute: Record<AppRoute, string> = {
   privacy: 'Privacy Policy',
   terms: 'Terms & Conditions',
   communityGuidelines: 'Community Guidelines',
+  services: 'Services',
+  tasks: 'Tasks',
+  professionals: 'Professionals',
 };
 
 const routeByDrawerLabel: Partial<Record<string, AppRoute>> = {
@@ -33,6 +39,9 @@ const routeByDrawerLabel: Partial<Record<string, AppRoute>> = {
   'Privacy Policy': 'privacy',
   'Terms & Conditions': 'terms',
   'Community Guidelines': 'communityGuidelines',
+  Services: 'services',
+  Tasks: 'tasks',
+  Professionals: 'professionals',
 };
 
 /**
