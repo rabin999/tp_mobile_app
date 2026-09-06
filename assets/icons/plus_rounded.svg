@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33.941" height="33.941" viewBox="0 0 33.941 33.941">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="24" height="24" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Icon_Close_Rounded" data-name="Icon / Close / Rounded" transform="translate(16.971) rotate(45)" clip-path="url(#clip-path)">
+    <rect id="Box" width="24" height="24" fill="none"/>
+    <path id="Path_2016" data-name="Path 2016" d="M111.8,3.3a.967.967,0,0,0-1.4,0l-4.9,4.9-4.9-4.9a.99.99,0,0,0-1.4,1.4l4.9,4.9-4.9,4.9a.99.99,0,0,0,1.4,1.4l4.9-4.9,4.9,4.9a.99.99,0,0,0,1.4-1.4l-4.9-4.9,4.9-4.9A.967.967,0,0,0,111.8,3.3Z" transform="translate(-94 2)" fill="#fff"/>
+  </g>
+</svg>

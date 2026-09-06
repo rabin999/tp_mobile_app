@@ -1,0 +1,205 @@
+import { lazy, Suspense, useState } from 'react';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { TpAppBar } from '../components/navigation/TpAppBar';
+import {
+  tpGuestNavDrawerSections,
+  TpNavDrawer,
+} from '../components/navigation/TpNavDrawer';
+import { TpPageHeader } from '../components/navigation/TpPageHeader';
+import { TpGlyph } from '../components/content/TpGlyph';
+import { tpSpacing } from '../theme/tpSpacing';
+import {
+  useOptionalAppThemeController,
+  useTpTheme,
+  type TpThemeMode,
+} from '../theme/tpTheme';
+
+const GalleryDemo = lazy(() =>
+  import('./galleryDemos').then(module => ({ default: module.GalleryDemo })),
+);
+
+const items: { id: string; label: string }[] = [
+  { id: 'buttons', label: 'Buttons' },
+  { id: 'inputs', label: 'Inputs' },
+  { id: 'search', label: 'Search' },
+  { id: 'navigation', label: 'Navigation' },
+  { id: 'overlays', label: 'Alerts & overlays' },
+  { id: 'loading', label: 'Loading' },
+  { id: 'empty-error', label: 'Empty & error' },
+  { id: 'content', label: 'Content' },
+  { id: 'tokens', label: 'Tokens' },
+];
+
+/**
+ * Temporary approval surface for the mobile design system.
+ *
+ * Index chrome stays light. Kit demos load only after a row is opened.
+ */
+export function DesignSystemGalleryPage() {
+  const { colors, text } = useTpTheme();
+  const insets = useSafeAreaInsets();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerReady, setDrawerReady] = useState(false);
+  const selected = items.find(item => item.id === selectedId);
+
+  return (
+    <View style={[styles.root, { backgroundColor: colors.surface }]}>
+      <View style={{ height: insets.top, backgroundColor: colors.surface }} />
+      <TpAppBar
+        menuTooltip="Open navigation menu"
+        onMenuPress={() => {
+          setDrawerReady(true);
+          setDrawerOpen(true);
+        }}
+      />
+      {drawerReady ? (
+        <TpNavDrawer
+          visible={drawerOpen}
+          sections={tpGuestNavDrawerSections({ activeLabel: 'Home' })}
+          onItemTap={() => setDrawerOpen(false)}
+          onClose={() => setDrawerOpen(false)}
+          onLogin={() => setDrawerOpen(false)}
+          onSignup={() => setDrawerOpen(false)}
+        />
+      ) : null}
+      {selected == null ? (
+        <ScrollView>
+          <Text style={[text.headlineSmall, styles.indexTitle]}>
+            Shared components
+          </Text>
+          <Text style={[text.bodyMedium, styles.indexBody]}>
+            Open one item at a time. The menu opens the right-hand drawer from
+            the live web app.
+          </Text>
+          <AppearanceTile />
+          {items.map(item => (
+            <Pressable
+              key={item.id}
+              accessibilityRole="button"
+              onPress={() => setSelectedId(item.id)}
+              style={styles.listRow}
+            >
+              <Text style={[text.bodyLarge, { flex: 1 }]}>{item.label}</Text>
+              <TpGlyph name="chevronRight" color={colors.onSurfaceVariant} />
+            </Pressable>
+          ))}
+        </ScrollView>
+      ) : (
+        <View style={styles.flex}>
+          <TpPageHeader
+            title={selected.label}
+            backTooltip="Back"
+            onBack={() => setSelectedId(null)}
+          />
+          <ScrollView contentContainerStyle={styles.detailPad}>
+            <Suspense
+              fallback={
+                <View style={styles.demoFallback}>
+                  <ActivityIndicator color={colors.primary} />
+                </View>
+              }
+            >
+              <GalleryDemo id={selected.id} />
+            </Suspense>
+          </ScrollView>
+        </View>
+      )}
+    </View>
+  );
+}
+
+function AppearanceTile() {
+  const controller = useOptionalAppThemeController();
+  const { text, colors } = useTpTheme();
+  if (controller == null) {
+    return null;
+  }
+  const label =
+    controller.mode === 'system'
+      ? 'System'
+      : controller.mode === 'light'
+      ? 'Light'
+      : 'Dark';
+  const icon =
+    controller.mode === 'system'
+      ? 'brightnessAuto'
+      : controller.mode === 'light'
+      ? 'lightMode'
+      : 'darkMode';
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={() => controller.setMode(nextThemeMode(controller.mode))}
+      style={styles.appearance}
+    >
+      <TpGlyph name={icon} color={colors.onSurfaceVariant} />
+      <View style={styles.appearanceCopy}>
+        <Text style={text.bodyLarge}>Appearance</Text>
+        <Text style={text.bodySmall}>{label}</Text>
+      </View>
+      <TpGlyph name="tune" color={colors.onSurfaceVariant} />
+    </Pressable>
+  );
+}
+
+function nextThemeMode(mode: TpThemeMode): TpThemeMode {
+  if (mode === 'system') {
+    return 'light';
+  }
+  if (mode === 'light') {
+    return 'dark';
+  }
+  return 'system';
+}
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
+  flex: {
+    flex: 1,
+  },
+  indexTitle: {
+    paddingHorizontal: 16,
+    paddingTop: 20,
+    paddingBottom: 8,
+  },
+  indexBody: {
+    paddingHorizontal: 16,
+    paddingBottom: 12,
+  },
+  listRow: {
+    minHeight: 48,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  detailPad: {
+    padding: tpSpacing.md,
+  },
+  demoFallback: {
+    minHeight: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  appearance: {
+    minHeight: 56,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  appearanceCopy: {
+    flex: 1,
+    marginLeft: 16,
+  },
+});

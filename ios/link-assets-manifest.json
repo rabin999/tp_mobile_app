@@ -1,0 +1,41 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Halant-Bold.ttf",
+      "sha1": "cffc8d771a077844c3f8f039dcb2aabb2f7f60d6"
+    },
+    {
+      "path": "assets/fonts/Halant-Regular.ttf",
+      "sha1": "808b34c596e428a9abac9bcb909d708237716d19"
+    },
+    {
+      "path": "assets/fonts/Halant-SemiBold.ttf",
+      "sha1": "c331a1c2191af84830621c33b46b4594bbbcd1fd"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-Bold.ttf",
+      "sha1": "6430e506a8d0fa6326f005dd919ade84efda6197"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-Medium.ttf",
+      "sha1": "cbedcfe1528b998d50afd9fc6992e142d63239a3"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-Regular.ttf",
+      "sha1": "697478d29c888c3eb55ca8f470835a62342169d4"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-SemiBold.ttf",
+      "sha1": "6f4d81347eb5af84d8cf0917fbe12cc6bd9cd8d1"
+    },
+    {
+      "path": "assets/fonts/OFL-Halant.txt",
+      "sha1": "061a0eb53e237388221e0f7b502582e16bd68dd4"
+    },
+    {
+      "path": "assets/fonts/OFL-NunitoSans.txt",
+      "sha1": "6213b4946b3fb7c797a6f4a8c37b061572d236fe"
+    }
+  ]
+}
