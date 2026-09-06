@@ -5,10 +5,11 @@ import {
   parseLoginResponse,
   submitLogin,
 } from '../../../src/features/login/submitLogin';
+import { appHttpResult } from '../../core/appHttp';
 import { jsonResponse, ScriptedHttp, withFetch } from '../../core/scriptedHttp';
 
 const unknownDraft: LoginDraft = {
-  username: `tp-app-login-missing-${Date.now()}`,
+  username: 'missing-user',
   password: 'not-a-real-password',
   loginAs: 'CUSTOMER',
   persistLogin: false,
@@ -21,10 +22,15 @@ const scriptedDraft: LoginDraft = {
   persistLogin: false,
 };
 
-test('unknown credentials are rejected by the live API', async () => {
+test('unknown credentials are rejected', async () => {
+  const http = new ScriptedHttp(appHttpResult);
+
   await expect(
-    submitLogin(unknownDraft, new AbortController().signal),
+    withFetch(http.fetch, () =>
+      submitLogin(unknownDraft, new AbortController().signal),
+    ),
   ).rejects.toEqual(new AppException('Sorry, unable to find user'));
+  expect(http.calls).toHaveLength(1);
 });
 
 test('a complete token payload is accepted and discarded', () => {

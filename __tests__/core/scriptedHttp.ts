@@ -85,16 +85,32 @@ export function jsonResponse(status: number, body?: unknown): Response {
   });
 }
 
+export function requestJsonBody(init: RequestInit): unknown {
+  if (typeof init.body !== 'string' || init.body.length === 0) {
+    return undefined;
+  }
+
+  return JSON.parse(init.body);
+}
+
+export function installFetch(fake: typeof fetch): () => void {
+  const previous = globalThis.fetch;
+
+  globalThis.fetch = fake;
+  return () => {
+    globalThis.fetch = previous;
+  };
+}
+
 export async function withFetch<T>(
   fake: typeof fetch,
   run: () => Promise<T>,
 ): Promise<T> {
-  const previous = globalThis.fetch;
+  const restore = installFetch(fake);
 
-  globalThis.fetch = fake;
   try {
     return await run();
   } finally {
-    globalThis.fetch = previous;
+    restore();
   }
 }

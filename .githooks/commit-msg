@@ -1,0 +1,11 @@
+#!/bin/sh
+# Drop Cursor/agent attribution trailers so they never land in git history.
+file=$1
+tmp=$file.tmp
+
+grep -v -E \
+  -e '^Co-authored-by:.*cursoragent@cursor\.com' \
+  -e '^Made-with:[[:space:]]*Cursor' \
+  -e '^Made with Cursor' \
+  "$file" > "$tmp" || true
+mv "$tmp" "$file"

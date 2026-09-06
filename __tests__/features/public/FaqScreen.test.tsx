@@ -8,10 +8,20 @@ import type { ComponentType } from 'react';
 
 import { faqText } from '../../../src/features/public/faq/faqText';
 import { TrueProfessionalApp } from '../../../src/main';
+import { appHttpResult } from '../../core/appHttp';
+import { installFetch, ScriptedHttp } from '../../core/scriptedHttp';
 
 type LazyFactory = () => Promise<{ default: ComponentType }>;
 
-const apiTimeout = { timeout: 8_000 };
+let restoreFetch: () => void;
+
+beforeEach(() => {
+  restoreFetch = installFetch(new ScriptedHttp(appHttpResult).fetch);
+});
+
+afterEach(() => {
+  restoreFetch();
+});
 
 jest.mock('react', () => {
   const actual = jest.requireActual<typeof import('react')>('react');
@@ -44,7 +54,7 @@ async function openFaq(): Promise<void> {
   ).toBeOnTheScreen();
   await waitFor(() => {
     expect(screen.getByText('How to post a task ?')).toBeOnTheScreen();
-  }, apiTimeout);
+  });
 }
 
 test('drawer FAQ opens Support with sections, search, and an accordion', async () => {
@@ -95,7 +105,7 @@ test('provider audience shows the empty FAQ state for Tasks', async () => {
   await fireEvent.press(screen.getByText(faqText.providerTab));
   await waitFor(() => {
     expect(screen.getByText(faqText.emptyTitle)).toBeOnTheScreen();
-  }, apiTimeout);
+  });
   expect(
     screen.getByRole('tab', { name: faqText.providerTab, selected: true }),
   ).toBeOnTheScreen();
@@ -105,7 +115,7 @@ test('provider audience shows the empty FAQ state for Tasks', async () => {
   await fireEvent.press(screen.getByText(faqText.customerTab));
   await waitFor(() => {
     expect(screen.getByText('How to post a task ?')).toBeOnTheScreen();
-  }, apiTimeout);
+  });
   expect(
     screen.getByRole('tab', { name: faqText.customerTab, selected: true }),
   ).toBeOnTheScreen();

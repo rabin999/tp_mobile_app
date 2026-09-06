@@ -10,9 +10,19 @@ import { StyleSheet } from 'react-native';
 import { TrueProfessionalApp } from '../../../src/main';
 import { contactChannels } from '../../../src/features/contact/contactChannels';
 import { contactText } from '../../../src/features/contact/contactText';
+import { appHttpResult } from '../../core/appHttp';
+import { installFetch, ScriptedHttp } from '../../core/scriptedHttp';
 import { emitKeyboardDidShow } from '../../ui/emitKeyboard';
 
-const apiTimeout = { timeout: 8_000 };
+let restoreFetch: () => void;
+
+beforeEach(() => {
+  restoreFetch = installFetch(new ScriptedHttp(appHttpResult).fetch);
+});
+
+afterEach(() => {
+  restoreFetch();
+});
 
 async function openContact(): Promise<void> {
   await render(<TrueProfessionalApp />);
@@ -20,7 +30,7 @@ async function openContact(): Promise<void> {
   await fireEvent.press(screen.getByText('Contact'));
   await waitFor(() => {
     expect(screen.getByLabelText(contactText.topic)).toBeEnabled();
-  }, apiTimeout);
+  });
 }
 
 test('drawer Contact opens the page with API topics, channels, and home', async () => {
@@ -75,7 +85,7 @@ test('valid send posts to the API, shows success, and clears the form', async ()
   await fireEvent.press(screen.getByText(contactText.send));
   await waitFor(() => {
     expect(screen.getByText(contactText.sent)).toBeOnTheScreen();
-  }, apiTimeout);
+  });
   expect(screen.getByPlaceholderText(contactText.email).props.value).toBe('');
   expect(screen.getByPlaceholderText(contactText.message).props.value).toBe('');
 });
@@ -94,7 +104,7 @@ test('a second tap while sending does not double-deliver', async () => {
   await fireEvent.press(screen.getByText(contactText.send));
   await waitFor(() => {
     expect(screen.getByText(contactText.sent)).toBeOnTheScreen();
-  }, apiTimeout);
+  });
 });
 
 test('leaving the page while sending returns to the gallery', async () => {

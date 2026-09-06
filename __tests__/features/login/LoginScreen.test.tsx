@@ -10,11 +10,21 @@ import { StyleSheet } from 'react-native';
 
 import { loginText } from '../../../src/features/login/loginText';
 import { TrueProfessionalApp } from '../../../src/main';
+import { appHttpResult } from '../../core/appHttp';
+import { installFetch, ScriptedHttp } from '../../core/scriptedHttp';
 import { emitKeyboardDidShow } from '../../ui/emitKeyboard';
 
 type LazyFactory = () => Promise<{ default: ComponentType }>;
 
-const apiTimeout = { timeout: 8_000 };
+let restoreFetch: () => void;
+
+beforeEach(() => {
+  restoreFetch = installFetch(new ScriptedHttp(appHttpResult).fetch);
+});
+
+afterEach(() => {
+  restoreFetch();
+});
 
 jest.mock('react', () => {
   const actual = jest.requireActual<typeof import('react')>('react');
@@ -94,7 +104,7 @@ test('unknown credentials show the API error and stay on login', async () => {
   await fireEvent.press(screen.getByText(loginText.submit));
   await waitFor(() => {
     expect(screen.getByText('Sorry, unable to find user')).toBeOnTheScreen();
-  }, apiTimeout);
+  });
   expect(screen.getByText(loginText.title)).toBeOnTheScreen();
   expect(screen.queryByText(loginText.signedIn)).not.toBeOnTheScreen();
 });
@@ -137,7 +147,7 @@ test('a second tap while sending stays on login with the API error', async () =>
   await fireEvent.press(screen.getByText(loginText.submit));
   await waitFor(() => {
     expect(screen.getByText('Sorry, unable to find user')).toBeOnTheScreen();
-  }, apiTimeout);
+  });
   expect(screen.getByText(loginText.title)).toBeOnTheScreen();
   expect(screen.queryByText(loginText.signedIn)).not.toBeOnTheScreen();
 });

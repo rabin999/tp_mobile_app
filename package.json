@@ -10,7 +10,8 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "format": "prettier --check .",
-    "verify": "npm run format && npm run lint && npm run typecheck && npm test"
+    "verify": "npm run format && npm run lint && npm run typecheck && npm test",
+    "prepare": "node scripts/install-git-hooks.js"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^9.2.0",
