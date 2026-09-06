@@ -63,7 +63,9 @@ Min tap 48.
 
 Buttons have none. App bar, bottom nav, and resting surfaces may use the
 named shadow lists on `tpElevation`. Listing cards use `listingCard`
-(`0 / 17%` blur 4, observed on web task / professional cards).
+(`0 / 17%` blur 4, observed on web task / professional cards and
+category chips). Android paints that even glow with `boxShadow`;
+`elevation` alone is a drop shadow and horizontal rows clip it.
 
 ## Fonts and icons
 

@@ -7,6 +7,18 @@ import {
 import type { ComponentType } from 'react';
 
 import { TrueProfessionalApp } from '../src/main';
+import { appHttpResult } from './core/appHttp';
+import { installFetch, ScriptedHttp } from './core/scriptedHttp';
+
+let restoreFetch: () => void;
+
+beforeEach(() => {
+  restoreFetch = installFetch(new ScriptedHttp(appHttpResult).fetch);
+});
+
+afterEach(() => {
+  restoreFetch();
+});
 
 type LazyFactory = () => Promise<{ default: ComponentType }>;
 
@@ -64,7 +76,9 @@ test('drawer Services opens the static listing and Tasks tab switches', async ()
   });
   expect(screen.getByText('Math Tutoring')).toBeOnTheScreen();
   expect(screen.getByText('Categories')).toBeOnTheScreen();
-  expect(screen.getByRole('button', { name: 'Cleaning' })).toBeOnTheScreen();
+  await waitFor(() => {
+    expect(screen.getByRole('button', { name: 'Cleaning' })).toBeOnTheScreen();
+  });
 
   expect(screen.getByPlaceholderText('Search')).toBeOnTheScreen();
   await fireEvent.press(screen.getByRole('tab', { name: 'Tasks' }));

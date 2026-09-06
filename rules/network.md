@@ -23,6 +23,7 @@ Automatic retry only for calls that are safe to repeat. Back off in code if you 
 | Call | Safe to auto-retry? | What we do |
 | --- | --- | --- |
 | `GET /general-feedbacks/topics/get-all` | Yes (idempotent read) | No auto-retry. User taps Try again (`useContactTopics.retry`). |
+| `GET /service-sub-categories/filter` | Yes (idempotent read) | No auto-retry. User taps Try again (`useListingCategories.retry`). |
 | `POST /general-feedbacks` | No | No auto-retry. Disable double-submit (`sendingRef` / button loading). |
 | `POST /auth/login` | No | No auto-retry. Disable double-submit (`sendingRef` / button loading). |
 

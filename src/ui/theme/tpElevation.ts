@@ -43,11 +43,7 @@ export const tpElevation = {
     elevation: 1,
   } satisfies ViewStyle,
   listingCard: {
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.17,
-    shadowRadius: 4,
-    elevation: 2,
+    boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.17)',
   } satisfies ViewStyle,
   fab: {
     shadowColor: '#000000',
@@ -64,10 +60,6 @@ export const tpElevation = {
     elevation: 3,
   } satisfies ViewStyle,
   none: {
-    shadowColor: 'transparent',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0,
-    shadowRadius: 0,
-    elevation: 0,
+    boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)',
   } satisfies ViewStyle,
 } as const;

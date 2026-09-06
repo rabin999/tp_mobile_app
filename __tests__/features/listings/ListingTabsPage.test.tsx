@@ -1,10 +1,28 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react-native';
 import { useState } from 'react';
 import { Text } from 'react-native';
 
 import type { ListingTabId } from '../../../src/features/listings/ListingTabsHeader';
 import { ListingTabsPage } from '../../../src/features/listings/ListingTabsPage';
+import { listingCategoryText } from '../../../src/features/listings/listingCategoryText';
+import { appHttpResult } from '../../core/appHttp';
+import { installFetch, ScriptedHttp } from '../../core/scriptedHttp';
 import { pumpWithTheme } from '../../ui/pumpApp';
+
+let restoreFetch: () => void;
+
+beforeEach(() => {
+  restoreFetch = installFetch(new ScriptedHttp(appHttpResult).fetch);
+});
+
+afterEach(() => {
+  restoreFetch();
+});
 
 function ListingTabsPageHarness() {
   const [selectedId, setSelectedId] = useState<ListingTabId>('services');
@@ -28,9 +46,11 @@ test('keeps listing tabs while the list body is swapped', async () => {
   ).toBeOnTheScreen();
   expect(screen.getByText('House Cleaning')).toBeOnTheScreen();
   expect(screen.getByPlaceholderText('Search')).toBeOnTheScreen();
-  expect(screen.getByText('Categories')).toBeOnTheScreen();
-  expect(screen.getByText('View All')).toBeOnTheScreen();
-  expect(screen.getByRole('button', { name: 'Cleaning' })).toBeOnTheScreen();
+  expect(screen.getByText(listingCategoryText.title)).toBeOnTheScreen();
+  expect(screen.queryByText('View All')).toBeNull();
+  await waitFor(() => {
+    expect(screen.getByRole('button', { name: 'Cleaning' })).toBeOnTheScreen();
+  });
 
   await fireEvent.press(screen.getByRole('tab', { name: 'Tasks' }));
 
@@ -40,6 +60,6 @@ test('keeps listing tabs while the list body is swapped', async () => {
   expect(screen.getByText('Fix a leaking kitchen tap')).toBeOnTheScreen();
   expect(screen.queryByText('House Cleaning')).toBeNull();
   expect(screen.getByPlaceholderText('Search')).toBeOnTheScreen();
-  expect(screen.getByText('Categories')).toBeOnTheScreen();
+  expect(screen.getByText(listingCategoryText.title)).toBeOnTheScreen();
   expect(screen.getByRole('button', { name: 'Cleaning' })).toBeOnTheScreen();
 });

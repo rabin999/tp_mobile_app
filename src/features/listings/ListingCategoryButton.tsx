@@ -29,9 +29,13 @@ export function ListingCategoryButton({
 
   return (
     <View
+      collapsable={false}
       style={[
         styles.wrap,
         selected ? tpElevation.none : tpElevation.listingCard,
+        {
+          backgroundColor: selected ? colors.outline : colors.surface,
+        },
       ]}
     >
       <Pressable
@@ -42,19 +46,20 @@ export function ListingCategoryButton({
         style={[
           styles.button,
           {
-            backgroundColor: selected ? colors.outline : colors.surface,
             borderColor: selected ? colors.outline : 'transparent',
           },
         ]}
       >
-        <TpImage.Network
-          uri={category.imageUri ?? ''}
-          width={categoryButtonSize}
-          height={categoryButtonSize}
-          fit="cover"
-          semanticLabel={category.title}
-          fallback="letter"
-        />
+        <View style={styles.thumb}>
+          <TpImage.Network
+            uri={category.imageUri ?? ''}
+            width={categoryButtonSize}
+            height={categoryButtonSize}
+            fit="cover"
+            semanticLabel={category.title}
+            fallback="letter"
+          />
+        </View>
         <Text
           numberOfLines={1}
           style={[styles.label, tpNunito('600'), { color: colors.onSurface }]}
@@ -76,9 +81,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     minWidth: categoryButtonSize,
     height: categoryButtonSize,
-    overflow: 'hidden',
     borderWidth: 1,
     borderRadius: tpCorners.sm,
+  },
+  thumb: {
+    width: categoryButtonSize,
+    height: categoryButtonSize,
+    overflow: 'hidden',
+    borderTopLeftRadius: tpCorners.sm,
+    borderBottomLeftRadius: tpCorners.sm,
   },
   label: {
     fontSize: 14,

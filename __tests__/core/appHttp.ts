@@ -9,6 +9,11 @@ export const faqPostTaskHtml = {
     '<p>Providers are called Taskers when you post a task from the app.</p>',
 };
 
+export const listingCategoryRows = [
+  { id: 1, title: 'Cleaning', slug: 'cleaning' },
+  { id: 2, title: 'Education', slug: 'education' },
+] as const;
+
 export const contactTopicRows = [
   { topic: 'General', value: 'general' },
   { topic: 'Transaction', value: 'transaction' },
@@ -31,6 +36,18 @@ export const appHttpResult: ScriptedHttpResult = (url, init) => {
     }
 
     return jsonResponse(200, { data: [faqPostTaskHtml] });
+  }
+
+  if (url.includes('/service-sub-categories/filter')) {
+    return jsonResponse(200, {
+      data: listingCategoryRows,
+      meta: {
+        itemsPerPage: 100,
+        totalItems: 2,
+        currentPage: 1,
+        totalPages: 1,
+      },
+    });
   }
 
   if (url.includes('/general-feedbacks/topics/get-all')) {
